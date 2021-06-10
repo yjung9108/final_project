@@ -10,8 +10,8 @@
 	<!-- 프로젝트 정보 -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kh</groupId>
-	<artifactId>spring</artifactId>
-	<name>springProject</name>
+	<artifactId>withus</artifactId>
+	<name>final_project</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
