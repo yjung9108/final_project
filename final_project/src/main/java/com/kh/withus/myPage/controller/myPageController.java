@@ -8,10 +8,18 @@ public class myPageController {
 
 	@RequestMapping("myPage.me")
 	public String myPage() {
-		return "myPage/myPageMain";
+		return "myPage/main/myPageMain";
 	}
 
-
+	@RequestMapping("myInfo.me")
+	public String myInfo() {
+		return "myPage/info/myInfoMain";
+	}
+	
+	@RequestMapping("infoDetail.me")
+	public String infoDetail() {
+		return "myPage/info/myInfoDetail";
+	}
 	
 	
 	

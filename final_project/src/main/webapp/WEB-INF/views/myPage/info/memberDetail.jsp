@@ -7,12 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <style>
+<style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
         .wrap{width: 1000px; height: 800px; margin: auto;}
@@ -32,7 +27,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%;}
+        #content{width: 100%; margin-left:150px;}
 
         
         /* info content */
@@ -60,7 +55,6 @@
         .info button{width: 200px;}
 
     </style>
-
 </head>
 <body>
     <div class="wrap">
@@ -81,7 +75,7 @@
                                 <th>프로필사진</th>
                                 <td>
                                     <div style="margin-left: 100px; margin-top: 20px;">
-                                        <img src="city1.PNG" width="100" height="100" class="rounded-circle" >
+                                        <img src="resources/images/city1.PNG" width="100" height="100" class="rounded-circle" >
                                     </div>
                                     <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;">
                                         <label>편집</label>

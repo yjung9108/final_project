@@ -12,7 +12,7 @@
     <title>Document</title>
     <style>
         
-        .mypage_wrap{width: 1100px; height: 1200px; margin: auto;}
+        .mypage_wrap{width: 1100px; height: 800px; margin: auto;}
 
         .mypage_wrap>div{width: 100%;}
 
@@ -38,7 +38,7 @@
 	<!-- header자리 -->
     <header>
 	
-		<jsp:include page="../common/header.jsp"/>
+		<jsp:include page="../../common/header.jsp"/>
 	</header>
     
     
@@ -49,23 +49,23 @@
             
             <!-- 왼쪽 메뉴바 -->
             <div id="mypage_left_menu">
-                <jsp:include page="myPageMenu.jsp"/>
+                <jsp:include page="../myPageMenu.jsp"/>
             </div>
 
             
             
-            <!-- 마이페이지 -->
+            <!-- 회원정보 비밀번호 확인 -->
             <div id="mypage_content">
-                <jsp:include page="myPageBasic.jsp"/>
+                <jsp:include page="pwdConfirm.jsp"/>
 			</div>
             
         </div>
         
-
+	</div>
     
     <!-- footer자리 -->
     <footer>
-		<jsp:include page="../common/footer.jsp"/>
+		<jsp:include page="../../common/footer.jsp"/>
 	</footer>
 
 

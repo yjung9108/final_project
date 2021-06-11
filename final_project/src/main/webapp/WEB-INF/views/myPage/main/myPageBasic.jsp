@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 1000px; margin: auto; }
+        .wrap{width: 1000px; height: 800px; margin: auto; }
 
         .wrap>div{width: 100%;}
         
@@ -43,7 +43,7 @@
         
         /* main content */
         #main_1{height: 30%; margin-top: 50px;}
-        #main_2{height: 40%;}
+        #main_2{height: 30%;}
         #main_3{height: 30%; margin-top: 150px;}
         
 
@@ -122,7 +122,7 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
+                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
                             </td>
                         </tr>
                         <tr>
@@ -139,7 +139,7 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
+                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
                             </td>
                         </tr>
                         <tr>
@@ -156,7 +156,7 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
+                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
                             </td>
                         </tr>
                         <tr>
