@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.kh.withus.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.withus.myPage.model.vo.Member" alias="Member"/>
 		
 	</typeAliases>
 	
