@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -14,7 +14,7 @@
 
 	<style>
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        #left_menu{width: 200px; height: 1000px; margin: left;}
+        #left_menu{width: 200px; height: 1200px; margin-top: 50px; margin: auto; }
 
         #left_menu>div{width: 100%;}
 
@@ -86,7 +86,7 @@
         <div id="menu_1">
             
             <div id="menu_1_1">
-                <img src="city1.PNG" width="80" height="80"  class="rounded-circle" >
+                <img src="resources/images/city1.PNG" width="80" height="80"  class="rounded-circle" >
             </div>
             
             <div id="menu_1_2">
@@ -107,7 +107,7 @@
                         <li><a href="">팔로잉 목록</a></li>
                     </ul>
                 </li>
-                <li><a href="" class="big">나의 정보</a>
+                <li><a href="myInfo.me" class="big">나의 정보</a>
                     
                 </li>
                 <li><a href="" class="big">펀딩 스튜디오</a>
