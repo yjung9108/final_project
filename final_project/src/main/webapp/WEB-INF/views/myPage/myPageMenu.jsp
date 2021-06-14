@@ -132,7 +132,7 @@
                         <li><a href="">펀딩내역</a></li>
                         <li><a href="">좋아요</a></li>
                         <li><a href="">나의 문의</a></li>
-                        <li><a href="">팔로잉 목록</a></li>
+                        <li><a href="followlist.me">팔로잉 목록</a></li>
                     </ul>
                 </li>
                 <li><a href="myInfo.me" class="big">나의 정보</a>

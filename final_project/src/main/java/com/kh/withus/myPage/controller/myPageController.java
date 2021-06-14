@@ -1,5 +1,7 @@
 package com.kh.withus.myPage.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,10 +10,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.withus.common.model.vo.PageInfo;
+import com.kh.withus.common.template.Pagination;
 import com.kh.withus.member.model.vo.Member;
 import com.kh.withus.myPage.model.service.myPageService;
+import com.kh.withus.myPage.model.vo.FollowMember;
 
 
 @Controller
@@ -117,6 +124,30 @@ public class myPageController {
 	}
 	
 	
+	//팔로잉 목록
+	@RequestMapping("followlist.me")
+	public ModelAndView followList(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		int listCount = mService.selectFollowListCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 5);
+		System.out.println(listCount);
+		
+		
+		ArrayList<FollowMember> list = mService.selectFollowList(pi, loginUser.getMemberNo());
+		
+		System.out.println(list);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", list)
+		  .setViewName("myPage/activity/myPageFollowList");
+		
+		return mv;
+		
+		
+	}
 	
 	
 	

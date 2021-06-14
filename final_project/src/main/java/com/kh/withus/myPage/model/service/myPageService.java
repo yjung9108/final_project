@@ -1,5 +1,9 @@
 package com.kh.withus.myPage.model.service;
 
+import java.util.ArrayList;
+
+import com.kh.withus.common.model.vo.PageInfo;
+import com.kh.withus.myPage.model.vo.FollowMember;
 import com.kh.withus.myPage.model.vo.Member;
 
 public interface myPageService {
@@ -12,6 +16,10 @@ public interface myPageService {
 	
 	// 회원 탈퇴용 서비스
 	int deleteMember(String memberId);
+
+	// 팔로잉 목록
+	int selectFollowListCount(int memberNo);
+	ArrayList<FollowMember> selectFollowList(PageInfo pi, int memberNo);
 
 	
 

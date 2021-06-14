@@ -17,6 +17,12 @@
 		<result column="partner_name" property="partnerName"/>
 		<result column="partner_intro" property="partnerIntro"/>
 	</resultMap>
+	
+	<resultMap id="followMember" type="FollowMember">
+		<id column="member_no" property="memberNo"/>
+		<result column="follow_member_id" property="followMemberNo"/>
+	</resultMap>
+	
 	  
   	<select id="loginMember" resultMap="memberResultSet" parameterType="Member">
   		  
@@ -48,6 +54,37 @@
   		     
   		 where member_id = #{memberId}
   	</update>
+  	
+  	
+  	<!-- 팔로잉 목록 -->
+  	<select id="selectFollowListCount" resultType="_int">
+		select 
+		       count(*)
+		  from member
+		 where member_no in ( select 
+		 							 follow_member_no
+		                        from follow
+		                       where member_no = #{ memberNo })
+		    and member_status='Y'
+		    and partner_join='Y'
+	</select>
+	
+	<select id="selectFollowList" resultMap="followMember">
+		select 
+		        member_no
+		      , member_id
+		      , member_name
+		      , member_profile
+		      , partner_name
+		      , partner_intro
+		  from member
+		 where member_no in ( select 
+		   							 follow_member_no
+		                        from follow
+		                       where member_no = #{ memberNo })
+		    and member_status='Y'
+		    and partner_join='Y'
+	</select>
   	
   	
   	

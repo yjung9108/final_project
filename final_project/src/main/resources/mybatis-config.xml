@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<typeAliases>
 		<typeAlias type="com.kh.withus.member.model.vo.Member" alias="Member"/>
-		
+		<typeAlias type="com.kh.withus.myPage.model.vo.FollowMember" alias="FollowMember"/>
 	</typeAliases>
 	
 	<mappers>

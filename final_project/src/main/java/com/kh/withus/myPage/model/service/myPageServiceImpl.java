@@ -1,10 +1,14 @@
 package com.kh.withus.myPage.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.dao.myPageDao;
+import com.kh.withus.myPage.model.vo.FollowMember;
 import com.kh.withus.myPage.model.vo.Member;
 
 @Service
@@ -33,6 +37,16 @@ public class myPageServiceImpl implements myPageService{
 	public int deleteMember(String memberId) {
 		
 		return mDao.deleteMember(sqlSession, memberId);
+	}
+
+	@Override
+	public int selectFollowListCount(int memberNo) {
+		return mDao.selectFollowListCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<FollowMember> selectFollowList(PageInfo pi, int memberNo) {
+		return mDao.selectFollowList(sqlSession, pi, memberNo);
 	}
 
 	
