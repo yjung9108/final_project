@@ -71,18 +71,18 @@
                     
                     <div style="margin-top: 20px;">
 
-                         
-                        가치가자는 회원님의 개인정보를 신중히 취급하며, 
-
-                        회원님의 동의 없이는 기재하신 회원정보가 공개되지 않습니다.<br><br>
-
-                        보다 다양한 서비스를 받으시려면 정확한 정보를 항상 유지해 주셔야 합니다.
+		                         
+		                        가치가자는 회원님의 개인정보를 신중히 취급하며, 
+		
+		                        회원님의 동의 없이는 기재하신 회원정보가 공개되지 않습니다.<br><br>
+		
+		                        보다 다양한 서비스를 받으시려면 정확한 정보를 항상 유지해 주셔야 합니다.
                         
                     </div>
 
                     <div id="content_1_1">
                         
-                        <form action="infoDetail.me" method="post">
+                        <form action="pwdConfirm.me" method="post">
 	                        <table>
 	                            <tr style="height: 50px;">
 	                                <th style="font-size: 20px;">비밀번호 확인</th>
@@ -90,16 +90,46 @@
 	
 	                            <tr>
 	                                <td class="confirmArea">
-	                                    <input type="password" style="width: 500px;" placeholder="본인확인을 위해 비밀번호를 입력해주세요"> 
+	                                    <input type="password" name="memberPwd" style="width: 500px;" placeholder="본인확인을 위해 비밀번호를 입력해주세요" id="pwdInput"> 
 	                                    
 	                                </td>
 	                                <td>
-	                                    <button type="submit" class="btn btn-dark btn-sm">확인</button>
+	                                    <button type="submit" class="btn btn-dark btn-sm" id="submitBtn" disabled>확인</button>
 	                                </td>
 	                            </tr>
 	                        </table>
 	                    </form>    
                     </div>
+                    
+                    <script>
+        
+				      	$(function(){
+				      		
+				      		var $pwdInput = $("#pwdInput"); // 비밀번호를 입력하는 input요소 객체
+				      		
+				      		$pwdInput.keyup(function(){
+				      			
+				      			if($pwdInput.val().length >= 5){ // 5글자이상 입력
+				      				
+				      				$("#submitBtn").removeAttr("disabled");
+				      				
+				      						
+				      			} else { // 비밀번호 입력 5글자 미만일 경우 => 비교할 가치도 없음 (애초에 유효하지 않음) => 비활성화
+				      				
+				      				$("#submitBtn").attr("disabled", true);
+				      				
+				      				
+				      			}
+				      		})
+				      	})  
+        
+      				</script>
+                    
+                    
+                    
+                    
+                    
+                    
 
                 </div>
             

@@ -47,12 +47,16 @@
         .info th{width: 200px; height: 40px;}
         .info input{width: 300px}
         .info label{cursor: pointer; font-size: 12px;}
+        #readonly{background-color: lightgray;}
+        
 
         /* 버튼 부분 */
         .info .buttonArea{height: 150px; text-align: center;}
 
         .info #btn1{background-color: rgb(52, 152, 219); color: honeydew;}
         .info button{width: 200px;}
+        
+        a{text-decoration: none; color: black;}
 
     </style>
 </head>
@@ -97,11 +101,11 @@
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" value="${ loginUser.memberName }" readonly></td>
+                                <td><input type="text" value="${ loginUser.memberName }" readonly id="readonly"></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="text" value="${ loginUser.memberId }" readonly></td>
+                                <td><input type="text" value="${ loginUser.memberId }" readonly id="readonly"></td>
                             </tr>
                             <tr>
                                 <th>휴대폰</th>
@@ -167,7 +171,7 @@
                             </tr>
                             <tr>
                                 <td class="buttonArea">
-                                    <button type="button" class="btn btn-outline-secondary">회원탈퇴로 이동</button>
+                                    <button type="button" class="btn btn-outline-secondary"><a href="deleteForm.me">회원탈퇴로 이동</a></button>
                                 </td>
                             </tr>
                         </table>

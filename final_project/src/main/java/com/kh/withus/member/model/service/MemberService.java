@@ -6,6 +6,8 @@ public interface MemberService {
 	
 	// 1. 회원 로그인용 서비스
 	Member loginMember(Member m);
+
+	
 	
 	
 
