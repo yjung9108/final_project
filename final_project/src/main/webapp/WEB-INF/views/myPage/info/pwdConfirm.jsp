@@ -42,7 +42,7 @@
         
         
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle{font-size: 23px; font-weight: bolder;}
 
         /* 입력요소 */
         .confirmPwd table{margin-left: 20px;}
@@ -66,7 +66,7 @@
                 <!-- 나의정보 비밀번호 확인-->
                 <div id="content_1">
                 
-                    <p>나의 정보</p>
+                    <p id="mainTitle">나의 정보</p>
                     <div id="underLine"></div>
                     
                     <div style="margin-top: 20px;">

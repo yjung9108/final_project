@@ -40,7 +40,7 @@
         #info_3_1{margin-top: 20px;}
         
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle{font-size: 23px; font-weight: bolder;}
 
         /* 입력요소 */
         .info table{margin-left: 20px;}
@@ -66,7 +66,7 @@
                 <!-- 기본정보 수정-->
                 <div id="info_1">
                     
-                    <p>기본정보 수정</p>
+                    <p id="mainTitle">기본정보 수정</p>
                     <div id="underLine"></div>
                     
                     <div id="info_1_1">
@@ -111,7 +111,7 @@
                 <!-- 비밀번호 변경-->
                 <div id="info_2" >
                  
-                    <p>비밀번호 변경</p>
+                    <p id="mainTitle">비밀번호 변경</p>
                     <div id="underLine"></div>
 
                     <div id="info_2_1">
@@ -141,7 +141,7 @@
                 <!-- 회원 탈퇴-->
                 <div id="info_3">
                 
-                    <p>회원탈퇴</p>
+                    <p id="mainTitle">회원탈퇴</p>
                     <div id="underLine"></div>
                 
 

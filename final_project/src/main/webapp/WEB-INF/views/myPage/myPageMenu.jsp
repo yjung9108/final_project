@@ -13,6 +13,8 @@
 
 
 	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+		
         /*div{border: 1px solid red; box-sizing: border-box;}*/
         #left_menu{width: 200px; height: 1200px; margin-top: 50px; margin: auto; }
 

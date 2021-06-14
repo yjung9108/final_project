@@ -36,7 +36,7 @@
         #content{width: 100%;}
 
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle{font-size: 23px; font-weight: bolder;}
 
         /* 페이징 */
         #pagingArea{width:fit-content; margin:auto;}
@@ -72,7 +72,7 @@
         <!-- 나의 문의내역  -->
         <div id="mypage">
             <div id="content" class="follow">
-                <p>팔로잉</p>
+                <p id="mainTitle">팔로잉</p>
                 <div id="underLine"></div>
                 
                 <div style="margin-top: 20px;">

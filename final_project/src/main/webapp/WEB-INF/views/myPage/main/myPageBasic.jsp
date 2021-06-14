@@ -31,7 +31,7 @@
         #mypage{height: 100%; margin-top: 50px;}
 
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle {font-size: 23px; font-weight: bolder;}
         
        
         /* mypage안의 세부영역 */
@@ -104,7 +104,7 @@
                 
                 <!-- 나의 펀딩 목록-->
                 <div id="main_1">
-                  <p><a href="">나의 펀딩 내역</a></p>
+                  <p id="mainTitle"><a href="">나의 펀딩 내역</a></p>
                   <div id="underLine"></div>
 
                   <div id="count">펀딩 참여<br> 2회</div>
@@ -115,7 +115,7 @@
                 
                 <!--좋아요-->
                 <div id="main_2">
-                  <p><a href="">좋아요</a></p>
+                  <p id="mainTitle"><a href="">좋아요</a></p>
                   <div id="underLine"></div>
 
                   <div class="like">
@@ -177,7 +177,7 @@
                 <div id="main_3">
                   
                   <div id="main_3_1">
-                    <p><a href="">나의 문의 내역</a></p>
+                    <p id="mainTitle"><a href="">나의 문의 내역</a></p>
                     <div id="underLine"></div>
 
                     <!--3개-->
@@ -202,7 +202,7 @@
                   
                   
                   <div id="main_3_2">
-                    <p><a href="">팔로잉</a></p>
+                    <p id="mainTitle"><a href="">팔로잉</a></p>
                     <div id="underLine"></div>
 
                     <!--3개-->

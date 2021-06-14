@@ -1,4 +1,4 @@
-package com.kh.withus.myPage.model.vo;
+package com.kh.withus.member.model.vo;
 
 import java.sql.Date;
 

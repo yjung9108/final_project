@@ -67,19 +67,30 @@
         
         <input type="image" src="resources/images/searchIcon.PNG" id="searchIcon">
 		
-		<!-- 로그인전 -->
-		<div class="headerRight">
-			<a href="">로그인</a>
-			<a href=""> 회원가입</a>
-			<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
-		</div>
+		<c:choose>
+			<c:when test="${ empty loginUser }">
 		
-		<!-- 로그인후 -->
-		<div class="headerRight" style="">
-			<a href="">로그아웃</a>
-			<a href="myPage.me"> 마이페이지</a>
-			<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
-		</div>
+				<!-- 로그인전 -->
+				<div class="headerRight">
+					<a data-toggle="modal" data-target="#loginModal">로그인</a>
+					<a href=""> 회원가입</a>
+					<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
+				</div>
+			
+			</c:when>
+			<c:otherwise>
+				<!-- 로그인후 -->
+				<div class="headerRight" style="">
+					<a href="">로그아웃</a>
+					<a href="myPage.me"> 마이페이지</a>
+					<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
+				</div>
+			
+			</c:otherwise>
+		</c:choose>
+
+
+
 
 		<!-- 관리자 -->
 		<div class="headerRight" style="display:none">
@@ -88,6 +99,44 @@
 			<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
 		</div>
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 로그인 클릭 시 뜨는 모달 (기존에는 안보이다가 위의 a 클릭시 보임) -->
+    <div class="modal fade" id="loginModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+
+            <form action="login.me" method="post">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <label for="userId" class="mr-sm-2">ID :</label>
+                    <input type="text" name="memberId" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memberId"> <br>
+                    <label for="userPwd" class="mr-sm-2">Password:</label>
+                    <input type="password" name="memberPwd" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="memberPwd">
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+	
+	
+	
 
 </body>
 </html>

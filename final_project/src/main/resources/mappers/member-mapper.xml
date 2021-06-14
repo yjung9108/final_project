@@ -3,110 +3,45 @@
 <mapper namespace="memberMapper">
 
 	<resultMap id="memberResultSet" type="Member">
-		<id column="user_id" property="userId"/>
-		<result column="user_pwd" property="userPwd"/>
-		<result column="user_name" property="userName"/>
-		<result column="email" property="email"/>
-		<result column="gender" property="gender"/>
-		<result column="age" property="age"/>
-		<result column="phone" property="phone"/>
-		<result column="address" property="address"/>
-		<result column="enroll_date" property="enrollDate"/>
-		<result column="modify_date" property="modifyDate"/>
-		<result column="status" property="status"/>
+		<id column="member_no" property="memberNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_pwd" property="memberPwd"/>
+		<result column="member_name" property="memberName"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_createdt" property="memberCreateDt"/>
+		<result column="member_link" property="memberLink"/>
+		<result column="report_count" property="reportCount"/>
+		<result column="member_status" property="memberStatus"/>
+		<result column="member_profile" property="memberProfile"/>
+		<result column="partner_join" property="partnerJoin"/>
+		<result column="partner_name" property="partnerName"/>
+		<result column="partner_intro" property="partnerIntro"/>
 	</resultMap>
 	  
   	<select id="loginMember" resultMap="memberResultSet" parameterType="Member">
-  		<!--  
+  		  
   		select
-  		       user_id
-  		     , user_pwd
-  		     , user_name
-  		     , email
-  		     , gender
-  		     , age
-  		     , phone
-  		     , address
-  		     , enroll_date
-  		     , modify_date
-  		     , status
+  		       member_no
+  		     , member_id
+  		     , member_pwd
+  		     , member_name
+  		     , member_phone
+  		     , member_createdt
+  		     , member_link
+  		     , report_count
+  		     , member_status
+  		     , member_profile
+  		     , partner_join
+  		     , partner_name
+  		     , partner_intro
   		  from member
-  		 where status = 'Y'
-  		   and user_id = #{userId}
-  		   and user_pwd = #{userPwd}
-  		-->   
-  		select
-  		       user_id
-  		     , user_pwd
-  		     , user_name
-  		     , email
-  		     , gender
-  		     , age
-  		     , phone
-  		     , address
-  		     , enroll_date
-  		     , modify_date
-  		     , status
-  		  from member
-  		 where status = 'Y'
-  		   and user_id = #{userId}
+  		 where member_status = 'Y'
+  		   and member_id = #{memberId}
+  		   and member_pwd = #{memberPwd}
+  		
   	</select>
   	
-  	<insert id="insertMember" parameterType="Member">
-  		insert
-  		  into member
-  		  (
-  		    user_id
-  		  , user_pwd
-  		  , user_name
-  		  , email
-  		  , gender
-  		  , age
-  		  , phone
-  		  , address
-  		  )
-  		  values
-  		  (
-  		    #{userId}
-  		  , #{userPwd}
-  		  , #{userName}
-  		  , #{email}
-  		  , #{gender}
-  		  , #{age}
-  		  , #{phone}
-  		  , #{address}
-  		  )
-  	</insert>
   	
-  	<update id="updateMember" parameterType="Member">
-  		update
-  		       member
-  		   set email = #{email}
-  		     , gender = #{gender}
-  		     , age = #{age}
-  		     , phone = #{phone}
-  		     , address = #{address}
-  		     , user_name = #{userName}
-  		     , modify_date = sysdate
-  		 where user_id = #{userId}
-  	</update>
-  	
-  	<update id="deleteMember" parameterType="string">
-  		update
-  		       member
-  		   set status = 'N'
-  		     , modify_date = sysdate
-  		 where user_id = #{userId}
-  	</update>
-  	
-  	<select id="idCheck" resultType="_int" parameterType="string">
-  		select
-  		     count(*)
-  		from member
-  	   where user_id = #{userId}
-  	
-  	
-  	</select>
   	
   
   

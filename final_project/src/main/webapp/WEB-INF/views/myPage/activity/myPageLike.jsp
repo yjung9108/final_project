@@ -35,7 +35,7 @@
         #content{width: 100%;}
 
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle{font-size: 23px; font-weight: bolder;}
 
 
         /* content */
@@ -60,7 +60,7 @@
         <!-- 회원 정보수정 -->
         <div id="mypage">
             <div id="content" class="like">
-                <p>좋아요</p>
+                <p id="mainTitle">좋아요</p>
                 <div id="underLine"></div>
                 
                 

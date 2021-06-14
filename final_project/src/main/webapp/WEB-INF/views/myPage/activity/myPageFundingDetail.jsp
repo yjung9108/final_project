@@ -35,7 +35,7 @@
         #content{width: 100%;}
 
         /*큰제목*/
-        p{font-size: 23px; font-weight: bolder;}
+        #mainTitle{font-size: 23px; font-weight: bolder;}
 
         
         /* fundingDetail content */
@@ -68,7 +68,7 @@
         <div id="mypage">
             <div id="content" class="fundingDetail">
               
-              <p>펀딩내역</p>
+              <p id="mainTitle">펀딩내역</p>
               <div id="underLine"></div>
                 
               <table border="1">
@@ -84,7 +84,7 @@
                 <!-- 펀딩상품-->
                 <div id="content_1">
                 
-                  <p>펀딩상품</p>
+                  <p id="mainTitle">펀딩상품</p>
 
                   <table border="1">
                     <tr>
@@ -108,7 +108,7 @@
                 
                 <!-- 배송지 정보-->
                 <div id="content_2">
-                  <p>배송지 정보</p>
+                  <p id="mainTitle">배송지 정보</p>
                   <table>
                     <tr>
                       <th>받는사람</th>
@@ -139,7 +139,7 @@
                 <!-- 결제정보-->
                 <div id="content_3">
                 
-                  <p>결제정보</p>
+                  <p id="mainTitle">결제정보</p>
 
                   <table border="1">
                     <tr>
