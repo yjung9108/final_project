@@ -16,7 +16,7 @@
 		@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 		
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        #left_menu{width: 200px; height: 1200px; margin-top: 50px; margin: auto; }
+        #left_menu{width: 220px; height: 1200px; margin-top: 50px; margin: auto; }
 
         #left_menu>div{width: 100%;}
 
@@ -86,15 +86,41 @@
         
         <!--프로필-->
         <div id="menu_1">
+            <!-- 이미지 등록했을때 안했을때  (기본이미지) -->
             
-            <div id="menu_1_1">
-                <img src="resources/images/city1.PNG" width="80" height="80"  class="rounded-circle" >
-            </div>
+            <c:choose>
+            	<c:when test="${ empty loginUser.memberProfile }">    
+		            <div id="menu_1_1">
+		            	<img src="resources/profile/profile_blank.jpg" width="80" height="80"  class="rounded-circle" >
+		           	</div>
+	           	</c:when>
+	           	<c:otherwise>
+	           		<div id="menu_1_1">
+		            	<img src="${ loginUser.memberProfile }" width="80" height="80"  class="rounded-circle" >
+		           	</div>
+	           	</c:otherwise> 
+            </c:choose>
+            
             
             <div id="menu_1_2">
                 
-                <li style="font-size: 19px;">사용자</li>
-                <li>서포터</li>
+                <li style="font-size: 19px;">${ loginUser.memberName } 님</li>
+                
+                
+                <!-- 서포터/파트너 -->
+                <c:choose>
+                	<c:when test="${ loginUser.partnerJoin eq 'Y' }">
+                		<li>서포터 | 파트너</li>
+                	</c:when>
+                	<c:otherwise>
+                		<li>서포터</li>
+                	</c:otherwise>
+               	</c:choose>
+                
+                
+                
+                
+                
                 
             </div>
         </div>

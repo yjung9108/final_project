@@ -81,7 +81,7 @@
 			<c:otherwise>
 				<!-- 로그인후 -->
 				<div class="headerRight" style="">
-					<a href="">로그아웃</a>
+					<a href="logout.me">로그아웃</a>
 					<a href="myPage.me"> 마이페이지</a>
 					<img src="resources/images/memberIcon.PNG" width="30px" style="margin-left: -3px; margin-top: -6px;">
 				</div>
@@ -102,7 +102,12 @@
 	
 	
 	
-	
+	<c:if test="${ !empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
 	
 	
 	

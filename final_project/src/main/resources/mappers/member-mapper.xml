@@ -35,7 +35,7 @@
   		     , partner_name
   		     , partner_intro
   		  from member
-  		 where member_status = 'Y'
+  		 where member_status IN ('Y', 'A')
   		   and member_id = #{memberId}
   		   and member_pwd = #{memberPwd}
   		

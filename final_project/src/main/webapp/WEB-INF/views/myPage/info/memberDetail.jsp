@@ -74,9 +74,20 @@
                             <tr>
                                 <th>프로필사진</th>
                                 <td>
-                                    <div style="margin-left: 100px; margin-top: 20px;">
-                                        <img src="resources/images/city1.PNG" width="100" height="100" class="rounded-circle" >
-                                    </div>
+                                    <!-- 등록프사가 있을경우 없을경우 -->
+                                    <c:choose>
+						            	<c:when test="${ empty loginUser.memberProfile }">    
+								            <div style="margin-left: 100px; margin-top: 20px;">
+	                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" >
+	                                    	</div>
+							           	</c:when>
+							           	<c:otherwise>
+							           		<div style="margin-left: 100px; margin-top: 20px;">
+		                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" >
+		                                    </div>
+							           	</c:otherwise> 
+						            </c:choose>
+                                    
                                     <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;">
                                         <label>편집</label>
                                         <label style="margin-left: 20px;">삭제</label>
@@ -86,15 +97,15 @@
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${ loginUser.memberName }" readonly></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="text" value="" readonly></td>
+                                <td><input type="text" value="${ loginUser.memberId }" readonly></td>
                             </tr>
                             <tr>
                                 <th>휴대폰</th>
-                                <td><input type="text"></td>
+                                <td><input type="text" value="${ loginUser.memberPhone }"></td>
                             </tr>
                             <tr>
                                 <th colspan="2" class="buttonArea">

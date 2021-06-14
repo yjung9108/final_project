@@ -62,18 +62,16 @@
 		
 	-->
 	
-	<!-- 
+	 
 	<interceptors>
 		<interceptor>
 			<mapping path="/myPage.me"/>
-			<mapping path="/enrollForm.bo"/>
-			<mapping path="/list.bo"/>
-			<mapping path="/detail.bo"/>
+			
 			<beans:bean id="" class="com.kh.withus.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
-	 -->
+	 
 	
 	
 	
