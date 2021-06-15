@@ -16,15 +16,16 @@
 		<result column="partner_join" property="partnerJoin"/>
 		<result column="partner_name" property="partnerName"/>
 		<result column="partner_intro" property="partnerIntro"/>
+		<result column="follow_member_no" property="followMemberNo"/>
 	</resultMap>
 	
 	
-	<!--  필요없는거 같음
+	
 	<resultMap id="followMember" type="FollowMember">
 		<id column="member_no" property="memberNo"/>
 		<result column="follow_member_no" property="followMemberNo"/>
 	</resultMap>
-	-->
+	
 	  
 	  
   	<select id="loginMember" resultMap="memberResultSet" parameterType="Member">
@@ -35,7 +36,7 @@
   		     , member_pwd
   		     , member_name
   		     , member_phone
-  		     , member_createdt
+  		     , member_create_dt
   		     , member_link
   		     , report_count
   		     , member_status
@@ -50,6 +51,7 @@
   		
   	</select>
   	
+  	<!-- 회원탈퇴 -->
   	<update id="deleteMember" parameterType="string">
   		update
   		       member
@@ -88,6 +90,43 @@
 		    and member_status='Y'
 		    and partner_join='Y'
 	</select>
+	
+	<!-- 회원정보수정 -->
+  	<update id="updateMember" parameterType="Member">
+  		update
+  		        member
+  		   set  member_phone = #{memberPhone}
+  		      , member_profile = #{memberProfile}
+  		 where member_id = #{memberId}
+  	</update>
+	
+	
+	<!-- 언팔 -->
+	<delete id="unfollowMember" parameterType="FollowMember" >
+		delete 
+		 	from follow
+		   where member_no = #{memberNo}
+		     and follow_member_no = #{followMemberNo}
+		
+	
+	</delete>
+	
+	<!-- 팔로우 -->
+	<insert id="followMember" parameterType="Member">
+  		insert
+  		  into follow
+  		  (
+  		    member_no
+  		  , follow_member_no
+  		  )
+  		  values
+  		  (
+  		    #{memberNo}
+  		  , #{followMemberNo}
+  		  
+  		  )
+  	</insert>
+	
   	
   	
   	

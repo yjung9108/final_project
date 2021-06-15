@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.withus.common.model.vo.PageInfo;
+import com.kh.withus.member.model.vo.Member;
 import com.kh.withus.myPage.model.dao.myPageDao;
 import com.kh.withus.myPage.model.vo.FollowMember;
-import com.kh.withus.myPage.model.vo.Member;
 
 @Service
 public class myPageServiceImpl implements myPageService{
@@ -29,8 +29,8 @@ public class myPageServiceImpl implements myPageService{
 
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return mDao.updateMember(sqlSession, m);
 	}
 
 	@Override
@@ -47,6 +47,17 @@ public class myPageServiceImpl implements myPageService{
 	@Override
 	public ArrayList<FollowMember> selectFollowList(PageInfo pi, int memberNo) {
 		return mDao.selectFollowList(sqlSession, pi, memberNo);
+	}
+
+	@Override
+	public int unfollowMember(FollowMember m) {
+		
+		return mDao.unfollowMember(sqlSession, m);
+	}
+
+	@Override
+	public int followMember(FollowMember m) {
+		return mDao.followMember(sqlSession, m);
 	}
 
 	

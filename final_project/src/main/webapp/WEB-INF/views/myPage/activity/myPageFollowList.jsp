@@ -88,9 +88,9 @@
                     		팔로우 목록이 없습니다
                     	</c:when>
                     	<c:otherwise>
-	                    	<table>
-		                      <c:forEach var="m" items="${ list }">
-			                      <tr>
+	                    	<c:forEach var="m" items="${ list }">
+	                    	   <table>
+		                      	<tr>
 			                        <td id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
@@ -104,16 +104,96 @@
 			                        <td id="user">
 			                          <div id="id">${ m.partnerName }</div>
 			                          <div id="idDetail">오픈펀딩 20</div>
+			                          <div id="followMemberNo">${ m.memberNo }</div>
+			                          
 			                        </td>
 			                        <td id="status">
-			                          <button type="button" class="btn btn-sm">팔로잉</button>
+			                          <button type="button" class="btn btn-sm" id="followBtn">팔로잉</button>
+			                          <input type="hidden" value="${ m.memberNo }" name="followMemberNo" id="followMemberNo">
 			                        </td>
 			                      </tr>
-								</c:forEach>
-							</table>	
+								</table>
+							</c:forEach>	
                     	</c:otherwise>
                     </c:choose>
                 </div>
+                
+                <!-- 로그인유저의 회원번호 -->
+                <input type="hidden" value="${ loginUser.memberNo }" name="memberNo">
+                
+                <!-- 첫번째 리스트에있는번호밖에 안눌림 -->
+                <script>
+					$(function() {
+						
+						
+						
+					  $('#status #followBtn').click( function() {
+						  
+						  var $memberNo = $("input[name=memberNo]").val();
+						  var $followMemberNo = $(this).siblings("input[name=followMemberNo]").val();
+						  
+						  
+					    if( $(this).html() == '팔로잉' ) {
+					      
+					    	$(this).attr("id", "clicked");
+					    	$.ajax({
+		      					url:"unfollow.me",
+		      					data:{memberNo: $memberNo,
+		      						  followMemberNo : $followMemberNo},
+		      					success:function(result){
+		      						
+		      						if(result == "Y"){ // 언팔
+		      							
+		      							$("#clicked").html('팔로우').css('background', 'rgb(228, 230, 238)').css('color', ' rgb(111, 100, 122)');
+		      							$("#clicked").removeAttr("id");
+		      							
+		      						
+		      						}else{ // 오류
+		      							
+		      							
+		      						}
+		      						
+		      					}, error:function(){
+		      						console.log("언팔로우 ajax통신 실패")
+		      					}
+		      					
+		      				})
+					      
+					    } else {
+					    	$(this).attr("id", "clicked");
+					    	$.ajax({
+		      					url:"follow.me",
+		      					data:{memberNo: $memberNo,
+		      						  followMemberNo : $followMemberNo},
+		      					success:function(result){
+		      						
+		      						if(result == "Y"){ // 팔로우
+		      							
+		      							$("#clicked").html('팔로잉').css('background-color','rgb(178, 185, 223)').css('color', 'white');
+		      							$("#clicked").removeAttr("id");
+		      							
+		      						}else{ // 오류
+		      							
+		      							
+		      						}
+		      						
+		      					}, error:function(){
+		      						console.log("재팔로우 ajax통신 실패")
+		      					}
+		      					
+		      				})
+					      
+					    }
+					    	
+					 	});
+					});
+				</script>
+				
+				 
+				
+                
+                
+                
                 
                 
                 <!-- 페이징 -->

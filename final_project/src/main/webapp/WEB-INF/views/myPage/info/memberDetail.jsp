@@ -73,56 +73,63 @@
                     <p id="mainTitle">기본정보 수정</p>
                     <div id="underLine"></div>
                     
-                    <div id="info_1_1">
-                        <table>
-                            <tr>
-                                <th>프로필사진</th>
-                                <td>
-                                    <!-- 등록프사가 있을경우 없을경우 -->
-                                    <c:choose>
-						            	<c:when test="${ empty loginUser.memberProfile }">    
-								            <div style="margin-left: 100px; margin-top: 20px;">
-	                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" id="preview" >
-	                                    	</div>
-							           	</c:when>
-							           	<c:otherwise>
-							           		<div style="margin-left: 100px; margin-top: 20px;">
-		                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" id="preview" >
-		                                    </div>
-							           	</c:otherwise> 
-						            </c:choose>
-                                    
-                                    <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;" class="file-edit-icon">
-                                    	<input type="file" name="file" id="file" accept="image/*" style="display: none;">
-                                        <label data-toggle="modal" data-target="#myModal" class="preview-edit">편집</label>
-                                        <label style="margin-left: 20px;" id="deleteFile" class="preview-de">삭제</label>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>이름</th>
-                                <td><input type="text" value="${ loginUser.memberName }" readonly id="readonly"></td>
-                            </tr>
-                            <tr>
-                                <th>이메일</th>
-                                <td><input type="text" value="${ loginUser.memberId }" readonly id="readonly"></td>
-                            </tr>
-                            <tr>
-                                <th>휴대폰</th>
-                                <td><input type="text" value="${ loginUser.memberPhone }"></td>
-                            </tr>
-                            <tr>
-                                <th colspan="2" class="buttonArea">
-                                    <button type="button" class="btn btn-light" id="btn1">정보수정</button>
-                                </th>
-                                
-                            </tr>
-    
-                        </table>
-
-                    </div>
+                    <form action="update.me" method="post" enctype="multipart/form-data">
+                    	<div id="info_1_1">
+                        
+	                        <table>
+	                            <tr>
+	                                <th>프로필사진</th>
+	                                <td>
+	                                    <!-- 등록프사가 있을경우 없을경우 -->
+	                                    <c:choose>
+							            	<c:when test="${ empty loginUser.memberProfile }">    
+									            <div style="margin-left: 100px; margin-top: 20px;">
+		                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" id="preview" >
+		                                    	</div>
+								           	</c:when>
+								           	<c:otherwise>
+								           		<div style="margin-left: 100px; margin-top: 20px;">
+			                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" id="preview" >
+			                                    </div>
+								           	</c:otherwise> 
+							            </c:choose>
+	                                    
+	                                    <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;" class="file-edit-icon">
+	                                    	<input type="file" name="file" id="file" accept="image/*" style="display: none;">
+	                                        <label data-toggle="modal" data-target="#myModal" class="preview-edit">편집</label>
+	                                        <label style="margin-left: 20px;" id="deleteFile" class="preview-de">삭제</label>
+	                                    </div>
+	                                    
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>이름</th>
+	                                <td><input type="text" value="${ loginUser.memberName }" readonly id="readonly"></td>
+	                            </tr>
+	                            <tr>
+	                                <th>이메일</th>
+	                                <td><input type="text" value="${ loginUser.memberId }" readonly id="readonly" name="memberId"></td>
+	                            </tr>
+	                            <tr>
+	                                <th>휴대폰</th>
+	                                <td><input type="text" value="${ loginUser.memberPhone }" name="memberPhone"></td>
+	                            </tr>
+	                            <tr>
+	                                <th colspan="2" class="buttonArea">
+	                                	<!-- 비밀번호암호화로그인으로 바꾸면 수정할것 -->
+	                                	<input type="hidden" name="memberPwd" value="${loginUser.memberPwd }">
+	                                	<button type="submit" class="btn btn-light" id="btn1">정보수정</button>
+	                                </th>
+	                                
+	                            </tr>
+	    
+	                        </table>
+						
+                    	</div>
+                    
+                    </form>
                 </div>
+                
                 
                 <!-- 프로필사진  -->
                 <script>
@@ -144,7 +151,7 @@
 						$('#file').change(handleFileSelect);
 						$('.file-edit-icon').on('click', '.preview-de', function () {
 						    $("#preview").removeAttr("src").attr("src", "resources/profile/profile_blank.jpg");
-						    $("#file").val("");
+						    $("#file").val("none");
 						});
 						
 						
