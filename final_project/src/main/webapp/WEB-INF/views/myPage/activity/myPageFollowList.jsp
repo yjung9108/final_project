@@ -33,7 +33,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%;}
+        #content{width: 100%; margin-left:150px;}
 
         /*큰제목*/
         #mainTitle{font-size: 23px; font-weight: bolder;}
@@ -80,53 +80,39 @@
                 </div>
                 
                 <!-- 팔로잉 목록-->
-                <!-- 최대 6개-->
+                <!-- 최대 5개-->
 
                 <div id="content_1">
-                    <table>
-                      <tr>
-                        <td id="profile">
-                          <img src="city1.PNG" width="80" height="80" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        <td id="status">
-                          <button type="button" class="btn btn-sm">팔로잉</button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td id="profile">
-                          <img src="city1.PNG" width="80" height="80" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        <td id="status">
-                          <button type="button" class="btn btn-sm">팔로잉</button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td id="profile">
-                          <img src="city1.PNG" width="80" height="80" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        <td id="status">
-                          <button type="button" class="btn btn-sm">팔로잉</button>
-                        </td>
-                      </tr>
-
-                      
-                      
-                    </table>
-                    
+                    <c:choose>
+                    	<c:when test="${ empty list }">
+                    		팔로우 목록이 없습니다
+                    	</c:when>
+                    	<c:otherwise>
+	                    	<table>
+		                      <c:forEach var="m" items="${ list }">
+			                      <tr>
+			                        <td id="profile">
+			                        <c:choose>
+			                        	<c:when test="${ empty m.memberProfile }">
+			                            	<img src="resources/profile/profile_blank.jpg" width="80" height="80" class="rounded-circle" >
+			                        	</c:when>
+			                        	<c:otherwise>
+			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
+			                        	</c:otherwise> 
+			                        </c:choose> 
+			                        </td>
+			                        <td id="user">
+			                          <div id="id">${ m.partnerName }</div>
+			                          <div id="idDetail">오픈펀딩 20</div>
+			                        </td>
+			                        <td id="status">
+			                          <button type="button" class="btn btn-sm">팔로잉</button>
+			                        </td>
+			                      </tr>
+								</c:forEach>
+							</table>	
+                    	</c:otherwise>
+                    </c:choose>
                 </div>
                 
                 
@@ -134,12 +120,33 @@
                 <div id="content_2">
                     <div id="pagingArea">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                        
+                        	<!-- list가 있을때만 페이지버튼 -->
+                        	<c:if test="${ !empty list }">
+	                        	<c:choose>
+	                        		<c:when test="${ pi.currentPage eq 1 }">
+	                        			<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+	                        		</c:when>
+		                            <c:otherwise>
+		                            	<li class="page-item"><a class="page-link" href="followlist.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+		                            </c:otherwise>
+		                        </c:choose>
+		                        
+		                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			                    	<li class="page-item"><a class="page-link" href="followlist.me?currentPage=${ p }">${ p }</a></li>
+			                    </c:forEach>
+		                       
+		                        <c:choose>
+			                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+				                    	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<li class="page-item"><a class="page-link" href="followlist.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                    	</c:otherwise>
+			                    </c:choose>
+		                    </c:if>
+	                      </ul>
+                    
                     </div>
                 </div>
             

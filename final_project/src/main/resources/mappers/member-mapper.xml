@@ -18,11 +18,14 @@
 		<result column="partner_intro" property="partnerIntro"/>
 	</resultMap>
 	
+	
+	<!--  필요없는거 같음
 	<resultMap id="followMember" type="FollowMember">
 		<id column="member_no" property="memberNo"/>
-		<result column="follow_member_id" property="followMemberNo"/>
+		<result column="follow_member_no" property="followMemberNo"/>
 	</resultMap>
-	
+	-->
+	  
 	  
   	<select id="loginMember" resultMap="memberResultSet" parameterType="Member">
   		  
@@ -69,7 +72,7 @@
 		    and partner_join='Y'
 	</select>
 	
-	<select id="selectFollowList" resultMap="followMember">
+	<select id="selectFollowList" resultMap="memberResultSet">
 		select 
 		        member_no
 		      , member_id

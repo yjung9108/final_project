@@ -82,20 +82,19 @@
                                     <c:choose>
 						            	<c:when test="${ empty loginUser.memberProfile }">    
 								            <div style="margin-left: 100px; margin-top: 20px;">
-	                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" id="preview" >
+	                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" id="titleImg" >
 	                                    	</div>
 							           	</c:when>
 							           	<c:otherwise>
 							           		<div style="margin-left: 100px; margin-top: 20px;">
-		                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" id="preview" >
+		                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" id="titleImg" >
 		                                    </div>
 							           	</c:otherwise> 
 						            </c:choose>
                                     
-                                    <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;" class="file-edit-icon">
-                                    	<input type="file" name="file" id="file" accept="image/*" style="display: none;">
-                                        <label data-toggle="modal" data-target="#myModal" class="preview-edit">편집</label>
-                                        <label style="margin-left: 20px;" id="deleteFile" class="preview-de">삭제</label>
+                                    <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;">
+                                        <label data-toggle="modal" data-target="#myModal">편집</label>
+                                        <label style="margin-left: 20px;" id="deleteFile">삭제</label>
                                     </div>
                                     
                                 </td>
@@ -124,38 +123,84 @@
                     </div>
                 </div>
                 
-                <!-- 프로필사진  -->
-                <script>
-					  function handleFileSelect(event) {
-						    var input = this;
-						    console.log(input.files)
-						    if (input.files && input.files.length) {
-						        var reader = new FileReader();
-						        this.enabled = false
-						        reader.onload = (function (e) {
-						        console.log(e)
-						            $("#preview").attr("src", e.target.result);
-						        
-						        
-						        });
-						        reader.readAsDataURL(input.files[0]);
-						    }
-						}
-						$('#file').change(handleFileSelect);
-						$('.file-edit-icon').on('click', '.preview-de', function () {
-						    $("#preview").removeAttr("src").attr("src", "resources/profile/profile_blank.jpg");
-						    $("#file").val("");
-						});
-						
-						
-						$('.preview-edit').click( function() {
-						  $("#file").click();
-						} );
-
-				   		
+                <!-- 프로필사진 첨부 Modal -->
+				  <div class="modal" id="myModal">
+				    <div class="modal-dialog">
+				      <div class="modal-content">
+				      
+				        <!-- Modal Header -->
+				        <div class="modal-header">
+				          <h4 class="modal-title">프로필사진 첨부</h4>
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        </div>
+				        
+				        <!-- Modal body -->
+				        <div class="modal-body">
+				          <input type="file" name="upfile" id="upfile"  onchange="loadImg(this, 1);">
+				        </div>
+				        
+				        <!-- Modal footer -->
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-danger" data-dismiss="modal">완료</button>
+				        </div>
+				        
+				      </div>
+				    </div>
+				  </div>
+				  
+				  <script>
+                               
+                                function loadImg(inputFile, num){
+                                    // inputFile : 현재 변화가 생긴 input type="file" 요소객체
+                                    // num : 몇 번째 input요소인지 확인 후 해당 그 영역에 미리보기하기 위해
+                                    
+                                    // 파일을 선택하는 순간 inputFile.files라는 속성배열에 0번 인덱스에 파일 담김
+                                    //console.log(inputFile.files);
+                                    if(inputFile.files.length == 1){ // 선택된 파일이 있을 경우
+                                        // 파일을 읽어들일 FileReader 객체 생성
+                                        var reader = new FileReader();
+                                        // 선택된 파일을 읽어들이기
+                                        // => 읽어들이는 순간 해당 그 파일만의 고유한 url부여됨
+                                        reader.readAsDataURL(inputFile.files[0]);
+                                        // 파일 읽어들이기가 완료된 순간 실행할 함수 정의
+                                        reader.onload = function(e){
+                                            // 각 영역에 맞춰서 이미지 미리보기
+                                            switch(num){
+                                                case 1: $("#titleImg").attr("src", e.target.result); break;
+                                               
+                                            }
+                                        }
+                                    }else{ // 선택된 파일이 사라졌을 경우
+                                        switch(num){
+                                            case 1: $("#titleImg").attr("src", null); break;
+                                            
+                                        }
+                                    }
+                                }
                                 
-                </script>
+                                
+                                $(function(){
+
+                  			        $("#deleteFile").click(function(){ 
+
+                  			            $("#upfile").val("");
+                  			        	$("#titleImg").empty();
+                  			        	
+                  			        	
+                  			        });
+
+                  			    })
+                            </script>
 			                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 <!-- 비밀번호 변경-->

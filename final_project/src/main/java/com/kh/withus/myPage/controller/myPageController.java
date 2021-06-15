@@ -130,19 +130,19 @@ public class myPageController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
+		
 		int listCount = mService.selectFollowListCount(loginUser.getMemberNo());
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 5);
-		System.out.println(listCount);
+		//5개씩
 		
 		
 		ArrayList<FollowMember> list = mService.selectFollowList(pi, loginUser.getMemberNo());
 		
-		System.out.println(list);
 		
 		mv.addObject("pi", pi)
 		  .addObject("list", list)
-		  .setViewName("myPage/activity/myPageFollowList");
+		  .setViewName("myPage/activity/pageFollowList");
 		
 		return mv;
 		

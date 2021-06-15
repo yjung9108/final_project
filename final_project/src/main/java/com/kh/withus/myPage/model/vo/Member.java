@@ -33,6 +33,7 @@ public class Member {
 	private String partnerJoin;
 	private String partnerName;
 	private String partnerIntro;
+	private int followMemberNo;
 
 
 }

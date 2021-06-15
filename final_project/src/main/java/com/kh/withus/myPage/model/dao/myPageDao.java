@@ -19,17 +19,18 @@ public class myPageDao {
 
 	public int selectFollowListCount(SqlSessionTemplate sqlSession, int memberNo) {
 		
-		return sqlSession.selectOne("memberMapper.selectFollowListCount");
+		return sqlSession.selectOne("memberMapper.selectFollowListCount", memberNo);
 	
 	}
 
 	public ArrayList<FollowMember> selectFollowList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowList", memberNo, rowBounds);
 	}
 	
 	
