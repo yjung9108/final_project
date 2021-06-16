@@ -26,7 +26,14 @@ public interface myPageService {
 	int followMember(FollowMember m);
 
 	// 팔로우하는 파트너 정보
-	Member followUserDetail(Member m);
+	Member partnerDetail(Member m);
+
+	//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
+	int followCheck(Member m);
+
+	// 파트너의 팔로워 수
+	int followerCount(Member m);
+
 
 	
 

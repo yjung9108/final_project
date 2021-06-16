@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 800px; margin: auto;}
+        .wrap{width: 1000px; height: 1100px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -32,7 +32,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%;}
+        #content{width: 100%; margin-left:150px;}
 
         /*큰제목*/
         #mainTitle{font-size: 23px; font-weight: bolder;}

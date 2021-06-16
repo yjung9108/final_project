@@ -91,9 +91,9 @@
                     	</c:when>
                     	<c:otherwise>
 	                    	<c:forEach var="m" items="${ list }">
-	                    	   <table>
+	                    	   <table id="followTable">
 		                      	<tr>
-			                        <td id="profile">
+			                        <th id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
 			                            	<img src="resources/profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
@@ -102,13 +102,13 @@
 			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
 			                        	</c:otherwise> 
 			                        </c:choose> 
-			                        </td>
-			                        <td id="user">
+			                        </th>
+			                        <th id="user">
 			                          <div id="id">${ m.partnerName }</div>
 			                          <div id="idDetail">오픈펀딩 20</div>
 			                          <div id="followMemberNo" style="display: none;" >${ m.memberNo }</div>
 			                          
-			                        </td>
+			                        </th>
 			                        <td id="status">
 			                          <button type="button" class="btn btn-sm" id="followBtn">팔로잉</button>
 			                          <input type="hidden" value="${ m.memberNo }" name="followMemberNo" id="followMemberNo">
@@ -123,11 +123,11 @@
                 <!-- 로그인유저의 회원번호 -->
                 <input type="hidden" value="${ loginUser.memberNo }" name="memberNo">
                 
-                <!-- 팔로우유저 상세보기페이지로 -->
+                <!-- 파트너 상세보기페이지로 -->
                 <script>
 	            	$(function(){
-	            		$("#profile img, #user #id").click(function(){
-	            			location.href="followUserdetail.me?memberNo=" + $("#user").children("#followMemberNo").text();
+	            		$("#followTable th").click(function(){
+	            			location.href="partnerDetail.me?memberNo=" + $(this).children("#followMemberNo").text();
 	            		})
 	            	})
 	            </script>
@@ -160,10 +160,12 @@
 		      							
 		      							$("#clicked").html('팔로우').css('background', 'rgb(228, 230, 238)').css('color', ' rgb(111, 100, 122)');
 		      							$("#clicked").removeAttr("id");
+		      							alert("팔로우를 해제하였습니다");
 		      							
 		      						
 		      						}else{ // 오류
 		      							
+		      							alert("오류가 발생했습니다");
 		      							
 		      						}
 		      						
@@ -185,9 +187,11 @@
 		      							
 		      							$("#clicked").html('팔로잉').css('background-color','rgb(178, 185, 223)').css('color', 'white');
 		      							$("#clicked").removeAttr("id");
+		      							alert("해당 파트너를 팔로우했습니다");
 		      							
 		      						}else{ // 오류
 		      							
+		      							alert("오류가 발생했습니다");
 		      							
 		      						}
 		      						

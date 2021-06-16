@@ -16,13 +16,13 @@ public class myPageDao {
 	// 회원탈퇴
 	public int deleteMember(SqlSessionTemplate sqlSession, String memberId) {
 		
-		return sqlSession.update("memberMapper.deleteMember", memberId);
+		return sqlSession.update("myPageMapper.deleteMember", memberId);
 	}
 
 	// 팔로우 목록 카운트
 	public int selectFollowListCount(SqlSessionTemplate sqlSession, int memberNo) {
 		
-		return sqlSession.selectOne("memberMapper.selectFollowListCount", memberNo);
+		return sqlSession.selectOne("myPageMapper.selectFollowListCount", memberNo);
 	
 	}
 
@@ -34,29 +34,42 @@ public class myPageDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowList", memberNo, rowBounds);
+		return (ArrayList)sqlSession.selectList("myPageMapper.selectFollowList", memberNo, rowBounds);
 	}
 
 	// 회원정보수정
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		
-		return sqlSession.update("memberMapper.updateMember", m);
+		return sqlSession.update("myPageMapper.updateMember", m);
 	
 	}
 
 	// 언팔
 	public int unfollowMember(SqlSessionTemplate sqlSession, FollowMember m) {
 
-		return sqlSession.delete("memberMapper.unfollowMember", m);
+		return sqlSession.delete("myPageMapper.unfollowMember", m);
 	}
-
+	
+	// 팔로우
 	public int followMember(SqlSessionTemplate sqlSession, FollowMember m) {
-		return sqlSession.insert("memberMapper.followMember", m);
+		return sqlSession.insert("myPageMapper.followMember", m);
 	}
 
-	public Member followMemberDetail(SqlSessionTemplate sqlSession, Member m) {
+	// 파트너 정보 페이지
+	public Member partnerDetail(SqlSessionTemplate sqlSession, Member m) {
 		
-		return sqlSession.selectOne("memberMapper.followMemberDetail", m);
+		return sqlSession.selectOne("myPageMapper.partnerDetail", m);
+	}
+
+	//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
+	public int followCheck(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.selectOne("myPageMapper.followCheck", m);
+	}
+
+	public int followerCount(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.selectOne("myPageMapper.followerCount", m);
 	}
 	
 	

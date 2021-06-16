@@ -9,7 +9,7 @@ import com.kh.withus.member.model.vo.Member;
 public class MemberDao {
 	
 	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.selectOne("memberMapper.loginMember", m);
+		return sqlSession.selectOne("myPageMapper.loginMember", m);
 	}
 	
 	

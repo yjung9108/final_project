@@ -61,12 +61,23 @@ public class myPageServiceImpl implements myPageService{
 	}
 
 	@Override
-	public Member followUserDetail(Member m) {
+	public Member partnerDetail(Member m) {
 		
-		return mDao.followMemberDetail(sqlSession, m);
+		return mDao.partnerDetail(sqlSession, m);
 	}
 
 	
+	@Override
+	public int followCheck(Member m) {
+		return mDao.followCheck(sqlSession, m);
+	}
+
+	@Override
+	public int followerCount(Member m) {
+		
+		return mDao.followerCount(sqlSession, m);
+	}
+
 	
 
 	

@@ -251,13 +251,8 @@ public class myPageController {
 		m.setMemberNo(Integer.parseInt(memberNo));
 		m.setFollowMemberNo(Integer.parseInt(followMemberNo));
 		
-		System.out.println(memberNo);
-		System.out.println(followMemberNo);
-		
 		int result = mService.followMember(m);
 				
-		
-		System.out.println("재팔로우"+result);
 		if(result>0) {
 			return "Y";
 					
@@ -268,20 +263,63 @@ public class myPageController {
 			
 	}
 	
-	@RequestMapping("followUserdetail.me")
-	public String followUserDetail(Member m, HttpSession session, Model model) {
+	// 파트너 디테일
+	@RequestMapping("partnerDetail.me")
+	public String partnerDetail(Member m, HttpSession session, Model model) {
 		
-		Member member = mService.followUserDetail(m);
+		//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		if(member != null) {
-			session.setAttribute("m", member);
+		if(loginUser !=null) { // 로그인 상태일 때
 			
-			return "myPage/activity/followUserDetail";
+			// 팔로우멤버번호 거꾸로 집어넣기 
+			m.setFollowMemberNo(loginUser.getMemberNo());
 			
-		}else { // => 에러페이지
-			model.addAttribute("errorMsg", "에러가발생했습니다");
-			return "common/errorPage";
+			// 로그인한 멤버가 해당 파트너를 팔로우할경우 result 1로 반환 (또는 더 크게 DB에 중복삽입됬을경우)
+			int result = mService.followCheck(m);
+			
+			// 파트너정보
+			Member member = mService.partnerDetail(m);
+			
+			// 파트너의 팔로워수
+			int followerCount = mService.followerCount(m);
+			
+			if(member != null) {
+				
+				session.setAttribute("result", result);
+				session.setAttribute("m", member);
+				session.setAttribute("followerCount", followerCount);
+				return "myPage/activity/partnerDetail";
+				
+			}else { // => 에러페이지
+				model.addAttribute("errorMsg", "에러가발생했습니다");
+				return "common/errorPage";
+			}
+		
+		
+		
+		} else { // 로그인상태가 아닐때
+			
+			// 파트너정보
+			Member member = mService.partnerDetail(m);
+			
+			// 파트너의 팔로워수
+			int followerCount = mService.followerCount(m);
+			
+			if(member != null) {
+				session.setAttribute("m", member);
+				session.setAttribute("followerCount", followerCount);
+				
+				return "myPage/activity/partnerDetail";
+				
+			}else { // => 에러페이지
+				model.addAttribute("errorMsg", "에러가발생했습니다");
+				return "common/errorPage";
+			}
+			
 		}
+		
+		
 		
 	}
 	
@@ -312,8 +350,42 @@ public class myPageController {
 		
 		return changeName;
 		
-	}	
+	}
 	
+	//나의문의내역
+	@RequestMapping("querylist.me")
+	public /*ModelAndView*/String queryList(/*@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session*/) {
+		
+		/*
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		
+		int listCount = mService.queryListCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 5);
+		//5개씩
+		
+		
+		ArrayList<> list = mService.(pi, loginUser.getMemberNo());
+		
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", list)
+		  .setViewName("myPage/activity/pageQueryList");
+		
+		return mv;
+		
+		*/
+		return "myPage/activity/pageQueryList";
+		
+	}
+	
+	
+	@RequestMapping("like.me")
+	public String like() {
+		
+		return "myPage/activity/pageLike";
+	}
 	
 	
 	

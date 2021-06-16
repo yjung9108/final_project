@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="memberMapper">
+<mapper namespace="myPageMapper">
 
 	<resultMap id="memberResultSet" type="Member">
 		<id column="member_no" property="memberNo"/>
@@ -129,7 +129,7 @@
 	
 	
 	<!-- 팔로우멤버 (파트너)디테일정보 -->
-  	<select id="followMemberDetail" resultMap="memberResultSet" parameterType="Member">
+  	<select id="partnerDetail" resultMap="memberResultSet" parameterType="Member">
 		select 
 		        member_no
 		      , member_id
@@ -137,11 +137,30 @@
 		      , member_profile
 		      , partner_name
 		      , partner_intro
+		      , partner_join
 		  from member
 		 where member_no = #{memberNo}
 		   and member_status='Y'
 		   and partner_join='Y'
 	
+	</select>
+	
+	<!-- 로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크 -->
+	<!-- 값 거꾸로 넣었음 -->
+	<select id="followCheck" resultType="_int">
+		select 
+		       count(*)
+		  from follow
+		 where member_no = #{followMemberNo}
+		   and follow_member_no = #{memberNo}
+	</select>
+	
+	<!-- 팔로워 수 -->
+	<select id="followerCount" resultType="_int">
+		select 
+		       count(*)
+		  from follow
+		 where follow_member_no = #{memberNo}
 	</select>
   	
   	
