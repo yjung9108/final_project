@@ -49,14 +49,14 @@
             
             <!-- 왼쪽 메뉴바 -->
             <div id="mypage_left_menu">
-                <jsp:include page="../myPageMenu.jsp"/>
+                <jsp:include page="../main/myPageMenu.jsp"/>
             </div>
 
             
             
             <!-- 팔로우리스트 -->
             <div id="mypage_content">
-                <jsp:include page="myPageFollowList.jsp"/>
+                <jsp:include page="myFollowList.jsp"/>
 			</div>
             
         </div>

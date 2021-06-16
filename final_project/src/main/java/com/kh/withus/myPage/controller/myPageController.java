@@ -49,7 +49,7 @@ public class myPageController {
 	// 내정보 -> 비밀번호 확인창으로
 	@RequestMapping("myInfo.me")
 	public String myInfo() {
-		return "myPage/info/myInfoMain";
+		return "myPage/info/pageMyInfoMain";
 	}
 	
 	
@@ -67,11 +67,11 @@ public class myPageController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		if(memberPwd.equals(loginUser.getMemberPwd())) {
-			return "myPage/info/myInfoDetail";
+			return "myPage/info/pageMyInfoDetail";
 			
 		}else {
 			session.setAttribute("alertMsg", "비밀번호가 틀립니다");
-			return "myPage/info/myInfoMain";
+			return "myPage/info/pageMyInfoMain";
 		}
 				
 		
@@ -111,32 +111,46 @@ public class myPageController {
 	
 	// 기본정보수정
 	@RequestMapping("update.me")
-	public String updateMember(Member m, MultipartFile file, HttpSession session, Model model) {
+	public String updateMember(Member m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
 		
 		
-		if(!file.getOriginalFilename().equals("")) {
+		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
 			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
 			
+			// 새로운 파일 업로드
 			String changeName = saveFile(session, file);
-			
 			m.setMemberProfile("resources/profile/" + changeName); 
-			
-		} else if( file.getOriginalFilename().equals("none")) {
-			
-			new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+				
 		}
 		
+		if(deleteProfile.equals("delete")) {
+			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
+			
+			m.setMemberProfile(null);
+		
+		}
+		
+			
+			
 		
 		int result = mService.updateMember(m); 
 		
 		
 		
-		// 성공했을 경우
+		// 수정성공했을 경우
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
 			session.setAttribute("loginUser", memberService.loginMember(m));
-			return "myPage/info/myInfoDetail";
+			return "myPage/info/pageMyInfoDetail";
 			
 		}else {// 실패했을 경우 
 			model.addAttribute("errorMsg", "정보 수정 실패");
@@ -144,9 +158,9 @@ public class myPageController {
 		}
 		
 		
+	
+	
 	}
-	
-	
 	
 	
 	
@@ -252,8 +266,24 @@ public class myPageController {
 		}
 					
 			
-	}	
+	}
 	
+	@RequestMapping("followUserdetail.me")
+	public String followUserDetail(Member m, HttpSession session, Model model) {
+		
+		Member member = mService.followUserDetail(m);
+		
+		if(member != null) {
+			session.setAttribute("m", member);
+			
+			return "myPage/activity/followUserDetail";
+			
+		}else { // => 에러페이지
+			model.addAttribute("errorMsg", "에러가발생했습니다");
+			return "common/errorPage";
+		}
+		
+	}
 	
 	
 	

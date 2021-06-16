@@ -12,7 +12,7 @@
     <title>Document</title>
     <style>
         
-        .mypage_wrap{width: 1100px; height: 1200px; margin: auto;}
+        .mypage_wrap{width: 1100px; height: 800px; margin: auto;}
 
         .mypage_wrap>div{width: 100%;}
 
@@ -49,14 +49,14 @@
             
             <!-- 왼쪽 메뉴바 -->
             <div id="mypage_left_menu">
-                <jsp:include page="../myPageMenu.jsp"/>
+                <jsp:include page="../main/myPageMenu.jsp"/>
             </div>
 
             
             
-            <!-- 회원정보-->
+            <!-- 회원정보 비밀번호 확인 -->
             <div id="mypage_content">
-                <jsp:include page="memberDetail.jsp"/>
+                <jsp:include page="pwdConfirm.jsp"/>
 			</div>
             
         </div>

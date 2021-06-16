@@ -59,9 +59,11 @@
        
         .follow .btn{background-color: rgb(178, 185, 223); color: white;}
         
+		
+		#profile>img{cursor: pointer;}
+        #user>#id{cursor: pointer;}
 
-
-
+	
 
 
     </style>
@@ -76,7 +78,7 @@
                 <div id="underLine"></div>
                 
                 <div style="margin-top: 20px;">
-                  파트너들의 펀딩 활동을 보실 수 있습니다.
+                 	 파트너들의 펀딩 활동을 보실 수 있습니다.
                 </div>
                 
                 <!-- 팔로잉 목록-->
@@ -94,7 +96,7 @@
 			                        <td id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
-			                            	<img src="resources/profile/profile_blank.jpg" width="80" height="80" class="rounded-circle" >
+			                            	<img src="resources/profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
 			                        	</c:when>
 			                        	<c:otherwise>
 			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
@@ -104,7 +106,7 @@
 			                        <td id="user">
 			                          <div id="id">${ m.partnerName }</div>
 			                          <div id="idDetail">오픈펀딩 20</div>
-			                          <div id="followMemberNo">${ m.memberNo }</div>
+			                          <div id="followMemberNo" style="display: none;" >${ m.memberNo }</div>
 			                          
 			                        </td>
 			                        <td id="status">
@@ -121,13 +123,25 @@
                 <!-- 로그인유저의 회원번호 -->
                 <input type="hidden" value="${ loginUser.memberNo }" name="memberNo">
                 
-                <!-- 첫번째 리스트에있는번호밖에 안눌림 -->
+                <!-- 팔로우유저 상세보기페이지로 -->
+                <script>
+	            	$(function(){
+	            		$("#profile img, #user #id").click(function(){
+	            			location.href="followUserdetail.me?memberNo=" + $("#user").children("#followMemberNo").text();
+	            		})
+	            	})
+	            </script>
+                
+                
+                
+                
+                
+                
+                
+                <!-- 언팔/팔로 버튼 -->
                 <script>
 					$(function() {
-						
-						
-						
-					  $('#status #followBtn').click( function() {
+						$('#status #followBtn').click( function() {
 						  
 						  var $memberNo = $("input[name=memberNo]").val();
 						  var $followMemberNo = $(this).siblings("input[name=followMemberNo]").val();

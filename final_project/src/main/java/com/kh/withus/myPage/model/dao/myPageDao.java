@@ -53,6 +53,11 @@ public class myPageDao {
 	public int followMember(SqlSessionTemplate sqlSession, FollowMember m) {
 		return sqlSession.insert("memberMapper.followMember", m);
 	}
+
+	public Member followMemberDetail(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.selectOne("memberMapper.followMemberDetail", m);
+	}
 	
 	
 

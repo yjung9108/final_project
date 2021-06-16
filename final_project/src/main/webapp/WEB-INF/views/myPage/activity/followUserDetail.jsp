@@ -68,7 +68,7 @@
                     
                     <div id="content_1_2">
                         <li style="font-size: 20px;">
-                            사용자
+                            	${ m.partnerName }
                             (파트너명)
                         </li>
                         <li style="font-size: 12px;">파트너</li>

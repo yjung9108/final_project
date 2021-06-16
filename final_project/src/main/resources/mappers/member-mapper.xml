@@ -61,7 +61,7 @@
   	</update>
   	
   	
-  	<!-- 팔로잉 목록 -->
+  	<!-- 팔로잉 목록카운트 -->
   	<select id="selectFollowListCount" resultType="_int">
 		select 
 		       count(*)
@@ -127,7 +127,22 @@
   		  )
   	</insert>
 	
-  	
+	
+	<!-- 팔로우멤버 (파트너)디테일정보 -->
+  	<select id="followMemberDetail" resultMap="memberResultSet" parameterType="Member">
+		select 
+		        member_no
+		      , member_id
+		      , member_name
+		      , member_profile
+		      , partner_name
+		      , partner_intro
+		  from member
+		 where member_no = #{memberNo}
+		   and member_status='Y'
+		   and partner_join='Y'
+	
+	</select>
   	
   	
   

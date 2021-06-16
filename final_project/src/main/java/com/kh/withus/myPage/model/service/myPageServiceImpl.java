@@ -60,6 +60,12 @@ public class myPageServiceImpl implements myPageService{
 		return mDao.followMember(sqlSession, m);
 	}
 
+	@Override
+	public Member followUserDetail(Member m) {
+		
+		return mDao.followMemberDetail(sqlSession, m);
+	}
+
 	
 	
 

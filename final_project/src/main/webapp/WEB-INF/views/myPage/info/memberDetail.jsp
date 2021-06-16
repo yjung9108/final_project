@@ -47,7 +47,7 @@
         .info th{width: 200px; height: 40px;}
         .info input{width: 300px}
         .info label{cursor: pointer; font-size: 12px;}
-        #readonly{background-color: lightgray;}
+         #readonly{background-color: lightgray;}
         
 
         /* 버튼 부분 */
@@ -57,6 +57,12 @@
         .info button{width: 200px;}
         
         a{text-decoration: none; color: black;}
+        
+        /* 프로필 사진 */
+        .previewBox{margin-left: 100px; margin-top: 20px;}
+        #preview{width:100px; height:100;}
+        .fileEdit{margin-left: 110px; margin-top: 5px; margin-bottom: 10px;}
+        #delete{margin-left: 20px;}
 
     </style>
 </head>
@@ -83,21 +89,23 @@
 	                                    <!-- 등록프사가 있을경우 없을경우 -->
 	                                    <c:choose>
 							            	<c:when test="${ empty loginUser.memberProfile }">    
-									            <div style="margin-left: 100px; margin-top: 20px;">
-		                                        	<img src="resources/profile/profile_blank.jpg" width="100" height="100" class="rounded-circle" id="preview" >
+									            <div class="previewBox">
+		                                        	<img src="resources/profile/profile_basic.jpg" class="rounded-circle" id="preview" >
 		                                    	</div>
 								           	</c:when>
 								           	<c:otherwise>
-								           		<div style="margin-left: 100px; margin-top: 20px;">
-			                                        <img src="${ loginUser.memberProfile }" width="100" height="100" class="rounded-circle" id="preview" >
+								           		<div class="previewBox">
+			                                        <img src="${ loginUser.memberProfile }" class="rounded-circle" id="preview" >
 			                                    </div>
 								           	</c:otherwise> 
 							            </c:choose>
 	                                    
-	                                    <div style="margin-left: 110px; margin-top: 5px; margin-bottom: 10px;" class="file-edit-icon">
-	                                    	<input type="file" name="file" id="file" accept="image/*" style="display: none;">
-	                                        <label data-toggle="modal" data-target="#myModal" class="preview-edit">편집</label>
-	                                        <label style="margin-left: 20px;" id="deleteFile" class="preview-de">삭제</label>
+	                                    <div class="fileEdit">
+	                                    	<label id="edit">편집</label>
+	                                        <label id="delete">삭제</label>
+	                                        
+	                                        <input type="file" name="file" id="file" accept="image/*" style="display: none;">
+	                                    	<input type="hidden" id="deleteProfile" name="deleteProfile">
 	                                    </div>
 	                                    
 	                                </td>
@@ -112,12 +120,17 @@
 	                            </tr>
 	                            <tr>
 	                                <th>휴대폰</th>
-	                                <td><input type="text" value="${ loginUser.memberPhone }" name="memberPhone"></td>
+	                                <td>
+	                                	<input type="text" value="${ loginUser.memberPhone }" name="memberPhone" id="memberPhone" placeholder="휴대폰번호를 입력해주세요(선택사항)">
+	                                </td>
 	                            </tr>
 	                            <tr>
 	                                <th colspan="2" class="buttonArea">
 	                                	<!-- 비밀번호암호화로그인으로 바꾸면 수정할것 -->
 	                                	<input type="hidden" name="memberPwd" value="${loginUser.memberPwd }">
+	                                	<input type="hidden" name="memberProfile" value="${loginUser.memberProfile }">
+	                                	
+	                                	
 	                                	<button type="submit" class="btn btn-light" id="btn1">정보수정</button>
 	                                </th>
 	                                
@@ -131,37 +144,90 @@
                 </div>
                 
                 
-                <!-- 프로필사진  -->
+                <!-- 프로필사진 파일 -->
                 <script>
 					  function handleFileSelect(event) {
-						    var input = this;
-						    console.log(input.files)
-						    if (input.files && input.files.length) {
-						        var reader = new FileReader();
+					  	var input = this;
+						
+							if (input.files && input.files.length) {
+						    	var reader = new FileReader();
 						        this.enabled = false
 						        reader.onload = (function (e) {
-						        console.log(e)
-						            $("#preview").attr("src", e.target.result);
 						        
+						            $("#preview").attr("src", e.target.result);
 						        
 						        });
 						        reader.readAsDataURL(input.files[0]);
 						    }
 						}
+					  
 						$('#file').change(handleFileSelect);
-						$('.file-edit-icon').on('click', '.preview-de', function () {
-						    $("#preview").removeAttr("src").attr("src", "resources/profile/profile_blank.jpg");
-						    $("#file").val("none");
+						$('.fileEdit').on('click', '#delete', function () {
+						    $("#preview").removeAttr("src").attr("src", "resources/profile/profile_basic.jpg");
+						    $("#file").val("");
+						    $("#deleteProfile").val("delete");
 						});
 						
 						
-						$('.preview-edit').click( function() {
+						$('#edit').click( function() {
 						  $("#file").click();
 						} );
 
-				   		
-                                
-                </script>
+				</script>
+				
+				
+				<!-- 기본정보수정 유효성 체크 -->
+				<script>
+				$(function(){
+
+				    $("#memberPhone").on('keydown', function(e){
+				       // 숫자만 입력받기
+				        var trans_num = $(this).val().replace(/-/gi,'');
+					var k = e.keyCode;
+								
+					if(trans_num.length >= 11 && ((k >= 48 && k <=126) || (k >= 12592 && k <= 12687 || k==32 || k==229 || (k>=45032 && k<=55203)) ))
+					{
+				  	    e.preventDefault();
+					}
+				    }).on('blur', function(){ // 포커스를 잃었을때 실행합니다.
+				        if($(this).val() == '') return;
+
+				        // 기존 번호에서 - 를 삭제합니다.
+				        var trans_num = $(this).val().replace(/-/gi,'');
+				      
+				        // 입력값이 있을때만 실행합니다.
+				        if(trans_num != null && trans_num != '')
+				        {
+				            // 총 핸드폰 자리수는 11글자이거나, 10자여야 합니다.
+				            if(trans_num.length==11 || trans_num.length==10) 
+				            {   
+				                // 유효성 체크
+				                var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+				                if(regExp_ctn.test(trans_num))
+				                {
+				                    // 유효성 체크에 성공하면 하이픈을 넣고 값을 바꿔줍니다.
+				                    trans_num = trans_num.replace(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/, "$1-$2-$3");                  
+				                    $(this).val(trans_num);
+				                }
+				                else
+				                {
+				                    alert("유효하지 않은 전화번호 입니다.");
+				                    $(this).val("");
+				                    $(this).focus();
+				                }
+				            }
+				            else 
+				            {
+				                alert("유효하지 않은 전화번호 입니다.");
+				                $(this).val("");
+				                $(this).focus();
+				            }
+				      }
+				  });  
+				});
+				</script>
+
+
 			                
                 
                 

@@ -21,9 +21,12 @@ public interface myPageService {
 	int selectFollowListCount(int memberNo);
 	ArrayList<FollowMember> selectFollowList(PageInfo pi, int memberNo);
 
+	// 팔로우
 	int unfollowMember(FollowMember m);
-
 	int followMember(FollowMember m);
+
+	// 팔로우하는 파트너 정보
+	Member followUserDetail(Member m);
 
 	
 
