@@ -144,6 +144,15 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	// 나의 주문내역
+	@Override
+	public ArrayList<MyPage> myFundingDetail(MyPage m) {
+		return mDao.myFundingDetail(sqlSession, m);
+	}
+
+
+
+
 
 
 

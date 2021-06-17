@@ -489,14 +489,32 @@ public class MyPageController {
 		
 		mv.addObject("pi", pi)
 		  .addObject("list", list)
-		  .setViewName("myPage/activity/pageMyFunding");
+		  .setViewName("myPage/activity/pageMyFundingList");
+		
+		return mv;
+		
+	}
+	
+	//펀딩디테일
+	@RequestMapping("myFundingDetail.me")
+	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		m.setMemberNo(loginUser.getMemberNo());
+		
+		// 옵션때문에 어레이리스트로!
+		ArrayList<MyPage> funding = mService.myFundingDetail(m);
+		
+	
+		mv.addObject("funding", funding)
+		  .setViewName("myPage/activity/pageMyFundingDetail");
 		
 		return mv;
 		
 		
 		
 		
-	}	
-	
+		
+	}
 	
 }

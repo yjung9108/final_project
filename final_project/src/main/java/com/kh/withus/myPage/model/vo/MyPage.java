@@ -70,6 +70,19 @@ public class MyPage {
 	private String shippingNo; // 운송장번호
 	private Date orderDate; // 주문일
 	
+	// 리워드
+	private int rewardNo; //리워드번호
+	private int rewardPrice; //리워드가격
+	private String rewardShip; //배송지필요여부
+	private String rewardTitle; //리워드제목
+	private String rewardContent; // 리워드내용
+	
+	//주문수량
+	private int count; // 주문수량
+	
+	//옵션값
+	private int optionNo; // 옵션번호
+	private String optionContent; // 옵션내용
 	
 	
 

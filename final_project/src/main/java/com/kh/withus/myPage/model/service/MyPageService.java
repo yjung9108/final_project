@@ -60,6 +60,10 @@ public interface MyPageService {
 	ArrayList<MyPage> myFundingList(PageInfo pi, int memberNo);
 
 
+	// 나의 주문내역
+	ArrayList<MyPage> myFundingDetail(MyPage m);
+
+
 
 	
 

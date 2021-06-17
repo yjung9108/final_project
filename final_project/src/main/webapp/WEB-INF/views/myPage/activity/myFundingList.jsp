@@ -86,10 +86,10 @@
 		                          </tr>
 		                        </thead>
 		                   	  <c:forEach var="list" items="${ list }">
-		                        <tbody>
+		                   	  	<tbody>
 		                          <tr>
-		                            <td style="text-align: center;">${ list.orderNo }</td>
-		                            <td>${ list.projectTitle }</td>
+		                            <td style="text-align: center;" id="orderNo">${ list.orderNo }</td>
+		                            <td><label>${ list.projectTitle }</label></td>
 		                            <td style="text-align: center;">
 		                            	<c:choose>
 			                            	<c:when test="${list.orderStatus eq '1'}">
@@ -112,6 +112,17 @@
 	                     </c:otherwise>
                     	</c:choose>
                 	</div>
+                	
+                
+                	
+                <!-- 펀딩내역 상세보기페이지로 -->
+                <script>
+	            	$(function(){
+	            		$(".table>tbody td label").click(function(){
+	            			location.href="myFundingDetail.me?orderNo=" + $(this).parents().siblings("#orderNo").text();
+	            		})
+	            	})
+	            </script>
                 
                 
                 <!-- 페이징 -->

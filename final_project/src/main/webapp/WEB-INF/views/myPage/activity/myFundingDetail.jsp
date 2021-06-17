@@ -12,10 +12,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-    <style>
+	<style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 800px; margin: auto;}
+        .wrap{width: 1000px; height: 900px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -32,25 +32,35 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%;}
+        #content{width: 100%; margin-left: 150px;}
 
         /*큰제목*/
-        #mainTitle{font-size: 23px; font-weight: bolder;}
+        p{font-size: 23px; font-weight: bolder;}
 
         
         /* fundingDetail content */
-        .fundingDetail #content_1{height: 10%;}
+        .fundingDetail #content_1{height: 20%; margin-top: 50px;}
         .fundingDetail #content_2{height: 30%; margin-top: 150px;}
-        .fundingDetail #content_3{height: 30%; margin-top: 100px;}
+        .fundingDetail #content_3{height: 30%; margin-top: 80px;}
 
         
-        
-        
+        /* 각각 테이블 */
+        .fundingDetail table{margin-left: 20px; width: 80%; border: black solid 1px;}
+        #orderBasic th{width: 150px; height: 40px;}
+        #orderBasic td{width: 150px; height: 30px;}
 
-        /* .fundingDetail 테이블 */
-        .fundingDetail table{margin-left: 20px;}
-        .fundingDetail th{width: 150px; height: 40px;}
-        .fundingDetail td{width: 150px; height: 30px;}
+        #orderDetail th{width: 150px; height: 40px;}
+        #orderDetail td{height: 50px;}
+
+        #delivery th{width: 150px; height: 40px; }
+        #delivery td{height: 40px;}
+
+        
+        #payInfo td{width: 200px; height: 40px; text-align: center;}
+        #payInfo th{width: 200px; height: 100px; text-align: center;}
+        
+        
+        
         
 
         /* .fundingDetail 버튼 부분 */
@@ -60,6 +70,7 @@
         .fundingDetail button{width: 200px;}
 
     </style>
+    
 </head>
 <body>
     <div class="wrap">
@@ -68,15 +79,15 @@
         <div id="mypage">
             <div id="content" class="fundingDetail">
               
-              <p id="mainTitle">펀딩내역</p>
+              <p>펀딩내역</p>
               <div id="underLine"></div>
                 
-              <table border="1">
+              <table id="orderBasic">
                 <tr>
-                  <th>펀딩날짜 : </th>
-                  <td>2021-06-08</td>
+                  <th>펀딩날짜 : ${funding[0].orderDate }</th>
+                  <td></td>
                   <th>주문번호 : </th>
-                  <td>202106080001</td>
+                  <td>${funding[0].orderNo }</td>
                 </tr>
               </table>
               
@@ -84,21 +95,40 @@
                 <!-- 펀딩상품-->
                 <div id="content_1">
                 
-                  <p id="mainTitle">펀딩상품</p>
+                  <p>펀딩상품</p>
 
-                  <table border="1">
+                  <table id="orderDetail">
                     <tr>
-                      <th colspan="2">상품명</th>
-                      <th>수량</th>
-                      <th>진행현황</th>
+                      <th style="width: 60%;">상품명</th>
+                      <th style="width: 15%;">리워드금액</th>
+                      <th style="width: 8%;">수량</th>
+                      <th style="width: 10%;">진행현황</th>
                     </tr>
                     <tr>
                       <td>
-                        <img src="city1.PNG" class="rounded" width="80" height="80">
+                        <div>${funding[0].projectTitle }</div>
+                        <div>${funding[0].rewardTitle }</div>
+                        <div>${funding[0].rewardContent }</div>
+                        <!-- 조건문 -->
+                        <c:forEach var="f" items="${funding}">
+						<div>${ f.optionContent }</div>
+                        </c:forEach>
                       </td>
-                      <td>손목보호대</td>
-                      <td>1</td>
-                      <td>진행중</td>
+                      <td>${funding[0].rewardPrice }</td>
+                      <td>${funding[0].count }</td>
+                      <td>
+						<c:choose>
+			            	<c:when test="${funding[0].orderStatus eq '1'}">
+			                                          결제완료
+			                </c:when>
+			                <c:when test="${funding[0].orderStatus eq '2'}">
+			                     	취소요청
+			                </c:when>
+			                <c:otherwise>
+			                     	취소완료
+			                </c:otherwise>
+			            </c:choose>                      
+                      </td>
                     </tr>
 
                   </table>
@@ -108,23 +138,52 @@
                 
                 <!-- 배송지 정보-->
                 <div id="content_2">
-                  <p id="mainTitle">배송지 정보</p>
-                  <table>
+                  <p>배송지 정보</p>
+                  <table id="delivery">
                     <tr>
                       <th>받는사람</th>
-                      <td>이윤정</td>
+                      <td style="width: 600px;">${funding[0].receiverName }</td>
                     </tr>
                     <tr>
                       <th>휴대폰번호</th>
-                      <td>010-1234-1234</td>
+                      <td>${funding[0].receiverPhone }</td>
                     </tr>
                     <tr>
                       <th>주소</th>
-                      <td>(우편번호) 경기도 고양시 일산서구</td>
+                      <td>(${funding[0].addressNo}) ${funding[0].address }${funding[0].addressDetail }</td>
                     </tr>
                     <tr>
                       <th>배송시 요청사항</th>
-                      <td>없음</td>
+                      <td>
+                      	<c:choose>
+			            	<c:when test="${!empty funding[0].shippingReq}">
+			                	${funding[0].shippingReq }
+			                </c:when>
+			                <c:otherwise>
+			                     	없음
+			                </c:otherwise>
+			            </c:choose>     
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>배송상황</th>
+                      <td>
+                          <div>
+	                          <c:choose>
+				            	<c:when test="${funding[0].shippingStatus eq '1'}">
+				                                          배송준비중
+				                </c:when>
+				                <c:when test="${funding[0].shippingStatus eq '2'}">
+				                     	배송중
+				                </c:when>
+				                <c:otherwise>
+				                     	배송완료
+				                </c:otherwise>
+				              </c:choose>      
+                          </div>
+                          <div>${funding[0].shippingCom } + ${funding[0].shippingNo }</div>
+                          <!--시간되면 택배조회 api-->
+                      </td>
                     </tr>
                     <tr>
                       <td colspan="2" class="buttonArea">
@@ -139,28 +198,25 @@
                 <!-- 결제정보-->
                 <div id="content_3">
                 
-                  <p id="mainTitle">결제정보</p>
+                  <p>결제정보</p>
 
-                  <table border="1">
+                  <table id="payInfo">
                     <tr>
-                      <td style="text-align: center; width: 200px;">리워드금액</td>
-                      <td colspan="2" style="text-align: center; width: 200px;">추가후원금</td>
+                      <td>리워드금액</td>
+                      <td>추가후원금</td>
+                      <td>배송비</td>
                     </tr>
                     <tr>
-                      <td style="text-align: center; width: 200px;">20000원</td>
-                      <td colspan="2" style="text-align: center; width: 200px;">0원</td>
+                      <td>(${funding[0].rewardPrice }*${funding[0].count })</td>
+                      <td>${funding[0].orderPlus }</td>
+                      <td>0원</td>
                       
                     </tr>
                     <tr>
-                      <td></td>
-                      <td style="text-align: right;">배송비</td>
-                      <td style="text-align: right;">0원</td>
+                      <th style="text-align: right;" colspan="2" id="finalPrice">최종 결제 금액</th>
+                      <th style="text-align: right;" id="finalPrice">20000원</th>
                     </tr>
-                    <tr>
-                      <td></td>
-                      <td style="text-align: right;">총 결제금액</td>
-                      <td style="text-align: right;">20000원</td>
-                    </tr>
+                    
                     
                   </table>
                 </div>
@@ -178,5 +234,7 @@
         
 
     </div>
+    
+    
 </body>
 </html>
