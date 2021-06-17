@@ -90,7 +90,7 @@
 	                                    <c:choose>
 							            	<c:when test="${ empty loginUser.memberProfile }">    
 									            <div class="previewBox">
-		                                        	<img src="resources/profile/profile_basic.jpg" class="rounded-circle" id="preview" >
+		                                        	<img src="resources/member_profile/profile_basic.jpg" class="rounded-circle" id="preview" >
 		                                    	</div>
 								           	</c:when>
 								           	<c:otherwise>
@@ -163,7 +163,7 @@
 					  
 						$('#file').change(handleFileSelect);
 						$('.fileEdit').on('click', '#delete', function () {
-						    $("#preview").removeAttr("src").attr("src", "resources/profile/profile_basic.jpg");
+						    $("#preview").removeAttr("src").attr("src", "resources/member_profile/profile_basic.jpg");
 						    $("#file").val("");
 						    $("#deleteProfile").val("delete");
 						});

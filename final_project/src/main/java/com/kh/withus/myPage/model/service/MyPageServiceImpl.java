@@ -7,28 +7,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.withus.common.model.vo.PageInfo;
-import com.kh.withus.member.model.vo.Member;
-import com.kh.withus.myPage.model.dao.myPageDao;
-import com.kh.withus.myPage.model.vo.FollowMember;
+import com.kh.withus.myPage.model.dao.MyPageDao;
+import com.kh.withus.myPage.model.vo.MyPage;
 
 @Service
-public class myPageServiceImpl implements myPageService{
+public class MyPageServiceImpl implements MyPageService{
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	private myPageDao mDao;
+	private MyPageDao mDao;
+	
+	
+	//임시 로그인
+	@Override
+	public MyPage loginMember(MyPage m) {
+		
+		//Member loginUser = mDao.loginMember(sqlSession, m);
+		//return loginUser;
+		return mDao.loginMember(sqlSession, m);
+	}
+
+	
+	
 	
 	
 	@Override
-	public int pwdConfirm(Member m) {
+	public int pwdConfirm(MyPage m) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateMember(Member m) {
+	public int updateMember(MyPage m) {
 		
 		return mDao.updateMember(sqlSession, m);
 	}
@@ -45,37 +57,51 @@ public class myPageServiceImpl implements myPageService{
 	}
 
 	@Override
-	public ArrayList<FollowMember> selectFollowList(PageInfo pi, int memberNo) {
+	public ArrayList<MyPage> selectFollowList(PageInfo pi, int memberNo) {
 		return mDao.selectFollowList(sqlSession, pi, memberNo);
 	}
 
 	@Override
-	public int unfollowMember(FollowMember m) {
+	public int unfollowMember(MyPage m) {
 		
 		return mDao.unfollowMember(sqlSession, m);
 	}
 
 	@Override
-	public int followMember(FollowMember m) {
+	public int followMember(MyPage m) {
 		return mDao.followMember(sqlSession, m);
 	}
 
 	@Override
-	public Member partnerDetail(Member m) {
+	public MyPage partnerDetail(MyPage m) {
 		
 		return mDao.partnerDetail(sqlSession, m);
 	}
 
 	
 	@Override
-	public int followCheck(Member m) {
+	public int followCheck(MyPage m) {
+		
 		return mDao.followCheck(sqlSession, m);
 	}
 
 	@Override
-	public int followerCount(Member m) {
+	public int followerCount(MyPage m) {
 		
 		return mDao.followerCount(sqlSession, m);
+	}
+
+
+	@Override
+	public int likeListCount(int memberNo) {
+		
+		return mDao.likeListCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<MyPage> likeList(PageInfo pi, int memberNo) {
+		
+		return mDao.likeList(sqlSession, pi, memberNo);
 	}
 
 	

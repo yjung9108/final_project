@@ -96,7 +96,7 @@
 			                        <th id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
-			                            	<img src="resources/profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
+			                            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
 			                        	</c:when>
 			                        	<c:otherwise>
 			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
@@ -223,7 +223,7 @@
                         	<c:if test="${ !empty list }">
 	                        	<c:choose>
 	                        		<c:when test="${ pi.currentPage eq 1 }">
-	                        			<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+	                        			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        		</c:when>
 		                            <c:otherwise>
 		                            	<li class="page-item"><a class="page-link" href="followlist.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>

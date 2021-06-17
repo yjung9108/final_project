@@ -91,7 +91,7 @@
             <c:choose>
             	<c:when test="${ empty loginUser.memberProfile }">    
 		            <div id="menu_1_1">
-		            	<img src="resources/profile/profile_basic.jpg" width="80" height="80"  class="rounded-circle" >
+		            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80"  class="rounded-circle" >
 		           	</div>
 	           	</c:when>
 	           	<c:otherwise>

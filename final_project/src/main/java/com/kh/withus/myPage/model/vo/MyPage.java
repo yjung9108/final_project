@@ -1,4 +1,4 @@
-package com.kh.withus.member.model.vo;
+package com.kh.withus.myPage.model.vo;
 
 import java.sql.Date;
 
@@ -16,7 +16,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Member {
+public class MyPage {
 
 	
 	
@@ -35,5 +35,14 @@ public class Member {
 	private String partnerIntro;
 	private int followMemberNo;
 
+	
+	// 좋아요목록 불러올 프로젝트정보
+	private int projectNo;
+	private String projectTitle;
+	private Date projectStartDt;
+	private Date projectEndDt;
+	private String projectThum; // 프로젝트썸네일
+	private String projectStatus; // 1. 수락요청 2.블라인드 3.게시중 4.반려 5.임시저장
+	private int projectGPrice; // 목표금액
 
 }

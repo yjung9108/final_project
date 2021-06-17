@@ -21,22 +21,60 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.common.template.Pagination;
-import com.kh.withus.member.model.service.MemberService;
-import com.kh.withus.member.model.vo.Member;
-import com.kh.withus.myPage.model.service.myPageService;
-import com.kh.withus.myPage.model.vo.FollowMember;
+import com.kh.withus.myPage.model.service.MyPageService;
+import com.kh.withus.myPage.model.vo.MyPage;
+
 
 
 @Controller
-public class myPageController {
+public class MyPageController {
 	
 	@Autowired
-	private myPageService mService;
-	@Autowired
-	private MemberService memberService;
+	private MyPageService mService;
+	
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	
+	//임시 로그인/로그아웃 부분
+	@RequestMapping("login.me")
+	public ModelAndView loginMember(MyPage m, HttpSession session, ModelAndView mv) {
+		
+		
+		
+		MyPage loginUser = mService.loginMember(m);
+		if(loginUser == null) { // 로그인 실패
+			mv.addObject("errorMsg", "로그인실패");
+			mv.setViewName("common/errorPage");
+		}else { // 로그인 성공
+			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("alertMsg", "로그인되었습니다");
+			mv.setViewName("redirect:/");
+		}
+		
+		return mv;
+		
+		
+		
+		
+		
+	}
+	
+	
+	@RequestMapping("logout.me")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -64,7 +102,7 @@ public class myPageController {
 		String memberPwd = request.getParameter("memberPwd");
 		
 		// 로그인된 유저
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		if(memberPwd.equals(loginUser.getMemberPwd())) {
 			return "myPage/info/pageMyInfoDetail";
@@ -97,7 +135,7 @@ public class myPageController {
 		
 				
 		// 로그인된 유저
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 				
 		if(checkPwd.equals(loginUser.getMemberPwd())) {
 			return "Y";
@@ -111,7 +149,7 @@ public class myPageController {
 	
 	// 기본정보수정
 	@RequestMapping("update.me")
-	public String updateMember(Member m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+	public String updateMember(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
 		
 		
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
@@ -123,7 +161,7 @@ public class myPageController {
 			
 			// 새로운 파일 업로드
 			String changeName = saveFile(session, file);
-			m.setMemberProfile("resources/profile/" + changeName); 
+			m.setMemberProfile("resources/member_profile/" + changeName); 
 				
 		}
 		
@@ -149,7 +187,7 @@ public class myPageController {
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
-			session.setAttribute("loginUser", memberService.loginMember(m));
+			session.setAttribute("loginUser", mService.loginMember(m));
 			return "myPage/info/pageMyInfoDetail";
 			
 		}else {// 실패했을 경우 
@@ -168,7 +206,7 @@ public class myPageController {
 	@RequestMapping("delete.me")
 	public String deleteMember(HttpSession session, Model model) {
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		int result = mService.deleteMember(loginUser.getMemberId());
 		
@@ -192,7 +230,7 @@ public class myPageController {
 	@RequestMapping("followlist.me")
 	public ModelAndView followList(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		
 		int listCount = mService.selectFollowListCount(loginUser.getMemberNo());
@@ -201,7 +239,7 @@ public class myPageController {
 		//5개씩
 		
 		
-		ArrayList<FollowMember> list = mService.selectFollowList(pi, loginUser.getMemberNo());
+		ArrayList<MyPage> list = mService.selectFollowList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -220,7 +258,7 @@ public class myPageController {
 	public String unfollowMember(String memberNo, String followMemberNo, HttpSession session) {
 		
 		
-		FollowMember m = new FollowMember();
+		MyPage m = new MyPage();
 		m.setMemberNo(Integer.parseInt(memberNo));
 		m.setFollowMemberNo(Integer.parseInt(followMemberNo));
 		
@@ -247,7 +285,7 @@ public class myPageController {
 	public String followMember(String memberNo, String followMemberNo, HttpSession session) {
 		
 		
-		FollowMember m = new FollowMember();
+		MyPage m = new MyPage();
 		m.setMemberNo(Integer.parseInt(memberNo));
 		m.setFollowMemberNo(Integer.parseInt(followMemberNo));
 		
@@ -265,10 +303,10 @@ public class myPageController {
 	
 	// 파트너 디테일
 	@RequestMapping("partnerDetail.me")
-	public String partnerDetail(Member m, HttpSession session, Model model) {
+	public String partnerDetail(MyPage m, HttpSession session, Model model) {
 		
 		//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		if(loginUser !=null) { // 로그인 상태일 때
 			
@@ -279,7 +317,7 @@ public class myPageController {
 			int result = mService.followCheck(m);
 			
 			// 파트너정보
-			Member member = mService.partnerDetail(m);
+			MyPage member = mService.partnerDetail(m);
 			
 			// 파트너의 팔로워수
 			int followerCount = mService.followerCount(m);
@@ -301,7 +339,7 @@ public class myPageController {
 		} else { // 로그인상태가 아닐때
 			
 			// 파트너정보
-			Member member = mService.partnerDetail(m);
+			MyPage member = mService.partnerDetail(m);
 			
 			// 파트너의 팔로워수
 			int followerCount = mService.followerCount(m);
@@ -332,7 +370,7 @@ public class myPageController {
 	// 프로필사진
 	public String saveFile(HttpSession session, MultipartFile file) {
 		
-		String savePath = session.getServletContext().getRealPath("/resources/profile/");
+		String savePath = session.getServletContext().getRealPath("/resources/member_profile/");
 		
 		String originName = file.getOriginalFilename();  // 원본명 ("aaa.jpg")
 		
@@ -380,13 +418,29 @@ public class myPageController {
 		
 	}
 	
-	
+	// 좋아요
 	@RequestMapping("like.me")
-	public String like() {
+	public ModelAndView like(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
-		return "myPage/activity/pageLike";
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		
+		int listCount = mService.likeListCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		//6개씩
+		
+		
+		ArrayList<MyPage> likeList = mService.likeList(pi, loginUser.getMemberNo());
+		
+		
+		mv.addObject("pi", pi)
+		  .addObject("likeList", likeList)
+		  .setViewName("myPage/activity/pageLike");
+		
+		return mv;
+		
 	}
-	
 	
 	
 }

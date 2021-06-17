@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 1100px; margin: auto;}
+        .wrap{width: 1000px; height: 800px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -67,103 +67,42 @@
                 <!-- 좋아요 목록-->
                 
                 <div id="content_1">
+                    <c:choose>
+                    	<c:when test="${ empty likeList }">
+                    		<div>
+                    			좋아요 목록이 없습니다
+                    		</div>
+                    		
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach var="list" items="${ likeList }">
+	                    		<div>
+			                        <table>
+			                            <tr>
+			                                <td colspan="2">
+			                                	<c:choose>
+			                                		<c:when test="${ empty list.projectThum }">
+			                                			<img src="resources/project_thumbnail/no_image.jpg"  width="250" height="200">
+			                                		</c:when>
+			                                		<c:otherwise>
+			                                			<img src="${ list.projectThum }"  width="250" height="200">
+			                                		</c:otherwise>
+			                                	</c:choose>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td colspan="2">${ list.projectTitle }</td>
+			                            </tr>
+			                            <tr>
+			                                <td>${ list.projectGPrice }</td>
+			                                <td>~ ${ list.projectEndDt }</td>
+			                            </tr>
+			                        </table>
+			                    </div>
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
                     
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
                     
 
                 </div>
@@ -176,12 +115,33 @@
                 <div id="content_2">
                     <div id="pagingArea">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                            <!-- list가 있을때만 페이지버튼 -->
+                        	<c:if test="${ !empty likeList }">
+	                        	<c:choose>
+	                        		<c:when test="${ pi.currentPage eq 1 }">
+	                        			<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+	                        		</c:when>
+		                            <c:otherwise>
+		                            	<li class="page-item"><a class="page-link" href="like.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+		                            </c:otherwise>
+		                        </c:choose>
+		                        
+		                        
+		                        
+		                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			                    	<li class="page-item"><a class="page-link" href="like.me?currentPage=${ p }">${ p }</a></li>
+			                    </c:forEach>
+		                       
+		                        <c:choose>
+			                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+				                    	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<li class="page-item"><a class="page-link" href="like.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                    	</c:otherwise>
+			                    </c:choose>
+		                    </c:if>
+                        </ul>
                     </div>
                 </div>
             
