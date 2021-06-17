@@ -72,10 +72,28 @@ public class MyPageDao {
 		return sqlSession.selectOne("myPageMapper.followCheck", m);
 	}
 
+	// 파트너 팔로워수 카운트
 	public int followerCount(SqlSessionTemplate sqlSession, MyPage m) {
 		
 		return sqlSession.selectOne("myPageMapper.followerCount", m);
 	}
+	
+	// 파트너 펀딩수 카운트
+	public int fundingCount(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.selectOne("myPageMapper.fundingCount", m);
+	}
+	
+	// 파트너 펀딩리스트
+	public ArrayList<MyPage> fundingList(SqlSessionTemplate sqlSession, PageInfo pi, MyPage m) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("myPageMapper.fundingList", m, rowBounds);
+	}
+	
 
 	// 좋아요 목록 카운트
 	public int likeListCount(SqlSessionTemplate sqlSession, int memberNo) {
@@ -108,6 +126,24 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.myQueryList", memberNo, rowBounds);
 	}
+
+	// 나의 펀딩내역 카운트
+	public int myFundingListCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("myPageMapper.myFundingListCount", memberNo);
+	}
+
+	// 나의 펀딩내역 리스트
+	public ArrayList<MyPage> myFundingList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("myPageMapper.myFundingList", memberNo, rowBounds);
+	}
+
+	
+
 	
 	
 

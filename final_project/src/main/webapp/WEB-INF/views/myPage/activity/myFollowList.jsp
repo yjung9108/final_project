@@ -105,7 +105,7 @@
 			                        </th>
 			                        <th id="user">
 			                          <div id="id">${ m.partnerName }</div>
-			                          <div id="idDetail">오픈펀딩 20</div>
+			                          <div id="idDetail">파트너</div>
 			                          <div id="followMemberNo" style="display: none;" >${ m.memberNo }</div>
 			                          
 			                        </th>

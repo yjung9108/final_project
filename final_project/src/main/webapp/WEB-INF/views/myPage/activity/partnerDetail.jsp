@@ -16,7 +16,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 1200px; margin: auto;}
+        .wrap{width: 1000px; height: 800px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -30,8 +30,8 @@
         
         /* userDetail content */
         .userDetail #content_1{height: 15%;}
-        .userDetail #content_2{height: 70%;}
-        .userDetail #content_3{height: 10%;}
+        .userDetail #content_2{height: 60%;}
+        .userDetail #content_3{height: 20%;}
 
         /*프로필 부분*/
         
@@ -100,7 +100,7 @@
                         
                         <!-- 펀딩수 -->
                         <div>
-                            <li style="color: rgb(52, 152, 219);">6</li>
+                            <li style="color: rgb(52, 152, 219);">${ fundingCount }</li>
                             <li >오픈펀딩</li>
                         </div>
 					
@@ -209,102 +209,41 @@
                     <p style="font-size: 20px; font-weight: 1000;">
                         	진행중인 펀딩 
                     </p>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <img src="city1.PNG" class="img-thumbnail" width="250" height="300">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">프로젝트 제목</td>
-                            </tr>
-                            <tr>
-                                <td>가격</td>
-                                <td>날짜</td>
-                            </tr>
-                        </table>
-                    </div>
+                    <c:choose>
+                    	<c:when test="${ empty fundingList }">
+                    		<div>
+                    			해당 파트너의 펀딩 목록이 없습니다
+                    		</div>
+                    		
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach var="list" items="${ fundingList }">
+	                    		<div>
+			                        <table>
+			                            <tr>
+			                                <td colspan="2">
+			                                	<c:choose>
+			                                		<c:when test="${ empty list.projectThum }">
+			                                			<img src="resources/project_thumbnail/no_image.jpg"  width="250" height="200">
+			                                		</c:when>
+			                                		<c:otherwise>
+			                                			<img src="${ list.projectThum }"  width="250" height="200">
+			                                		</c:otherwise>
+			                                	</c:choose>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td colspan="2">${ list.projectTitle }</td>
+			                            </tr>
+			                            <tr>
+			                                <td>${ list.projectGPrice }</td>
+			                                <td>~ ${ list.projectEndDt }</td>
+			                            </tr>
+			                        </table>
+			                    </div>
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
                     
 
                 </div>
@@ -314,12 +253,33 @@
                 <div id="content_3">
                     <div id="pagingArea">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                            <!-- list가 있을때만 페이지버튼 -->
+                        	<c:if test="${ !empty fundingList }">
+	                        	<c:choose>
+	                        		<c:when test="${ pi.currentPage eq 1 }">
+	                        			<li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+	                        		</c:when>
+		                            <c:otherwise>
+		                            	<li class="page-item"><a class="page-link" href="partnerDetail.me?memberNo=${ m.memberNo }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+		                            </c:otherwise>
+		                        </c:choose>
+		                        
+		                        
+		                        
+		                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			                    	<li class="page-item"><a class="page-link" href="partnerDetail.me?memberNo=${ m.memberNo }&currentPage=${ p }">${ p }</a></li>
+			                    </c:forEach>
+		                       
+		                        <c:choose>
+			                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+				                    	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<li class="page-item"><a class="page-link" href="partnerDetail.me?memberNo=${ m.memberNo }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                    	</c:otherwise>
+			                    </c:choose>
+		                    </c:if>
+                         </ul>
                     </div>
                 </div>
             

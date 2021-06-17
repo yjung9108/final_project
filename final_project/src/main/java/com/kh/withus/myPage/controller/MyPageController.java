@@ -303,7 +303,7 @@ public class MyPageController {
 	
 	// 파트너 디테일
 	@RequestMapping("partnerDetail.me")
-	public String partnerDetail(MyPage m, HttpSession session, Model model) {
+	public String partnerDetail(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
 		
 		//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
@@ -322,11 +322,29 @@ public class MyPageController {
 			// 파트너의 팔로워수
 			int followerCount = mService.followerCount(m);
 			
+			
+			// 파트너의 오픈펀딩 정보들
+			// 파트너의 오픈펀딩수
+			int fundingCount = mService.fundingCount(m);
+			
+			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
+			//3개씩
+			
+			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);
+
+			
+			
+			
+			
+			
 			if(member != null) {
 				
 				session.setAttribute("result", result);
 				session.setAttribute("m", member);
 				session.setAttribute("followerCount", followerCount);
+				session.setAttribute("fundingCount", fundingCount);
+				session.setAttribute("pi", pi);
+				session.setAttribute("fundingList", fundingList);
 				return "myPage/activity/partnerDetail";
 				
 			}else { // => 에러페이지
@@ -344,10 +362,22 @@ public class MyPageController {
 			// 파트너의 팔로워수
 			int followerCount = mService.followerCount(m);
 			
+			// 파트너의 오픈펀딩 정보들
+			// 파트너의 오픈펀딩수
+			int fundingCount = mService.fundingCount(m);
+			
+			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
+			//3개씩
+			
+			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);			
+
+			
 			if(member != null) {
 				session.setAttribute("m", member);
 				session.setAttribute("followerCount", followerCount);
-				
+				session.setAttribute("fundingCount", fundingCount);
+				session.setAttribute("pi", pi);
+				session.setAttribute("fundingList", fundingList);
 				return "myPage/activity/partnerDetail";
 				
 			}else { // => 에러페이지
@@ -413,9 +443,6 @@ public class MyPageController {
 		
 		return mv;
 		
-		
-		
-		
 	}
 	
 	// 좋아요
@@ -441,6 +468,35 @@ public class MyPageController {
 		return mv;
 		
 	}
+	
+	
+	//나의펀딩내역 리스트
+	@RequestMapping("myFunding.me")
+	public ModelAndView myFunding(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		
+		int listCount = mService.myFundingListCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		//6개씩
+		
+		
+		ArrayList<MyPage> list = mService.myFundingList(pi, loginUser.getMemberNo());
+		
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", list)
+		  .setViewName("myPage/activity/pageMyFunding");
+		
+		return mv;
+		
+		
+		
+		
+	}	
 	
 	
 }

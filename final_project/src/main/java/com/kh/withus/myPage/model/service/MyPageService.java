@@ -37,6 +37,12 @@ public interface MyPageService {
 
 	// 파트너의 팔로워 수
 	int followerCount(MyPage m);
+	
+	// 파트너의 펀딩수
+	int fundingCount(MyPage m);
+	
+	// 파트너의 펀딩리스트
+	ArrayList<MyPage> fundingList(PageInfo pi, MyPage m);
 
 
 	// 좋아요
@@ -47,6 +53,19 @@ public interface MyPageService {
 	// 나의문의내역리스트
 	int myQueryListCount(int memberNo);
 	ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo);
+
+
+	// 나의 펀딩내역리스트
+	int myFundingListCount(int memberNo);
+	ArrayList<MyPage> myFundingList(PageInfo pi, int memberNo);
+
+
+
+	
+
+
+
+	
 
 
 	

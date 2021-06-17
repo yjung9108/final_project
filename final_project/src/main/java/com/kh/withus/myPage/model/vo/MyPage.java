@@ -55,6 +55,22 @@ public class MyPage {
 	private String otoReReply; //답변유무 N/Y
 	
 	
+	// 펀딩
+	private int orderNo; // 주문번호
+	private int orderPlus; // 추가후원금
+	private String orderStatus; // 승인여부 1.결제완료 2.취소요청 3.취소완료
+	private String receiverName; // 수취인
+	private String receiverPhone; // 수취인번호
+	private String addressNo; // 우편번호
+	private String addressDetail; // 상세주소
+	private String address; // 일반주소
+	private String shippingStatus; // 배송상황 1.배송준비중 2.배송시작 3.배송완료
+	private String shippingReq; // 배송시 요청사항
+	private String shippingCom; // 택배사
+	private String shippingNo; // 운송장번호
+	private Date orderDate; // 주문일
+	
+	
 	
 
 }

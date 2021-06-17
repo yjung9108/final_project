@@ -91,7 +91,17 @@ public class MyPageServiceImpl implements MyPageService{
 		return mDao.followerCount(sqlSession, m);
 	}
 
+	@Override
+	public int fundingCount(MyPage m) {
+		return mDao.fundingCount(sqlSession, m);
+	}
+	
+	@Override
+	public ArrayList<MyPage> fundingList(PageInfo pi, MyPage m) {
+		return mDao.fundingList(sqlSession, pi, m);
+	}
 
+	// 좋아요 리스트
 	@Override
 	public int likeListCount(int memberNo) {
 		
@@ -104,7 +114,7 @@ public class MyPageServiceImpl implements MyPageService{
 		return mDao.likeList(sqlSession, pi, memberNo);
 	}
 
-
+	// 나의 문의내역 리스트
 	@Override
 	public int myQueryListCount(int memberNo) {
 		return mDao.myQueryListCount(sqlSession, memberNo);
@@ -115,6 +125,32 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo) {
 		return mDao.myQueryList(sqlSession, pi, memberNo);
 	}
+
+
+
+
+	// 나의 펀딩리스트
+	@Override
+	public int myFundingListCount(int memberNo) {
+		return mDao.myFundingListCount(sqlSession, memberNo);
+	}
+
+
+	@Override
+	public ArrayList<MyPage> myFundingList(PageInfo pi, int memberNo) {
+		return mDao.myFundingList(sqlSession, pi, memberNo);
+	}
+
+
+
+
+
+
+
+
+
+
+	
 
 	
 

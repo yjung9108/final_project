@@ -87,7 +87,7 @@
 		                            <th id="replyDate">문의 날짜</th>
 		                            <th id="replyStatus">답변상태</th>
 		                          </tr>
-		                        </thead>
+		                        </receiverthead>
                 				<c:forEach var="list" items="${ list }">
                 				<tbody>
 		                          <tr>

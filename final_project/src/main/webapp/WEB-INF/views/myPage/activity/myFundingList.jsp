@@ -32,7 +32,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%;}
+        #content{width: 100%; margin-left:150px;}
 
         /*큰제목*/
         #mainTitle{font-size: 23px; font-weight: bolder;}
@@ -44,15 +44,13 @@
         .fundingList #content_2{height: 10%; width: 80%;}
         
         
-        /* 주문내역 테이블 */
-        .fundingList #orderNo{width: 15%;}
-        .fundingList #product{width: 45%}
-        .fundingList #price{width: 15%;}
-        .fundingList #status{width: 10%}
-        .fundingList #orderDate{width: 15%}
+         /* 주문내역 테이블 */
+        .fundingList #orderNo{width: 12%;}
+        .fundingList #product{width: 55%;}
+        .fundingList #status{width: 15%; }
+        .fundingList #orderDate{width: 20%; }
        
-        .fundingList table{text-align: center;}
-
+		th{text-align: center;}       
 
         /* 페이징 */
         #pagingArea{width:fit-content; margin:auto;}
@@ -73,54 +71,78 @@
                 <!-- 나의 펀딩 목록-->
                 
                 <div id="content_1">
-                    <table class="table table-hover">
-                        <thead class="thead-light">
-                          <tr>
-                            <th id="orderNo">주문번호</th>
-                            <th id="product">펀딩 상품</th>
-                            <th id="price">펀딩금액</th>
-                            <th id="status">상태</th>
-                            <th id="orderDate">구매일</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>123123</td>
-                            <td>아이패드 거치대</td>
-                            <td>20000</td>
-                            <td>진행중</td>
-                            <td>2021-06-01</td>
-                          </tr>
-                          <tr>
-                            <td>123123</td>
-                            <td>아이패드 거치대</td>
-                            <td>20000</td>
-                            <td>진행중</td>
-                            <td>2021-06-01</td>
-                          </tr>
-                          <tr>
-                            <td>123123</td>
-                            <td>아이패드 거치대</td>
-                            <td>20000</td>
-                            <td>진행중</td>
-                            <td>2021-06-01</td>
-                          </tr>
-                        </tbody>
-                      </table>       
-                    
-                </div>
+                	<c:choose>
+	                	<c:when test="${ empty list }">
+	                		펀딩 내역이 없습니다
+	                	</c:when>
+	                	<c:otherwise>
+		                	<table class="table table-hover">
+		                        <thead class="thead-light">
+		                          <tr>
+		                            <th id="orderNo">주문번호</th>
+		                            <th id="product">펀딩 상품</th>
+		                            <th id="status">상태</th>
+		                            <th id="orderDate">구매일</th>
+		                          </tr>
+		                        </thead>
+		                   	  <c:forEach var="list" items="${ list }">
+		                        <tbody>
+		                          <tr>
+		                            <td style="text-align: center;">${ list.orderNo }</td>
+		                            <td>${ list.projectTitle }</td>
+		                            <td style="text-align: center;">
+		                            	<c:choose>
+			                            	<c:when test="${list.orderStatus eq '1'}">
+			                            		결제완료
+			                            	</c:when>
+			                            	<c:when test="${list.orderStatus eq '2'}">
+			                            		취소요청
+			                            	</c:when>
+			                            	<c:otherwise>
+			                            		취소완료
+			                            	</c:otherwise>
+			                            </c:choose>
+		                            
+		                            </td>
+		                            <td style="text-align: center;">${ list.orderDate }</td>
+		                          </tr>
+		                        </tbody>
+		                      </c:forEach>
+		                     </table>       
+	                     </c:otherwise>
+                    	</c:choose>
+                	</div>
                 
                 
                 <!-- 페이징 -->
                 <div id="content_2">
                     <div id="pagingArea">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                           <!-- list가 있을때만 페이지버튼 -->
+                        	<c:if test="${ !empty list }">
+	                        	<c:choose>
+	                        		<c:when test="${ pi.currentPage eq 1 }">
+	                        			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                        		</c:when>
+		                            <c:otherwise>
+		                            	<li class="page-item"><a class="page-link" href="myFunding.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+		                            </c:otherwise>
+		                        </c:choose>
+		                        
+		                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			                    	<li class="page-item"><a class="page-link" href="myFunding.me?currentPage=${ p }">${ p }</a></li>
+			                    </c:forEach>
+		                       
+		                        <c:choose>
+			                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+				                    	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<li class="page-item"><a class="page-link" href="myFunding.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                    	</c:otherwise>
+			                    </c:choose>
+		                    </c:if>
+                         </ul>
                     </div>
                 </div>
             
