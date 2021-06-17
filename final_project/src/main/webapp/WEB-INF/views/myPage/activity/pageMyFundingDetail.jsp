@@ -12,7 +12,7 @@
     <title>Document</title>
     <style>
         
-        .mypage_wrap{width: 1100px; height: 1300px; margin: auto;}
+        .mypage_wrap{width: 1100px; height: 1100px; margin: auto;}
 
         .mypage_wrap>div{width: 100%;}
 

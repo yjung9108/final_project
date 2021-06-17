@@ -505,8 +505,18 @@ public class MyPageController {
 		// 옵션때문에 어레이리스트로!
 		ArrayList<MyPage> funding = mService.myFundingDetail(m);
 		
+		int rewardPrice = funding.get(0).getRewardPrice(); // 리워드금액
+		int orderPlus = funding.get(0).getOrderPlus(); //추가후원금
+		int count = funding.get(0).getCount(); // 갯수
+		
+		// 리워드X갯수
+		int totalReward = (rewardPrice*count);
+		// 총금액
+		int totalPrice = (totalReward+orderPlus);
 	
 		mv.addObject("funding", funding)
+		  .addObject("totalReward", totalReward)
+		  .addObject("totalPrice", totalPrice)
 		  .setViewName("myPage/activity/pageMyFundingDetail");
 		
 		return mv;

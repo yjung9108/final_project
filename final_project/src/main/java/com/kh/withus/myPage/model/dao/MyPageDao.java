@@ -145,7 +145,6 @@ public class MyPageDao {
 	//펀딩내역 디테일 어레이리스트
 	public ArrayList<MyPage> myFundingDetail(SqlSessionTemplate sqlSession, MyPage m) {
 		
-		System.out.println("실행됨" + m.getMemberNo() + m.getOrderNo());
 		return (ArrayList)sqlSession.selectList("myPageMapper.myFundingDetail", m);
 	}
 

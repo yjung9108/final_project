@@ -15,7 +15,7 @@
 	<style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 900px; margin: auto;}
+        .wrap{width: 1000px; height: 800px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -136,65 +136,69 @@
                 </div>
 
                 
-                <!-- 배송지 정보-->
-                <div id="content_2">
-                  <p>배송지 정보</p>
-                  <table id="delivery">
-                    <tr>
-                      <th>받는사람</th>
-                      <td style="width: 600px;">${funding[0].receiverName }</td>
-                    </tr>
-                    <tr>
-                      <th>휴대폰번호</th>
-                      <td>${funding[0].receiverPhone }</td>
-                    </tr>
-                    <tr>
-                      <th>주소</th>
-                      <td>(${funding[0].addressNo}) ${funding[0].address }${funding[0].addressDetail }</td>
-                    </tr>
-                    <tr>
-                      <th>배송시 요청사항</th>
-                      <td>
-                      	<c:choose>
-			            	<c:when test="${!empty funding[0].shippingReq}">
-			                	${funding[0].shippingReq }
-			                </c:when>
-			                <c:otherwise>
-			                     	없음
-			                </c:otherwise>
-			            </c:choose>     
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>배송상황</th>
-                      <td>
-                          <div>
-	                          <c:choose>
-				            	<c:when test="${funding[0].shippingStatus eq '1'}">
-				                                          배송준비중
-				                </c:when>
-				                <c:when test="${funding[0].shippingStatus eq '2'}">
-				                     	배송중
-				                </c:when>
-				                <c:otherwise>
-				                     	배송완료
-				                </c:otherwise>
-				              </c:choose>      
-                          </div>
-                          <div>${funding[0].shippingCom } + ${funding[0].shippingNo }</div>
-                          <!--시간되면 택배조회 api-->
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="buttonArea">
-                        <button>배송지수정</button>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                <!-- 배송지 정보 / 배송지가 필요한 리워드인경우에만 보여짐-->
+                <c:choose>
+                	<c:when test="${funding[0].rewardShip eq 'Y' }">
+                		<div id="content_2">
+		                  <p>배송지 정보</p>
+		                  <table id="delivery">
+		                    <tr>
+		                      <th>받는사람</th>
+		                      <td style="width: 600px;">${funding[0].receiverName }</td>
+		                    </tr>
+		                    <tr>
+		                      <th>휴대폰번호</th>
+		                      <td>${funding[0].receiverPhone }</td>
+		                    </tr>
+		                    <tr>
+		                      <th>주소</th>
+		                      <td>(${funding[0].addressNo}) ${funding[0].address }${funding[0].addressDetail }</td>
+		                    </tr>
+		                    <tr>
+		                      <th>배송시 요청사항</th>
+		                      <td>
+		                      	<c:choose>
+					            	<c:when test="${!empty funding[0].shippingReq}">
+					                	${funding[0].shippingReq }
+					                </c:when>
+					                <c:otherwise>
+					                     	없음
+					                </c:otherwise>
+					            </c:choose>     
+		                      </td>
+		                    </tr>
+		                    <tr>
+		                      <th>배송상황</th>
+		                      <td>
+		                          <div>
+			                          <c:choose>
+						            	<c:when test="${funding[0].shippingStatus eq '1'}">
+						                                          배송준비중
+						                </c:when>
+						                <c:when test="${funding[0].shippingStatus eq '2'}">
+						                     	배송중
+						                </c:when>
+						                <c:otherwise>
+						                     	배송완료
+						                </c:otherwise>
+						              </c:choose>      
+		                          </div>
+		                          <div>${funding[0].shippingCom }  ${funding[0].shippingNo }</div>
+		                          <!--시간되면 택배조회 api-->
+		                      </td>
+		                    </tr>
+		                    <tr>
+		                      <td colspan="2" class="buttonArea">
+		                        <button>배송지수정</button>
+		                      </td>
+		                    </tr>
+		                  </table>
+		                </div>
+                	</c:when>
+                	<c:otherwise>
+                	</c:otherwise>
+                </c:choose>
                 
-
-
                 <!-- 결제정보-->
                 <div id="content_3">
                 
@@ -207,14 +211,23 @@
                       <td>배송비</td>
                     </tr>
                     <tr>
-                      <td>(${funding[0].rewardPrice }*${funding[0].count })</td>
-                      <td>${funding[0].orderPlus }</td>
+                      <td>${ totalReward } 원</td>
+                      <td>
+	                      <c:choose>
+				          	<c:when test="${!empty funding[0].orderPlus }">
+				                	${ funding[0].orderPlus} 원
+				            </c:when>
+				            <c:otherwise>
+				                     	0 원  
+				            </c:otherwise>
+				          </c:choose>     
+                      </td>
                       <td>0원</td>
-                      
+                      <!-- 배송비 -->
                     </tr>
                     <tr>
                       <th style="text-align: right;" colspan="2" id="finalPrice">최종 결제 금액</th>
-                      <th style="text-align: right;" id="finalPrice">20000원</th>
+                      <th style="text-align: right;" id="finalPrice">${ totalPrice } 원</th>
                     </tr>
                     
                     
