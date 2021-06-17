@@ -37,8 +37,8 @@
 
         
         /* query content */
-        #query_1{height: 80%; margin-top: 50px; width: 80%;}
-        #query_2{height: 10%; width: 80%;}
+        #query_1{height: 60%; margin-top: 50px; width: 80%;}
+        #query_2{height: 30%; width: 80%;}
         
         
         
@@ -47,9 +47,10 @@
 
         
         /* 문의내역 테이블 */
+        #replyCat{width: 10%;}
         #replyTitle{width: 60%;}
-        #replyDate{width: 20%}
-        #replyStatus{width: 20%}
+        #replyDate{width: 15%}
+        #replyStatus{width: 15%}
         
         
 
@@ -73,33 +74,44 @@
                 <!-- 나의 문의 목록-->
                 
                 <div id="query_1">
-                    <table class="table table-hover">
-                        <thead class="thead-light">
-                          <tr>
-                            <th id="replyTitle">문의 제목</th>
-                            <th id="replyDate">문의 날짜</th>
-                            <th id="replyStatus">답변 상태</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>문의문의 합니다</td>
-                            <td>2021-06-09</td>
-                            <td>답변대기중</td>
-                          </tr>
-                          <tr>
-                            <td>문문문문의</td>
-                            <td>2021-06-06</td>
-                            <td>답변 완료</td>
-                          </tr>
-                          <tr>
-                            <td>J문의문의</td>
-                            <td>2021-06-01</td>
-                            <td>답변 완료</td>
-                          </tr>
-                        </tbody>
-                      </table>       
-                    
+                	<c:choose>
+                		<c:when test="${ empty list }">
+                			1:1 문의 내역이 없습니다
+                		</c:when>
+                		<c:otherwise>
+                			<table class="table table-hover">
+		                        <thead class="thead-light">
+		                          <tr>
+                                    <th id="replyCat"></th>
+		                            <th id="replyTitle">문의 제목</th>
+		                            <th id="replyDate">문의 날짜</th>
+		                            <th id="replyStatus">답변상태</th>
+		                          </tr>
+		                        </thead>
+                				<c:forEach var="list" items="${ list }">
+                				<tbody>
+		                          <tr>
+		                            <td>${ list.otoCat }</td>
+		                            <td>${ list.otoTitle }</td>
+		                            <td>${ list.otoDate }</td>
+		                            <td>
+		                            	<c:choose>
+		                            		<c:when test="${list.otoReReply eq 'N'}">
+		                            			대기중
+		                            		</c:when>
+		                            		<c:otherwise>
+		                            			답변완료
+		                            		</c:otherwise>
+		                            	</c:choose>
+		                            
+		                            
+		                            </td>
+		                          </tr>
+		                        </tbody>
+                				</c:forEach>
+                			</table>
+                		</c:otherwise>
+                	</c:choose>
                 </div>
                 
                 
@@ -107,12 +119,31 @@
                 <div id="query_2">
                     <div id="pagingArea">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                            <!-- list가 있을때만 페이지버튼 -->
+                        	<c:if test="${ !empty list }">
+	                        	<c:choose>
+	                        		<c:when test="${ pi.currentPage eq 1 }">
+	                        			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                        		</c:when>
+		                            <c:otherwise>
+		                            	<li class="page-item"><a class="page-link" href="myQuery.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+		                            </c:otherwise>
+		                        </c:choose>
+		                        
+		                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			                    	<li class="page-item"><a class="page-link" href="myQuery.me?currentPage=${ p }">${ p }</a></li>
+			                    </c:forEach>
+		                       
+		                        <c:choose>
+			                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+				                    	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<li class="page-item"><a class="page-link" href="followlist.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                    	</c:otherwise>
+			                    </c:choose>
+		                    </c:if>
+                         </ul>
                     </div>
                 </div>
             

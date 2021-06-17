@@ -44,6 +44,11 @@ public interface MyPageService {
 	ArrayList<MyPage> likeList(PageInfo pi, int memberNo);
 
 
+	// 나의문의내역리스트
+	int myQueryListCount(int memberNo);
+	ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo);
+
+
 	
 
 	

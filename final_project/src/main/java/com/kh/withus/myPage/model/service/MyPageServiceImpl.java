@@ -104,6 +104,18 @@ public class MyPageServiceImpl implements MyPageService{
 		return mDao.likeList(sqlSession, pi, memberNo);
 	}
 
+
+	@Override
+	public int myQueryListCount(int memberNo) {
+		return mDao.myQueryListCount(sqlSession, memberNo);
+	}
+
+
+	@Override
+	public ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo) {
+		return mDao.myQueryList(sqlSession, pi, memberNo);
+	}
+
 	
 
 	

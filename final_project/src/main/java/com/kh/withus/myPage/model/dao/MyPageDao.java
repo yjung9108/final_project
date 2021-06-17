@@ -93,6 +93,21 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.likeList", memberNo, rowBounds);
 	}
+
+	// 나의문의내역 카운트
+	public int myQueryListCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("myPageMapper.myQueryListCount", memberNo);
+	}
+
+	// 나의 문의 목록
+	public ArrayList<MyPage> myQueryList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("myPageMapper.myQueryList", memberNo, rowBounds);
+	}
 	
 	
 

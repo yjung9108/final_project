@@ -390,21 +390,21 @@ public class MyPageController {
 		
 	}
 	
-	//나의문의내역
-	@RequestMapping("querylist.me")
-	public /*ModelAndView*/String queryList(/*@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session*/) {
-		
-		/*
-		Member loginUser = (Member)session.getAttribute("loginUser");
+	//나의문의내역 리스트
+	@RequestMapping("myQuery.me")
+	public ModelAndView myQuery(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
 		
-		int listCount = mService.queryListCount(loginUser.getMemberNo());
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 5);
-		//5개씩
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		
-		ArrayList<> list = mService.(pi, loginUser.getMemberNo());
+		int listCount = mService.myQueryListCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		//6개씩
+		
+		
+		ArrayList<MyPage> list = mService.myQueryList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -413,8 +413,8 @@ public class MyPageController {
 		
 		return mv;
 		
-		*/
-		return "myPage/activity/pageQueryList";
+		
+		
 		
 	}
 	

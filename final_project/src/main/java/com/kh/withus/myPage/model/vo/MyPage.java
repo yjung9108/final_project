@@ -44,5 +44,17 @@ public class MyPage {
 	private String projectThum; // 프로젝트썸네일
 	private String projectStatus; // 1. 수락요청 2.블라인드 3.게시중 4.반려 5.임시저장
 	private int projectGPrice; // 목표금액
+	
+	// 나의문의
+	private int otoNo;
+	private String otoCat; // 카테고리
+	private String otoTitle;
+	private String otoContent;
+	private Date otoDate; // 작성일
+	private String otoReply; //답변
+	private String otoReReply; //답변유무 N/Y
+	
+	
+	
 
 }
