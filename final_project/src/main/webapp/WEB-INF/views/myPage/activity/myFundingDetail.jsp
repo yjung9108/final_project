@@ -75,11 +75,11 @@
 		
 		#popup01{
 			width: 500px;
-			height: 500px;
+			height: 600px;
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			margin: -250px 0 0 -250px;
+			margin: 250px;
 			background-color: #fff;
 			z-index: 2;
 		 }
@@ -406,7 +406,63 @@
                 <!-- 환불신청 팝업 -->
                 <div id="popup01">
 				    <div class="close">close</div>
-				    <div>팝업 내용</div>
+				    <div>
+				      
+				      펀딩금 반환신청
+				      <table border="1">
+				        <tr>
+				          <td>반환사유 선택</td>
+				        </tr>
+				        <tr>
+				          <td>
+				            <select name="R_REASON">
+				              <option selected value="">반환신청 사유를 선택해주세요</option>
+				              <option value="">불량</option>
+				              <option value="">기타</option>
+				          </select>
+				
+				          </td>
+				        </tr>
+				        <tr>
+				          <td>상세사유 입력(선택사항)</td>
+				        </tr>
+				        <tr>
+				          <td><textarea name="" id="" cols="30" rows="10" style="resize: none;"></textarea></td>
+				        </tr>
+				        <tr>
+				          <td><input type="file"></td>
+				        </tr>
+				      </table>
+				
+				      <table border="1">
+				        <tr>
+				          <td colspan="2">반환 금액</td>
+				        </tr>
+				        
+				        <tr>
+				          <td colspan="2">상세 내역</td>
+				        </tr>
+				        <tr>
+				          <td>리워드 금액</td>
+				          <td>${ totalReward } 원</td>
+				        </tr>
+				        <tr>
+				          <td>추가후원금</td>
+				          <td>${ funding[0].orderPlus} 원</td>
+				        </tr>
+				        <tr>
+				          <td>배송비</td>
+				          <td>0원</td>
+				        </tr>
+				        <tr>
+				          <th>반환 신청금액</th>
+				          <td>${ totalPrice } 원</td>
+				        </tr>
+				        
+				      </table>
+				
+				      <button>신청</button>
+				      <button>취소</button>
 				</div>
 				
 				<!-- 환불신청 팝업 -->
