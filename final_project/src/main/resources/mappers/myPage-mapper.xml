@@ -346,5 +346,17 @@
 	  where a.order_no = #{orderNo}
 	    and c.member_no = #{memberNo}
 	</select>
+	
+	<!-- 주문정보 수정 -->
+	<update id="updateOrder" parameterType="MyPage">
+  		update
+  		        tb_order
+  		   set  receiver_name = #{receiverName}
+  		      , receiver_phone = #{receiverPhone}
+  		      , address_no = #{addressNo}
+  		      , address = #{address}
+  		      , address_detail = #{addressDetail}
+  		 where order_no = #{orderNo}
+  	</update>
   
 </mapper>

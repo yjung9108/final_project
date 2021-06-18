@@ -521,10 +521,27 @@ public class MyPageController {
 		
 		return mv;
 		
+	}
+	
+	// 주문정보 수정
+	@RequestMapping("updateOrder.me")
+	public String updateOrder(MyPage m, HttpSession session, Model model) {
+		
+		// 주문번호,  수취인명, 핸드폰번호, 우편번호, 일반 주소, 상세주소
+		int result = mService.updateOrder(m); 
 		
 		
 		
-		
+		// 수정성공했을 경우
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "배송정보가 수정되었습니다.");
+			return "redirect:myFundingDetail.me?orderNo=" + m.getOrderNo();
+			
+		}else {// 실패했을 경우 
+			model.addAttribute("errorMsg", "정보 수정 실패");
+			return "common/errorPage";
+		}
 	}
 	
 }

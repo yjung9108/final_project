@@ -64,6 +64,10 @@ public interface MyPageService {
 	ArrayList<MyPage> myFundingDetail(MyPage m);
 
 
+	// 주분정보 업데이트
+	int updateOrder(MyPage m);
+
+
 
 	
 

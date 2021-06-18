@@ -154,6 +154,15 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	@Override
+	public int updateOrder(MyPage m) {
+		return mDao.updateOrder(sqlSession, m);
+	}
+
+
+
+
+
 
 
 

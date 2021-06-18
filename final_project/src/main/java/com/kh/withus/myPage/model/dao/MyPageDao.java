@@ -148,6 +148,12 @@ public class MyPageDao {
 		return (ArrayList)sqlSession.selectList("myPageMapper.myFundingDetail", m);
 	}
 
+	// 주문정보 업데이트
+	public int updateOrder(SqlSessionTemplate sqlSession, MyPage m) {
+		
+		return sqlSession.update("myPageMapper.updateOrder", m);
+	}
+
 	
 	
 
