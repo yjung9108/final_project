@@ -84,6 +84,13 @@ public class MyPage {
 	private int optionNo; // 옵션번호
 	private String optionContent; // 옵션내용
 	
+	// 환불
+	private int refundNo; // 환불번호
+	private String rChangeName; // 환불파일명
+	private String rReason; //환불사유
+	private String refundStatus; //환불신청상태
+	
+	
 	
 
 }

@@ -162,6 +162,17 @@ public class MyPageDao {
 		return (ArrayList)sqlSession.selectList("myPageMapper.selectOptionList", m);
 	}
 
+	//환불신청
+	public int refundRequest(SqlSessionTemplate sqlSession, MyPage m) {
+		
+		return sqlSession.insert("myPageMapper.refundRequest", m);
+		
+	}
+
+	public int orderStatusUpdate(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.update("myPageMapper.orderStatusUpdate", orderNo);
+	}
+
 	
 	
 

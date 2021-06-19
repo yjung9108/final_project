@@ -59,6 +59,11 @@
 		<result column="count" property="count"/>
 		<result column="option_no" property="optionNo"/>
 		<result column="option_content" property="optionContent"/>
+		
+		<result column="refund_no" property="refundNo"/>
+		<result column="r_changename" property="rChangeName"/>
+		<result column="r_reason" property="rReason"/>
+		<result column="refund_stastaus" property="refundStatus"/>
 	
 	
 	</resultMap>
@@ -403,6 +408,36 @@
   		      , address = #{address}
   		      , address_detail = #{addressDetail}
   		 where order_no = #{orderNo}
+  	</update>
+  	
+  	<!-- 환불신청 -->
+  	<insert id="refundRequest" parameterType="MyPage">
+		insert 
+		  into refund
+		  (
+		    refund_no
+		  , order_no
+		  , r_changename
+		  , r_reason
+		  , refund_status
+		  )
+		  values
+		  (
+		    seq_rfno.nextval
+		  , #{orderNo}
+		  , #{rChangeName}
+		  , #{rReason}
+		  , default
+		  )
+	</insert>
+	
+	<!-- 환불신청으로 주문상태 업데이트 -->
+	<update id="orderStatusUpdate" parameterType="_int">
+  		update
+  		        tb_order
+  		   set  order_status = '2'
+  		 where order_no = #{orderNo}
+  	
   	</update>
   
 </mapper>

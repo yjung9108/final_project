@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -535,6 +537,7 @@ public class MyPageController {
 		// 옵션제외 주문내역 리스트
 		ArrayList<MyPage> orderList = mService.myFundingDetail(m);
 		
+		
 		mv.addObject("orderList", orderList)
 		  .setViewName("myPage/activity/pageMyFundingDetail");
 		
@@ -545,16 +548,29 @@ public class MyPageController {
 	
 	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
 	@ResponseBody
-	@RequestMapping("optionList.me")
-	public ArrayList<MyPage> ajaxOptionList(MyPage m) {
+	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
+	public String ajaxOptionList(@RequestParam(value="rewardNo") int rewardNo, @RequestParam(value="orderNo") int orderNo) {
 		
+		 
+		
+		
+		System.out.println(rewardNo);
+		System.out.println(orderNo);
+		
+		MyPage m = new MyPage();
+		m.setRewardNo(rewardNo);
+		m.setOrderNo(orderNo);
 		
 		
 		ArrayList<MyPage> list = mService.selectOptionList(m);
 		System.out.println(list);
+		return null;
 		
-		return list;
-		//return new Gson().toJson(mService.selectOptionList(rewardNo, orderNo));
+		
+		
+		
+		
+		//return new Gson().toJson(mService.selectOptionList(m));
 		
 	}
 	
@@ -584,4 +600,56 @@ public class MyPageController {
 		}
 	}
 	
+	// 환불신청
+	// 첨부파일
+	@RequestMapping("refundRequest.me")
+	public String refundRequest(MyPage m, MultipartFile file, HttpSession session, Model model) {
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		m.setMemberNo(loginUser.getMemberNo());
+
+		
+		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
+			
+			// 파일 업로드
+			String changeName = saveFile(session, file);
+			m.setRChangeName("resources/refund_files/" + changeName); 
+				
+		}
+		
+		//환붏신청테이블에 인서트
+		int result = mService.refundRequest(m); 
+		
+		// 신청성공했을 경우
+		if(result > 0 ) {
+			
+			int orderNo = m.getOrderNo();
+			
+			//주문상태 '환불신청중'으로 업데이트
+			int update = mService.orderStatusUpdate(orderNo); 
+			
+			if(update>0) {
+				
+				session.setAttribute("alertMsg", "펀딩금 반환이 신청되었습니다");
+				return "redirect:myFundingDetail.me?orderNo=" + m.getOrderNo();
+				
+			} else {
+				
+				model.addAttribute("errorMsg", "오류가 발생했습니다");
+				return "common/errorPage";
+				
+			}
+			
+			
+			
+			
+		}else {// 실패했을 경우 
+			model.addAttribute("errorMsg", "오류가 발생했습니다");
+			return "common/errorPage";
+		}
+		
+		
+	
+	
+	}	
 }

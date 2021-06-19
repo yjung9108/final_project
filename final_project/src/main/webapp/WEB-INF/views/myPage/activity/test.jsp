@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+ 
+    request.setCharacterEncoding("UTF-8");
+ 
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +21,7 @@
 	<style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 800px; margin: auto;}
+        .wrap{width: 1000px; height: 1000px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -95,12 +100,6 @@
 		    z-index: 1;
 		}
 		
-		.close{
-		  position:absolute;
-		  top:-25px;
-		  right: 0;
-		  cursor:pointer;
-		}
 		
 		.openPopup{
 		  cursor:pointer;
@@ -122,7 +121,7 @@
               <table id="orderBasic">
                 <tr>
                   <th>펀딩날짜 : ${orderList[0].orderDate }</th>
-                  <th>주문번호 : ${orderList[0].orderNo } <></th>
+                  <th>주문번호 : ${orderList[0].orderNo } </th>
                   <th> 상태 :
 	                  <c:choose>
 					    <c:when test="${orderList[0].orderStatus eq '1'}">
@@ -158,9 +157,9 @@
 	                        <div style="margin-top: 20px;">${orderList.projectTitle }</div>
 	                        <div>${orderList.rewardTitle }</div>
 	                        <div>${orderList.rewardContent }</div>
-	                        
+	                       
 	                        <!-- 옵션값 자리 -->
-							<div id="options"></div>
+							<div id="options"> <input type="button" id="selectOption" value="${orderList.rewardNo }"></div>
 	                        
                 
 	                        
@@ -174,46 +173,49 @@
                   
                 </div>
                 <input type="hidden" name="orderNo" value="${ orderList[0].orderNo }">
-                <input type="hidden" name="rewardNo" value="${ orderList[0].rewardNo }">
+                
                 
                 <!-- 옵션 내역들 가져오기 ajax -->
                 <script>
-                 $(document).ready(function(){
-                	   var rewardNo = $("input[name=rewardNo]").val();
+                
+                $(function() {
+					$('#orderDetail #selectOption').click( function() {
+                	   var rewardNo = $(this).val();
 					   var orderNo = $("input[name=orderNo]").val();
 					   
-					   console.log(rewardNo);
-					   console.log(orderNo);
-					   
+					   //console.log(rewardNo);
+					   //console.log(orderNo);
+					   var data = {"rewardNo":rewardNo, "orderNo":orderNo}
             			
 						$.ajax({
 			    			url:"optionList.me",
-			    			data:{ rewardNo : rewardNo,
-			    				   orderNo : orderNo },
-			    			
+			    			type : "POST",
+			    			data:JSON.stringify(data),
+			    			dataType: "json",
+			    		    contentType:"application/json;charset=UTF-8",
+
+			    					
 							success:function(list){
 			    				console.log(list);
 			    				
-			    				/*
-			    				var value = "";
 			    				$.each(list, function(i, obj){
 			    					value += "<tr>"
-			    								+ "<td>" + obj.replyWriter + "</td>"
-			    								+ "<td>" + obj.replyContent + "</td>"
-			    								+ "<td>" + obj.createDate + "</td>"
+			    								+ "<td>" + obj.optionContent + "</td>"
+			    								
 			    							+ "</tr>";	
 			    				})
 			    				
-			    				$("#replyArea tbody").html(value);
-			    				$("#rcount").text(list.length);*/
+			    				
+			    				$("#orderDetail #options").html(value);
+			    				
 			    			
 			    			}, error:function(){
-			    				console.log("댓글 리스트 조회용 ajax")
+			    				console.log("ajax 실패")
 			    			}	
 			    			
 			    		})
 			    	})
-                
+                })
                 
                 </script>
 
@@ -442,72 +444,67 @@
                   </table>
                 </div>
             
-                
+                <!-- 주문상태가 결제완료상태일때만 반환신청 버튼 -->
                 <div class="buttonArea">
-                  <button>목록</button>
-                  <button class="openPopup">펀딩 반환 신청</button>
+                  <button><a href="myFunding.me">목록</a></button>
+                  <c:if test="${orderList[0].orderStatus eq '1'}">
+				  	<button class="openPopup">펀딩 반환 신청</button>
+				  </c:if>
+                  
                 </div>
                 
                 <!-- 환불신청 팝업 -->
                 <div id="popup01">
-				    <div class="close">close</div>
-				    <div>
-				      
-				      펀딩금 반환신청
-				      <table border="1">
-				        <tr>
-				          <td>반환사유 선택</td>
-				        </tr>
-				        <tr>
-				          <td>
-				            <select name="R_REASON">
-				              <option selected value="">반환신청 사유를 선택해주세요</option>
-				              <option value="">불량</option>
-				              <option value="">기타</option>
-				          </select>
+				    
+				    <form action="refundRequest.me" method="post" enctype="multipart/form-data" >
+					    <div> 펀딩금 반환신청</div>
+					      <table border="1">
+					        
+					        <tr>
+					          <td>반환 사유 입력</td>
+					        </tr>
+					        <tr>
+					          <td>
+					          	  <textarea cols="30" rows="10" style="resize: none;" id="rReason" name="rReason"></textarea>
+					          </td>
+					        </tr>
+					        <tr>
+					          <td><input type="file" name="file" accept="image/*"></td>
+					          <!-- 이미지만 -->
+					        </tr>
+					      </table>
+					
+					      <table border="1">
+					        <tr>
+					          <td colspan="2">반환 금액</td>
+					        </tr>
+					        
+					        <tr>
+					          <td colspan="2">상세 내역</td>
+					        </tr>
+					        <tr>
+					          <td>리워드 금액</td>
+					          <td>000 원</td>
+					        </tr>
+					        <tr>
+					          <td>추가후원금</td>
+					          <td>${ orderList[0].orderPlus} 원</td>
+					        </tr>
+					        <tr>
+					          <td>배송비</td>
+					          <td>0원</td>
+					        </tr>
+					        <tr>
+					          <th>반환 신청금액</th>
+					          <td>0000 원</td>
+					        </tr>
+					        
+					      </table>
+						  <input type="hidden" name="orderNo" value="${ orderList[0].orderNo }">
+					      <button type="submit" onclick="return validate();">신청</button>
+					      <button type="button" class="cancel" >취소</button>
 				
-				          </td>
-				        </tr>
-				        <tr>
-				          <td>상세사유 입력(선택사항)</td>
-				        </tr>
-				        <tr>
-				          <td><textarea name="" id="" cols="30" rows="10" style="resize: none;"></textarea></td>
-				        </tr>
-				        <tr>
-				          <td><input type="file"></td>
-				        </tr>
-				      </table>
-				
-				      <table border="1">
-				        <tr>
-				          <td colspan="2">반환 금액</td>
-				        </tr>
-				        
-				        <tr>
-				          <td colspan="2">상세 내역</td>
-				        </tr>
-				        <tr>
-				          <td>리워드 금액</td>
-				          <td>000 원</td>
-				        </tr>
-				        <tr>
-				          <td>추가후원금</td>
-				          <td>${ orderList[0].orderPlus} 원</td>
-				        </tr>
-				        <tr>
-				          <td>배송비</td>
-				          <td>0원</td>
-				        </tr>
-				        <tr>
-				          <th>반환 신청금액</th>
-				          <td>0000 원</td>
-				        </tr>
-				        
-				      </table>
-				
-				      <button>신청</button>
-				      <button>취소</button>
+					</form>
 				</div>
 				
 				<!-- 환불신청 팝업 -->
@@ -519,15 +516,63 @@
 				    });
 				    
 				    $("body").on("click", function(event) { 
-				        if(event.target.className == 'close' || event.target.className == 'backon'){
-				            $("#popup01").hide();
-				      	    $(".backon").hide();
+				        if(event.target.className == 'cancel' || event.target.className == 'backon'){
+				        	
+				        	
+				        	var result = confirm("환불신청을 취소하시겠습니까?");
+		                	
+		                	if(result){
+		                		
+		                		$("#popup01").hide();
+					      	    $(".backon").hide();
+		                	
+		                	} else {
+		                		alert("환불신청이 취소되었습니다");
+		                		return false;
+		                	}
+				        	
 				        }
 				      });
 				
 				  });
 				
 				</script>
+				
+				<!-- 환불신청긍록 유효성검사 -->
+				<script>
+				
+				function validate(){
+                	
+                	var rReason = document.getElementById("rReason");
+                	var regExp = /[\S+$]/; // 공백을 제외한 모든 문자로 1글자이상 등록
+                	
+                	
+                	if(!regExp.test(rReason.value)){ 
+                		alert("환불신청 사유를 입력해주세요");
+                	
+                		rReason.value="";
+                		rReason.focus();
+                		
+                		return false;
+                	}
+                	
+                	
+                	var result = confirm("환불신청을 하시겠습니까?");
+                	
+                	if(result){
+                		
+                	} else {
+                		alert("환불신청이 취소되었습니다");
+                		return false;
+                	}
+                
+                }				
+				
+				
+				
+				</script>
+				
+                                    
                 
 
             </div>

@@ -172,6 +172,24 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	@Override
+	public int refundRequest(MyPage m) {
+		return mDao.refundRequest(sqlSession, m);
+	}
+
+
+
+
+
+	@Override
+	public int orderStatusUpdate(int orderNo) {
+		return mDao.orderStatusUpdate(sqlSession, orderNo);
+	}
+
+
+
+
+
 
 
 

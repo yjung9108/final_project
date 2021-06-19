@@ -62,6 +62,8 @@
 		
 	-->
 	
+	
+	
 	 
 	<interceptors>
 		<interceptor>
@@ -77,6 +79,11 @@
 			<beans:bean id="" class="com.kh.withus.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
+	
+	
+	
+	
+	
 	
 	 
 	

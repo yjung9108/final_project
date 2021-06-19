@@ -73,6 +73,14 @@ public interface MyPageService {
 	ArrayList<MyPage> selectOptionList(MyPage m);
 
 
+	// 환불신청
+	int refundRequest(MyPage m);
+
+
+	// 주문상태 업데이트
+	int orderStatusUpdate(int orderNo);
+
+
 
 
 
