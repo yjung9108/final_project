@@ -152,6 +152,14 @@ public class MyPageDao {
 	public int updateOrder(SqlSessionTemplate sqlSession, MyPage m) {
 		
 		return sqlSession.update("myPageMapper.updateOrder", m);
+	
+	}
+
+	
+	// 옵션리스트
+	public ArrayList<MyPage> selectOptionList(SqlSessionTemplate sqlSession, MyPage m) {
+		
+		return (ArrayList)sqlSession.selectList("myPageMapper.selectOptionList", m);
 	}
 
 	

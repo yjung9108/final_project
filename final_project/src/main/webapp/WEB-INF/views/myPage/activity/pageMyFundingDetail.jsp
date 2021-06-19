@@ -56,7 +56,7 @@
             
             <!-- 펀딩-->
             <div id="mypage_content">
-                <jsp:include page="myFundingDetail.jsp"/>
+                <jsp:include page="test.jsp"/>
 			</div>
             
         </div>

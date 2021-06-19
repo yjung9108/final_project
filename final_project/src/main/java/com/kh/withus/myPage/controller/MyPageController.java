@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.common.template.Pagination;
 import com.kh.withus.myPage.model.service.MyPageService;
@@ -496,6 +497,7 @@ public class MyPageController {
 	}
 	
 	//펀딩디테일
+	/*
 	@RequestMapping("myFundingDetail.me")
 	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
 		
@@ -522,6 +524,44 @@ public class MyPageController {
 		return mv;
 		
 	}
+	*/
+	
+	@RequestMapping("myFundingDetail.me")
+	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		m.setMemberNo(loginUser.getMemberNo());
+		
+		// 옵션제외 주문내역 리스트
+		ArrayList<MyPage> orderList = mService.myFundingDetail(m);
+		
+		mv.addObject("orderList", orderList)
+		  .setViewName("myPage/activity/pageMyFundingDetail");
+		
+		return mv;
+		
+	}
+	
+	
+	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
+	@ResponseBody
+	@RequestMapping("optionList.me")
+	public ArrayList<MyPage> ajaxOptionList(MyPage m) {
+		
+		
+		
+		ArrayList<MyPage> list = mService.selectOptionList(m);
+		System.out.println(list);
+		
+		return list;
+		//return new Gson().toJson(mService.selectOptionList(rewardNo, orderNo));
+		
+	}
+	
+	
+	
+	
+	
 	
 	// 주문정보 수정
 	@RequestMapping("updateOrder.me")

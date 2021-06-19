@@ -2,6 +2,7 @@ package com.kh.withus.myPage.model.service;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonElement;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
 
@@ -66,6 +67,17 @@ public interface MyPageService {
 
 	// 주분정보 업데이트
 	int updateOrder(MyPage m);
+
+
+	// 주문내역 옵션리스트
+	ArrayList<MyPage> selectOptionList(MyPage m);
+
+
+
+
+
+
+	
 
 
 

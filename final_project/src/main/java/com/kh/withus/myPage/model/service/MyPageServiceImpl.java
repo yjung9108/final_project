@@ -163,6 +163,15 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	@Override
+	public ArrayList<MyPage> selectOptionList(MyPage m) {
+		return mDao.selectOptionList(sqlSession, m);
+	}
+
+
+
+
+
 
 
 
