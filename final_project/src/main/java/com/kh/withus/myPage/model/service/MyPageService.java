@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonElement;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
+import com.kh.withus.myPage.model.vo.OptionList;
 
 public interface MyPageService {
 	
@@ -70,15 +71,20 @@ public interface MyPageService {
 
 
 	// 주문내역 옵션리스트
-	ArrayList<MyPage> selectOptionList(MyPage m);
+	//ArrayList<MyPage> selectOptionList(MyPage m);
+	ArrayList<OptionList> selectOptionList(OptionList o);
 
-
+	
 	// 환불신청
 	int refundRequest(MyPage m);
 
 
 	// 주문상태 업데이트
 	int orderStatusUpdate(int orderNo);
+
+
+
+	
 
 
 

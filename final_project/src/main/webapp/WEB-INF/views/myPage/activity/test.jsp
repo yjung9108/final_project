@@ -21,7 +21,7 @@
 	<style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 1000px; margin: auto;}
+        .wrap{width: 1000px; height: auto; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -45,9 +45,9 @@
 
         
         /* fundingDetail content */
-        .fundingDetail #content_1{height: 20%; margin-top: 50px;}
-        .fundingDetail #content_2{height: 30%; margin-top: 150px;}
-        .fundingDetail #content_3{height: 30%; margin-top: 80px;}
+        .fundingDetail #content_1{height: 10%; margin-top: 50px;}
+        .fundingDetail #content_2{height: 30%; margin-top: 30px;}
+        .fundingDetail #content_3{height: 30%; margin-top: 30px;}
 
         
         /* 각각 테이블 */
@@ -147,8 +147,10 @@
                   <table id="orderDetail">
                     <tr>
                       <th style="width: 60%;">상품명</th>
+                      <th style="width: 15%;">옵션</th>
                       <th style="width: 15%;">리워드금액</th>
                       <th style="width: 8%;">수량</th>
+                      
                       
                     </tr>
                     <c:forEach var="orderList" items="${ orderList }">
@@ -157,19 +159,17 @@
 	                        <div style="margin-top: 20px;">${orderList.projectTitle }</div>
 	                        <div>${orderList.rewardTitle }</div>
 	                        <div>${orderList.rewardContent }</div>
-	                       
-	                        <!-- 옵션값 자리 -->
-							<div id="options"> <input type="button" id="selectOption" value="${orderList.rewardNo }"></div>
-	                        
-                
-	                        
+	                      </td>
+	                      <td>
+	                      <div id="optionPlace" style="margin-top: 20px;"></div>
+	                      <button id="selectOption" style="width: 50px;">옵션보기 <input type="hidden" value="${orderList.rewardNo }"></button>
+	                      
 	                      </td>
 	                      <td>${orderList.rewardPrice }</td>
 	                      <td>${orderList.count }</td>
-	                      
-	                    </tr>
-					</c:forEach>
-                  </table>
+	                   </tr>
+	               </c:forEach>
+				 </table>
                   
                 </div>
                 <input type="hidden" name="orderNo" value="${ orderList[0].orderNo }">
@@ -180,40 +180,44 @@
                 
                 $(function() {
 					$('#orderDetail #selectOption').click( function() {
-                	   var rewardNo = $(this).val();
+                	   var rewardNo = $(this).children().val();
 					   var orderNo = $("input[name=orderNo]").val();
 					   
 					   //console.log(rewardNo);
 					   //console.log(orderNo);
-					   var data = {"rewardNo":rewardNo, "orderNo":orderNo}
-            			
-						$.ajax({
-			    			url:"optionList.me",
-			    			type : "POST",
-			    			data:JSON.stringify(data),
-			    			dataType: "json",
-			    		    contentType:"application/json;charset=UTF-8",
-
-			    					
-							success:function(list){
-			    				console.log(list);
-			    				
-			    				$.each(list, function(i, obj){
-			    					value += "<tr>"
-			    								+ "<td>" + obj.optionContent + "</td>"
-			    								
-			    							+ "</tr>";	
-			    				})
-			    				
-			    				
-			    				$("#orderDetail #options").html(value);
-			    				
-			    			
-			    			}, error:function(){
-			    				console.log("ajax 실패")
-			    			}	
-			    			
-			    		})
+					   //var data = {"rewardNo":rewardNo, "orderNo":orderNo}
+					   $(this).siblings("#optionPlace").attr("class", "optionPlace");
+					   
+					   $(this).attr("style", "display:none");
+					   
+					   $.ajax({
+				    			url:"optionList.me",
+				    			type : "POST",
+				    			data: {rewardNo:rewardNo, orderNo:orderNo},
+				    			dataType: "json",
+				    			
+				    			success:function(list){
+				    				console.log(list);
+				    				
+				    				value="";
+				    				$.each(list, function(i, obj){
+				    					value += "<tr>"
+				    								+ "<td>" + obj.optionContent + "</td>"
+				    								
+				    							+ "</tr>";	
+				    				})
+				    				
+				    				
+				    				$("#orderDetail .optionPlace").html(value).removeAttr("class", ".optionPlace");
+				    				
+				    			
+				    			}, error:function(){
+				    				console.log("ajax 실패")
+				    			}	
+				    			
+				    		})
+				   
+						 
 			    	})
                 })
                 
@@ -421,7 +425,7 @@
                       <td>배송비</td>
                     </tr>
                     <tr>
-                      <td>총금액 원</td>
+                      <td>${ rewardTotal } 원</td>
                       <td>
 	                      <c:choose>
 				          	<c:when test="${!empty orderList[0].orderPlus }">
@@ -437,7 +441,7 @@
                     </tr>
                     <tr>
                       <th style="text-align: right;" colspan="2" id="finalPrice">최종 결제 금액</th>
-                      <th style="text-align: right;" id="finalPrice">최종결제 원</th>
+                      <th style="text-align: right;" id="finalPrice">${ totalPrice } 원</th>
                     </tr>
                     
                     
@@ -484,7 +488,7 @@
 					        </tr>
 					        <tr>
 					          <td>리워드 금액</td>
-					          <td>000 원</td>
+					          <td>${ rewardTotal } 원</td>
 					        </tr>
 					        <tr>
 					          <td>추가후원금</td>
@@ -496,7 +500,7 @@
 					        </tr>
 					        <tr>
 					          <th>반환 신청금액</th>
-					          <td>0000 원</td>
+					          <td>${ totalPrice } 원</td>
 					        </tr>
 					        
 					      </table>

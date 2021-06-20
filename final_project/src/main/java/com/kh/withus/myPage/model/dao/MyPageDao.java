@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
+import com.kh.withus.myPage.model.vo.OptionList;
 
 @Repository
 public class MyPageDao {
@@ -157,10 +158,20 @@ public class MyPageDao {
 
 	
 	// 옵션리스트
+	
+	/*
 	public ArrayList<MyPage> selectOptionList(SqlSessionTemplate sqlSession, MyPage m) {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.selectOptionList", m);
 	}
+	
+	*/
+	
+	public ArrayList<OptionList> selectOptionList(SqlSessionTemplate sqlSession, OptionList o) {
+		return (ArrayList)sqlSession.selectList("myPageMapper.selectOptionList", o);
+	}
+	
+	
 
 	//환불신청
 	public int refundRequest(SqlSessionTemplate sqlSession, MyPage m) {
@@ -172,6 +183,8 @@ public class MyPageDao {
 	public int orderStatusUpdate(SqlSessionTemplate sqlSession, int orderNo) {
 		return sqlSession.update("myPageMapper.orderStatusUpdate", orderNo);
 	}
+
+	
 
 	
 	

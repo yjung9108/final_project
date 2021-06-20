@@ -57,8 +57,11 @@
 		<result column="reward_title" property="rewardTitle"/>
 		<result column="reward_content" property="rewardContent"/>
 		<result column="count" property="count"/>
+		
+		<!--  
 		<result column="option_no" property="optionNo"/>
 		<result column="option_content" property="optionContent"/>
+		-->
 		
 		<result column="refund_no" property="refundNo"/>
 		<result column="r_changename" property="rChangeName"/>
@@ -66,6 +69,13 @@
 		<result column="refund_stastaus" property="refundStatus"/>
 	
 	
+	</resultMap>
+	
+	<resultMap id="OptionList" type="OptionList">
+		<id column="order_no" property="orderNo"/>
+		<result column="reward_no" property="rewardNo"/>
+		<result column="option_no" property="optionNo"/>
+		<result column="option_content" property="optionContent"/>
 	</resultMap>
 	
 	 <!--  
@@ -386,15 +396,15 @@
 	    and c.member_no = #{memberNo}
 	</select>
 	
-	<select id="selectOptionList" resultMap="memberResultSet">
+	<select id="selectOptionList" resultMap="OptionList">
 		select 
 		        order_no
+		      , a.reward_no  
 		      , option_content
 		      , option_no
 		from or_reward a
 		join tb_option using(option_no)
-		where a.order_no = #{orderNo}
-		 and a.reward_no = #{rewardNo}
+		where a.reward_no = #{rewardNo}
 	</select>
 	
 	

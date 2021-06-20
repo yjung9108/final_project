@@ -8,12 +8,17 @@ import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,10 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.common.template.Pagination;
 import com.kh.withus.myPage.model.service.MyPageService;
 import com.kh.withus.myPage.model.vo.MyPage;
+import com.kh.withus.myPage.model.vo.OptionList;
 
 
 
@@ -538,7 +545,26 @@ public class MyPageController {
 		ArrayList<MyPage> orderList = mService.myFundingDetail(m);
 		
 		
+		
+		int rewardTotal =0;
+		int rewardPlus = orderList.get(0).getOrderPlus();
+		int totalPrice = 0;
+		
+		// 리워드별 총금액 : 각각 리워드금액*갯수
+		for(int i=0; i<orderList.size(); i++) {
+			
+			rewardTotal += ((orderList.get(i).getRewardPrice())*(orderList.get(i).getCount()));
+		
+		}
+		
+		// 최종금액 : 리워드총금액 + 추가후원금
+		totalPrice = rewardTotal+rewardPlus;
+		
+		
+		
 		mv.addObject("orderList", orderList)
+		  .addObject("rewardTotal", rewardTotal)
+		  .addObject("totalPrice", totalPrice)
 		  .setViewName("myPage/activity/pageMyFundingDetail");
 		
 		return mv;
@@ -546,7 +572,9 @@ public class MyPageController {
 	}
 	
 	
+	
 	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
+	// 잘 실행되나 한글이깨짐 ㅠㅠㅠ
 	@ResponseBody
 	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
 	public String ajaxOptionList(@RequestParam(value="rewardNo") int rewardNo, @RequestParam(value="orderNo") int orderNo) {
@@ -557,22 +585,29 @@ public class MyPageController {
 		System.out.println(rewardNo);
 		System.out.println(orderNo);
 		
-		MyPage m = new MyPage();
-		m.setRewardNo(rewardNo);
-		m.setOrderNo(orderNo);
+		//MyPage m = new MyPage();
+		//m.setRewardNo(rewardNo);
+		//m.setOrderNo(orderNo);
+		
+		OptionList o = new OptionList();	
+		o.setRewardNo(rewardNo);
+		o.setOrderNo(orderNo);
+		
+		//ArrayList<MyPage> list = mService.selectOptionList(m);
+		//ArrayList<OptionList> list = mService.selectOptionList(o);
+		
+		//System.out.println(list);
+		//return null;
 		
 		
-		ArrayList<MyPage> list = mService.selectOptionList(m);
-		System.out.println(list);
-		return null;
 		
 		
 		
-		
-		
-		//return new Gson().toJson(mService.selectOptionList(m));
+		return new Gson().toJson(mService.selectOptionList(o));
 		
 	}
+	
+	
 	
 	
 	

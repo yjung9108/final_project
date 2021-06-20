@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.dao.MyPageDao;
 import com.kh.withus.myPage.model.vo.MyPage;
+import com.kh.withus.myPage.model.vo.OptionList;
 
 @Service
 public class MyPageServiceImpl implements MyPageService{
@@ -161,14 +162,16 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
-
+	/*
 
 	@Override
 	public ArrayList<MyPage> selectOptionList(MyPage m) {
 		return mDao.selectOptionList(sqlSession, m);
 	}
-
-
+	 */
+	public ArrayList<OptionList> selectOptionList(OptionList o) {
+		return mDao.selectOptionList(sqlSession, o);
+	}
 
 
 
