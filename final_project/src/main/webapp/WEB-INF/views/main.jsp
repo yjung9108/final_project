@@ -72,6 +72,8 @@
 	<jsp:include page="common/header.jsp"/>
 	
 	
+	
+	
     <div class="mainOuter" align="center">
         
         <!-- 슬라이드 -->

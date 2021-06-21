@@ -65,12 +65,12 @@
         #payInfo td{width: 200px; height: 40px; text-align: center;}
         #payInfo th{width: 200px; height: 100px; text-align: center;}
         
+        .btn{background-color: rgb(178, 185, 223); color: white;}
         
-        
-        
+        a{text-decoration: none; color:white;}
 
         /* .fundingDetail 버튼 부분 */
-        .fundingDetail .buttonArea{height: 150px; text-align: center;}
+        .fundingDetail .buttonArea{height: 150px; text-align: center; margin-top:30px;}
 
         .fundingDetail #btn1{background-color: rgb(52, 152, 219); color: honeydew;}
         .fundingDetail button{width: 200px;}
@@ -80,7 +80,7 @@
 		
 		#popup01{
 			width: 500px;
-			height: 600px;
+			height: 400px;
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -162,7 +162,7 @@
 	                      </td>
 	                      <td>
 	                      <div id="optionPlace" style="margin-top: 20px;"></div>
-	                      <button id="selectOption" style="width: 50px;">옵션보기 <input type="hidden" value="${orderList.rewardNo }"></button>
+	                      <button id="selectOption" class="btn btn-sm" style="width: 50px;">옵션보기 <input type="hidden" value="${orderList.rewardNo }"></button>
 	                      
 	                      </td>
 	                      <td>${orderList.rewardPrice }</td>
@@ -177,51 +177,44 @@
                 
                 <!-- 옵션 내역들 가져오기 ajax -->
                 <script>
-                
-                $(function() {
-					$('#orderDetail #selectOption').click( function() {
-                	   var rewardNo = $(this).children().val();
-					   var orderNo = $("input[name=orderNo]").val();
-					   
-					   //console.log(rewardNo);
-					   //console.log(orderNo);
-					   //var data = {"rewardNo":rewardNo, "orderNo":orderNo}
-					   $(this).siblings("#optionPlace").attr("class", "optionPlace");
-					   
-					   $(this).attr("style", "display:none");
-					   
-					   $.ajax({
-				    			url:"optionList.me",
-				    			type : "POST",
-				    			data: {rewardNo:rewardNo, orderNo:orderNo},
-				    			dataType: "json",
-				    			
-				    			success:function(list){
-				    				console.log(list);
-				    				
-				    				value="";
-				    				$.each(list, function(i, obj){
-				    					value += "<tr>"
-				    								+ "<td>" + obj.optionContent + "</td>"
-				    								
-				    							+ "</tr>";	
-				    				})
-				    				
-				    				
-				    				$("#orderDetail .optionPlace").html(value).removeAttr("class", ".optionPlace");
-				    				
-				    			
-				    			}, error:function(){
-				    				console.log("ajax 실패")
-				    			}	
-				    			
-				    		})
-				   
-						 
-			    	})
-                })
-                
-                </script>
+                  	$(function() {
+						$('#orderDetail #selectOption').click( function() {
+	                	   var rewardNo = $(this).children().val(); // 선택한 상품번호
+						   var orderNo = $("input[name=orderNo]").val(); // 주문번호
+						   
+						   // 반복문이기때문에 선택한 영역에 새로운 클래스로 표시
+						   $(this).siblings("#optionPlace").attr("class", "optionPlace"); 
+						   // 옵션값을 보여주고 버튼 사라짐
+						   $(this).attr("style", "display:none");
+						   
+						   		$.ajax({
+					    			url:"optionList.me",
+					    			type : "POST",
+					    			data: {rewardNo:rewardNo, orderNo:orderNo},
+					    			dataType: "json",
+					    			success:function(list){
+					    				//console.log(list);
+					    				
+					    				value="";
+					    				$.each(list, function(i, obj){
+					    					value += "<tr>"
+					    								+ "<td>" + obj.optionContent + "</td>"
+					    							+ "</tr>";	
+					    				})
+					    				
+					    				// 원하는 곳에 받아온 값을 넣어주고, 영역표시 삭제
+					    				$("#orderDetail .optionPlace").html(value).removeAttr("class", ".optionPlace");
+					    				
+					    			
+					    			}, error:function(){
+					    				console.log("ajax 실패")
+					    			}	
+					    			
+					    		})
+					   		})
+	                	})
+	            
+	             </script>
 
                 
                 <!-- 배송지 정보 / 배송지가 필요한 리워드인경우에만 보여짐????? 없으면 걍 빈칸으로 둘까 생각즁-->
@@ -243,7 +236,7 @@
 			                      <th>주소</th>
 			                      <td>
 			                        <input type="text" id="sample6_postcode" placeholder="우편번호" style="width: 100px;" value="${orderList[0].addressNo}" name="addressNo" readonly required>
-			                        <button type="button" onclick="sample6_execDaumPostcode()"disabled style="width: 150px;">우편번호검색</button>
+			                        <button type="button" onclick="sample6_execDaumPostcode()"disabled style="width: 100px;" class="btn btn-sm">우편번호</button>
 			                        <br>
 			                        <input type="text" id="sample6_address" placeholder="주소" value="${orderList[0].address }" name="address" style="width: 300px;" readonly required>
 			                        <br>
@@ -274,7 +267,7 @@
 			                    <tr>
 			                      <td colspan="2" class="buttonArea">
 			                      	<input type="hidden" value="${orderList[0].orderNo }" name="orderNo">
-			                        <button type="submit" id="modify" disabled>배송지수정</button>
+			                        <button type="submit" id="modify" disabled class="btn btn-sm">배송지수정</button>
 			                      </td>
 			                    </tr>
 			                  </table>
@@ -450,9 +443,9 @@
             
                 <!-- 주문상태가 결제완료상태일때만 반환신청 버튼 -->
                 <div class="buttonArea">
-                  <button><a href="myFunding.me">목록</a></button>
+                  <button class="btn btn-sm" style="color:white;"><a href="myFunding.me" >목록</a></button>
                   <c:if test="${orderList[0].orderStatus eq '1'}">
-				  	<button class="openPopup">펀딩 반환 신청</button>
+				  	<button class="openPopup btn btn-sm">펀딩 반환 신청</button>
 				  </c:if>
                   
                 </div>
@@ -469,7 +462,7 @@
 					        </tr>
 					        <tr>
 					          <td>
-					          	  <textarea cols="30" rows="10" style="resize: none;" id="rReason" name="rReason"></textarea>
+					          	  <textarea cols="50" rows="4" style="resize: none;" id="rReason" name="rReason"></textarea>
 					          </td>
 					        </tr>
 					        <tr>

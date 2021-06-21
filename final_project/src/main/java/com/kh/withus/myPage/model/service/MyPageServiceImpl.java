@@ -193,6 +193,15 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	@Override
+	public ArrayList<MyPage> mainFollowList(int memberNo) {
+		return mDao.mainFollowList(sqlSession, memberNo);
+	}
+
+
+
+
+
 
 
 

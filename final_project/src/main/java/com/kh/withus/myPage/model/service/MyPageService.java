@@ -83,6 +83,10 @@ public interface MyPageService {
 	int orderStatusUpdate(int orderNo);
 
 
+	// 메인팔로잉목록
+	ArrayList<MyPage> mainFollowList(int memberNo);
+
+
 
 	
 

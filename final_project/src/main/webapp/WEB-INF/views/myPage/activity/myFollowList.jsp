@@ -156,16 +156,15 @@
 		      						  followMemberNo : $followMemberNo},
 		      					success:function(result){
 		      						
-		      						if(result == "Y"){ // 언팔
+		      						if(result == "Y"){ // 언팔로우
 		      							
 		      							$("#clicked").html('팔로우').css('background', 'rgb(228, 230, 238)').css('color', ' rgb(111, 100, 122)');
 		      							$("#clicked").removeAttr("id");
 		      							alert("팔로우를 해제하였습니다");
 		      							
-		      						
 		      						}else{ // 오류
 		      							
-		      							alert("오류가 발생했습니다");
+		      							alert("오류 발생");
 		      							
 		      						}
 		      						
@@ -191,7 +190,7 @@
 		      							
 		      						}else{ // 오류
 		      							
-		      							alert("오류가 발생했습니다");
+		      							alert("오류 발생");
 		      							
 		      						}
 		      						

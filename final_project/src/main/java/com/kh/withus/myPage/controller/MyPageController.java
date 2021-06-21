@@ -5,20 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.common.template.Pagination;
 import com.kh.withus.myPage.model.service.MyPageService;
@@ -43,8 +36,7 @@ public class MyPageController {
 	private MyPageService mService;
 	
 	
-	@Autowired
-	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	
 	//임시 로그인/로그아웃 부분
@@ -175,7 +167,7 @@ public class MyPageController {
 				
 		}
 		
-		if(deleteProfile.equals("delete")) {
+		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
 			
 			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
 				
@@ -186,15 +178,11 @@ public class MyPageController {
 		
 		}
 		
-			
-			
-		
 		int result = mService.updateMember(m); 
 		
 		
 		
-		// 수정성공했을 경우
-		if(result > 0) {
+		if(result > 0) { // 수정성공했을 경우
 			
 			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
 			session.setAttribute("loginUser", mService.loginMember(m));
@@ -406,8 +394,8 @@ public class MyPageController {
 	
 	
 	
-	// 전달받은 첨부파일 수정명 작업해서 서버에 업로드 시킨 후 해당 수정된파일명(서버에 업로된파일명)을 반환하는 메소드
-	// 프로필사진
+	// 전달받은 첨부파일 수정명 작업해서 서버에 업로드 시킨 후 해당 수정된파일명(서버에 업로된파일명)을 반환
+	// 프로필사진, 환불파일
 	public String saveFile(HttpSession session, MultipartFile file) {
 		
 		String savePath = session.getServletContext().getRealPath("/resources/member_profile/");
@@ -607,8 +595,24 @@ public class MyPageController {
 		
 	}
 	
+	/*
 	
+	@ResponseBody
+	@RequestMapping(value="optionList.me", produces="application/json; charset=utf-8")
+	public String ajaxOptionList(OptionList o) {
+		
+		
+		//ArrayList<MyPage> list = mService.selectOptionList(m);
+		//ArrayList<OptionList> list = mService.selectOptionList(o);
+		
+		//System.out.println(list);
+		//return null;
+		
+		return new Gson().toJson(mService.selectOptionList(o));
+		
+	}
 	
+	*/
 	
 	
 	
@@ -652,7 +656,7 @@ public class MyPageController {
 				
 		}
 		
-		//환붏신청테이블에 인서트
+		//환불신청테이블에 인서트
 		int result = mService.refundRequest(m); 
 		
 		// 신청성공했을 경우
@@ -686,5 +690,12 @@ public class MyPageController {
 		
 	
 	
-	}	
+	}
+	
+	
+	
+	
+	
+	
+	
 }

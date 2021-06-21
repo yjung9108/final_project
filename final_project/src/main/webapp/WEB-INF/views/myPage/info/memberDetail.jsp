@@ -144,7 +144,7 @@
                 </div>
                 
                 
-                <!-- 프로필사진 파일 -->
+                <!-- 프로필사진 파일 미리보기 -->
                 <script>
 					  function handleFileSelect(event) {
 					  	var input = this;
@@ -163,9 +163,9 @@
 					  
 						$('#file').change(handleFileSelect);
 						$('.fileEdit').on('click', '#delete', function () {
-						    $("#preview").removeAttr("src").attr("src", "resources/member_profile/profile_basic.jpg");
-						    $("#file").val("");
-						    $("#deleteProfile").val("delete");
+						    $("#preview").removeAttr("src").attr("src", "resources/member_profile/profile_basic.jpg"); // db의 기본프로필파일
+						    $("#file").val(""); //파일밸류값 삭제
+						    $("#deleteProfile").val("delete"); // 기본이미지로 변경을위해 밸류값줘서 넘긴다
 						});
 						
 						
@@ -189,7 +189,7 @@
 					{
 				  	    e.preventDefault();
 					}
-				    }).on('blur', function(){ // 포커스를 잃었을때 실행합니다.
+				    }).on('blur', function(){ // 포커스를 잃었을때 실행
 				        if($(this).val() == '') return;
 
 				        // 기존 번호에서 - 를 삭제합니다.
@@ -198,27 +198,27 @@
 				        // 입력값이 있을때만 실행합니다.
 				        if(trans_num != null && trans_num != '')
 				        {
-				            // 총 핸드폰 자리수는 11글자이거나, 10자여야 합니다.
+				            // 총 핸드폰 자리수는 11글자이거나, 10자
 				            if(trans_num.length==11 || trans_num.length==10) 
 				            {   
 				                // 유효성 체크
 				                var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
 				                if(regExp_ctn.test(trans_num))
 				                {
-				                    // 유효성 체크에 성공하면 하이픈을 넣고 값을 바꿔줍니다.
+				                    // 유효성 체크에 성공시 '-'을 넣는다
 				                    trans_num = trans_num.replace(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/, "$1-$2-$3");                  
 				                    $(this).val(trans_num);
 				                }
 				                else
 				                {
-				                    alert("유효하지 않은 전화번호 입니다.");
+				                    alert("유효하지 않은 번호 입니다.");
 				                    $(this).val("");
 				                    $(this).focus();
 				                }
 				            }
 				            else 
 				            {
-				                alert("유효하지 않은 전화번호 입니다.");
+				                alert("유효하지 않은 번호 입니다.");
 				                $(this).val("");
 				                $(this).focus();
 				            }

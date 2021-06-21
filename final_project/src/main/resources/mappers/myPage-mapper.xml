@@ -160,7 +160,7 @@
   	</update>
 	
 	
-	<!-- 언팔 -->
+	<!-- 언팔로우 -->
 	<delete id="unfollowMember" parameterType="MyPage" >
 		delete 
 		 	from follow

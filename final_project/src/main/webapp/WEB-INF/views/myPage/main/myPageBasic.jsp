@@ -7,10 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     
     <style>
         
@@ -195,10 +192,7 @@
                         <td id="qDate">2021-06-21</td>
                       </tr>
                     </table>  
-
-
-
-                  </div>    
+				  </div>    
                   
                   
                   <div id="main_3_2">
@@ -209,7 +203,7 @@
                     <table>
                       <tr>
                         <td id="profile">
-                          <img src="resources/images/city1.PNG" width="40" height="40" class="rounded-circle" >
+                          <img src="" width="40" height="40" class="rounded-circle" >
                         </td>
                         <td id="user">
                           <div id="id">유저아이디</div>
@@ -239,16 +233,11 @@
                         </td>
                         
                       </tr>
-
-                      
-                      
-                    </table>
-
-
-
-
-
-                  </div>
+					</table>
+				  </div>
+				  
+				  
+				
                   
                 
                 

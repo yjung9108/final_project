@@ -184,6 +184,10 @@ public class MyPageDao {
 		return sqlSession.update("myPageMapper.orderStatusUpdate", orderNo);
 	}
 
+	public ArrayList<MyPage> mainFollowList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("myPageMapper.selectFollowList", memberNo);
+	}
+
 	
 
 	
