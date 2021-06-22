@@ -104,7 +104,7 @@
                   <p id="mainTitle"><a href="">나의 펀딩 내역</a></p>
                   <div id="underLine"></div>
 
-                  <div id="count">펀딩 참여<br> 2회</div>
+                  <div id="count">펀딩 참여<br> ${fundingCount} 회</div>
 
 
                 </div>
@@ -116,58 +116,45 @@
                   <div id="underLine"></div>
 
                   <div class="like">
-                    <table>
-                        <tr>
-                            <td colspan="2">
-                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">프로젝트 제목</td>
-                        </tr>
-                        <tr>
-                            <td>가격</td>
-                            <td>날짜</td>
-                        </tr>
-                    </table>
+                    
+                    <c:choose>
+                    	<c:when test="${ empty mainLikeList }">
+                    		<div>
+                    			좋아요 목록이 없습니다
+                    		</div>
+                    		
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach var="likeList" items="${ mainLikeList }" end="2">
+	                    		<div>
+			                        <table>
+			                            <tr>
+			                                <td colspan="2">
+			                                	<c:choose>
+			                                		<c:when test="${ empty likeList.projectThum }">
+			                                			<img src="resources/project_thumbnail/no_image.jpg"  width="250" height="200">
+			                                		</c:when>
+			                                		<c:otherwise>
+			                                			<img src="${ likeList.projectThum }"  width="250" height="200">
+			                                		</c:otherwise>
+			                                	</c:choose>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td colspan="2">${ likeList.projectTitle }</td>
+			                            </tr>
+			                            <tr>
+			                                <td>${ likeList.projectGPrice }</td>
+			                                <td>~ ${ likeList.projectEndDt }</td>
+			                            </tr>
+			                        </table>
+			                    </div>
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
+                  
                   </div>
-
-                  <div class="like">
-                    <table>
-                        <tr>
-                            <td colspan="2">
-                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">프로젝트 제목</td>
-                        </tr>
-                        <tr>
-                            <td>가격</td>
-                            <td>날짜</td>
-                        </tr>
-                    </table>
-                  </div>
-
-                  <div class="like">
-                    <table>
-                        <tr>
-                            <td colspan="2">
-                                <img src="resources/images/city1.PNG" class="img-thumbnail" width="250" height="300">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">프로젝트 제목</td>
-                        </tr>
-                        <tr>
-                            <td>가격</td>
-                            <td>날짜</td>
-                        </tr>
-                    </table>
-                  </div>
-
-                
-                </div>
+				</div>
 
                 
                 <!--나의문의 & 팔로잉-->
@@ -178,20 +165,25 @@
                     <div id="underLine"></div>
 
                     <!--3개-->
-                    <table>
-                      <tr>
-                        <td id="qTitle">문의합니다 </td>
-                        <td id="qDate">2021-06-21</td>
-                      </tr>
-                      <tr>
-                        <td id="qTitle">문의합니다 </td>
-                        <td id="qDate">2021-06-21</td>
-                      </tr>
-                      <tr>
-                        <td id="qTitle">문의합니다 </td>
-                        <td id="qDate">2021-06-21</td>
-                      </tr>
-                    </table>  
+                    <c:choose>
+                		<c:when test="${ empty mainQueryList }">
+                			1:1 문의 내역이 없습니다
+                		</c:when>
+                		<c:otherwise>
+                			<table>
+		                        
+                				<c:forEach var="queryList" items="${ mainQueryList }" end="2">
+                				  <tr>
+		                            
+		                            <td>${ queryList.otoTitle }</td>
+		                            <td>${ queryList.otoDate }</td>
+		                            
+		                          </tr>
+		                       
+                				</c:forEach>
+                			</table>
+                		</c:otherwise>
+                	</c:choose>
 				  </div>    
                   
                   
@@ -200,40 +192,37 @@
                     <div id="underLine"></div>
 
                     <!--3개-->
-                    <table>
-                      <tr>
-                        <td id="profile">
-                          <img src="" width="40" height="40" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        
-                      </tr>
-
-                      <tr>
-                        <td id="profile">
-                          <img src="resources/images/city1.PNG" width="40" height="40" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        
-                      </tr>
-
-                     <tr>
-                        <td id="profile">
-                          <img src="resources/images/city1.PNG" width="40" height="40" class="rounded-circle" >
-                        </td>
-                        <td id="user">
-                          <div id="id">유저아이디</div>
-                          <div id="idDetail">오픈펀딩 20</div>
-                        </td>
-                        
-                      </tr>
-					</table>
+                    <c:choose>
+                    	<c:when test="${ empty mainFollowList }">
+                    		팔로우 목록이 없습니다
+                    	</c:when>
+                    	<c:otherwise>
+	                    	<c:forEach var="m" items="${ mainFollowList }" end="2">
+	                    	   <table id="followTable">
+		                      	<tr>
+			                        <th id="profile">
+			                        <c:choose>
+			                        	<c:when test="${ empty m.memberProfile }">
+			                            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
+			                        	</c:when>
+			                        	<c:otherwise>
+			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
+			                        	</c:otherwise> 
+			                        </c:choose> 
+			                        </th>
+			                        <th id="user">
+			                          <div id="id">${ m.partnerName }</div>
+			                          <div id="idDetail">파트너</div>
+			                          <div id="followMemberNo" style="display: none;" >${ m.memberNo }</div>
+			                          
+			                        </th>
+			                        <input type="hidden" value="${ m.memberNo }" name="followMemberNo" id="followMemberNo">
+			                       
+			                      </tr>
+								</table>
+							</c:forEach>	
+                    	</c:otherwise>
+                    </c:choose>
 				  </div>
 				  
 				  

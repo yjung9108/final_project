@@ -175,7 +175,7 @@
                 <input type="hidden" name="orderNo" value="${ orderList[0].orderNo }">
                 
                 
-                <!-- 옵션 내역들 가져오기 ajax -->
+                <!-- 옵션 내역들 가져오기 ajax 
                 <script>
                   	$(function() {
 						$('#orderDetail #selectOption').click( function() {
@@ -194,6 +194,54 @@
 					    			dataType: "json",
 					    			success:function(list){
 					    				//console.log(list);
+					    				
+					    				value="";
+					    				$.each(list, function(i, obj){
+					    					value += "<tr>"
+					    								+ "<td>" + obj.optionContent + "</td>"
+					    							+ "</tr>";	
+					    				})
+					    				
+					    				// 원하는 곳에 받아온 값을 넣어주고, 영역표시 삭제
+					    				$("#orderDetail .optionPlace").html(value).removeAttr("class", ".optionPlace");
+					    				
+					    			
+					    			}, error:function(){
+					    				console.log("ajax 실패")
+					    			}	
+					    			
+					    		})
+					   		})
+	                	})
+	            
+	             </script>
+	             
+	             -->
+	             
+	             <script>
+                  	$(function() {
+						$('#orderDetail #selectOption').click( function() {
+	                	   var rewardNo = $(this).children().val(); // 선택한 상품번호
+						   var orderNo = $("input[name=orderNo]").val(); // 주문번호
+						   var optionVal ={
+								   "rewardNo": rewardNo,
+								   "orderNo": orderNo
+						   }
+						   
+						   
+						   // 반복문이기때문에 선택한 영역에 새로운 클래스로 표시
+						   $(this).siblings("#optionPlace").attr("class", "optionPlace"); 
+						   // 옵션값을 보여주고 버튼 사라짐
+						   $(this).attr("style", "display:none");
+						   
+						   		$.ajax({
+						   			type : "post",
+					    			url:"optionList.me",
+					    			data: JSON.stringify(optionVal),
+					    			dataType: "json",
+					    			contentType:"application/json; charset=utf-8",
+					    			success:function(list){
+					    				console.log(list);
 					    				
 					    				value="";
 					    				$.each(list, function(i, obj){

@@ -184,8 +184,18 @@ public class MyPageDao {
 		return sqlSession.update("myPageMapper.orderStatusUpdate", orderNo);
 	}
 
+	
+	public ArrayList<MyPage> mainLikeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("myPageMapper.mainLikeList", memberNo);
+	}
+
+	public ArrayList<MyPage> mainQueryList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("myPageMapper.mainQueryList", memberNo);
+	}
+
+	
 	public ArrayList<MyPage> mainFollowList(SqlSessionTemplate sqlSession, int memberNo) {
-		return (ArrayList)sqlSession.selectList("myPageMapper.selectFollowList", memberNo);
+		return (ArrayList)sqlSession.selectList("myPageMapper.mainFollowList", memberNo);
 	}
 
 	

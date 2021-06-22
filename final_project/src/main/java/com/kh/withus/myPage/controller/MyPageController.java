@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,10 +82,52 @@ public class MyPageController {
 	
 	// 마이페이지메인
 	@RequestMapping("myPage.me")
-	public String myPage() {
-		return "myPage/main/myPageMain";
+	public ModelAndView myPage(HttpSession session, ModelAndView mv) {
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		
+		// 펀딩내역 수
+		int fundingCount = mService.myFundingListCount(loginUser.getMemberNo());
+		
+		
+		
+		// 좋아요리스트
+		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
+		
+		// 문의내역리스트
+		ArrayList<MyPage> mainQueryList = mService.mainQueryList(loginUser.getMemberNo());
+		
+		// 팔로우리스트
+		ArrayList<MyPage> mainFollowList = mService.mainFollowList(loginUser.getMemberNo());
+		
+		
+		
+		mv.addObject("fundingCount", fundingCount)
+		  .addObject("mainLikeList", mainLikeList)
+		  .addObject("mainQueryList", mainQueryList)
+		  .addObject("mainFollowList", mainFollowList)
+		  .setViewName("myPage/main/myPageMain");
+		
+		return mv;
+		
+	
+		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 내정보 -> 비밀번호 확인창으로
 	@RequestMapping("myInfo.me")
 	public String myInfo() {
@@ -560,26 +602,50 @@ public class MyPageController {
 	}
 	
 	
+	/*
+	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
+	// 리턴이안됨
+	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, ArrayList> ajaxOptionList(HttpSession session, @RequestBody OptionList o) {
+		
+		 
+		
+		System.out.println(o.getOrderNo());
+		System.out.println(o.getRewardNo());
+		
+		
+		
+		//ArrayList<MyPage> list = mService.selectOptionList(m);
+		ArrayList<OptionList> list = mService.selectOptionList(o);
+		
+		
+		Map<String, ArrayList> map = new HashMap<String, ArrayList>();
+		map.put("list", list);
+		
+		
+		System.out.println(list);
+		
+		return map;
+		//return new Gson().toJson(list);
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	*/
+	
+	
 	
 	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
 	// 잘 실행되나 한글이깨짐 ㅠㅠㅠ
 	@ResponseBody
 	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
-	public String ajaxOptionList(@RequestParam(value="rewardNo") int rewardNo, @RequestParam(value="orderNo") int orderNo) {
-		
-		 
-		
-		
-		System.out.println(rewardNo);
-		System.out.println(orderNo);
-		
-		//MyPage m = new MyPage();
-		//m.setRewardNo(rewardNo);
-		//m.setOrderNo(orderNo);
-		
-		OptionList o = new OptionList();	
-		o.setRewardNo(rewardNo);
-		o.setOrderNo(orderNo);
+	public String ajaxOptionList(@RequestBody OptionList o) {
 		
 		//ArrayList<MyPage> list = mService.selectOptionList(m);
 		//ArrayList<OptionList> list = mService.selectOptionList(o);
@@ -595,24 +661,7 @@ public class MyPageController {
 		
 	}
 	
-	/*
 	
-	@ResponseBody
-	@RequestMapping(value="optionList.me", produces="application/json; charset=utf-8")
-	public String ajaxOptionList(OptionList o) {
-		
-		
-		//ArrayList<MyPage> list = mService.selectOptionList(m);
-		//ArrayList<OptionList> list = mService.selectOptionList(o);
-		
-		//System.out.println(list);
-		//return null;
-		
-		return new Gson().toJson(mService.selectOptionList(o));
-		
-	}
-	
-	*/
 	
 	
 	

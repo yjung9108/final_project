@@ -449,5 +449,69 @@
   		 where order_no = #{orderNo}
   	
   	</update>
+  	
+  	
+  	<!-- 메인좋아요 리스트 -->
+	<select id="mainLikeList" resultMap="memberResultSet">
+		select 
+		        project_no
+		      , project_title
+		      , project_start_dt
+		      , project_end_dt
+		      , project_thum
+		      , project_status
+		      , project_gprice
+		  from project
+		  join likey using(project_no)
+		 where project_no in ( select 
+		   							 project_no
+		                        from likey
+		                       where member_no = #{memberNo})
+		    and project_status='3'
+		  order by project_end_dt asc
+	</select>
+	
+  	<!-- 메인문의 리스트 -->
+	<select id="mainQueryList" resultMap="memberResultSet">
+		select 
+		        oto_no
+		      , oto_cat
+		      , oto_title
+		      , oto_date
+		      , oto_re_reply
+		  from oto
+		 where member_no = #{memberNo}
+		 order by oto_no desc
+	</select>
+
+
+	
+
+	<!-- 메인팔로우리스트 -->
+	<select id="mainFollowList" resultMap="memberResultSet">
+		select 
+		        member_no
+		      , member_id
+		      , member_name
+		      , member_profile
+		      , partner_name
+		      , partner_intro
+		  from member
+		 where member_no in ( select 
+		   							 follow_member_no
+		                        from follow
+		                       where member_no = #{ memberNo })
+		    and member_status='Y'
+		    and partner_join='Y'
+	</select>
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   
 </mapper>

@@ -193,10 +193,39 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	
+
+
+
+
+	@Override
+	public ArrayList<MyPage> mainLikeList(int memberNo) {
+		return mDao.mainLikeList(sqlSession, memberNo);
+	}
+
+
+
+
+
+	@Override
+	public ArrayList<MyPage> mainQueryList(int memberNo) {
+		return mDao.mainQueryList(sqlSession, memberNo);
+	}
+
+
+
 	@Override
 	public ArrayList<MyPage> mainFollowList(int memberNo) {
 		return mDao.mainFollowList(sqlSession, memberNo);
 	}
+
+
+
+
+
+
+
+
 
 
 
