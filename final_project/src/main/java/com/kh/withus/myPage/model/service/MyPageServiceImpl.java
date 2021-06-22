@@ -133,6 +133,7 @@ public class MyPageServiceImpl implements MyPageService{
 		return mDao.myQueryDetail(sqlSession, otoNo);
 	}
 
+	
 
 	// 나의 펀딩리스트
 	@Override
@@ -195,13 +196,6 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
-
-
-	
-
-
-
-
 	@Override
 	public ArrayList<MyPage> mainLikeList(int memberNo) {
 		return mDao.mainLikeList(sqlSession, memberNo);
@@ -222,6 +216,12 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> mainFollowList(int memberNo) {
 		return mDao.mainFollowList(sqlSession, memberNo);
 	}
+
+
+
+
+
+	
 
 
 

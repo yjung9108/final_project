@@ -65,7 +65,7 @@
         <!-- 나의 문의내역  -->
         <div id="mypage">
             <div id="content">
-                <p>나의 문의 내역</p>
+                <p>나의 문의</p>
                 <div id="underLine"></div>
                 
                 
@@ -105,7 +105,11 @@
                           </tr>
                           </c:if>
                           <tr>
-                            <td colspan="3" id="backBtn"><button class="btn btn-sm"><a href="myQuery.me">목록</a></button></td>
+                            <td colspan="3" id="backBtn">
+                            	<button class="btn btn-sm"><a href="myQuery.me">목록</a></button>
+                            	
+                            </td>
+                            
                           </tr>
                         </tfoot>
                       </table>       

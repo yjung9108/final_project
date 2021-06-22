@@ -134,7 +134,6 @@ public class MyPageDao {
 	}
 	
 	
-
 	// 나의 펀딩내역 카운트
 	public int myFundingListCount(SqlSessionTemplate sqlSession, int memberNo) {
 		return sqlSession.selectOne("myPageMapper.myFundingListCount", memberNo);
@@ -205,6 +204,7 @@ public class MyPageDao {
 		return (ArrayList)sqlSession.selectList("myPageMapper.mainFollowList", memberNo);
 	}
 
+	
 	
 
 	

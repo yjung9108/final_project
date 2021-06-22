@@ -67,7 +67,7 @@
         <!-- 나의 문의내역  -->
         <div id="mypage">
             <div id="content">
-                <p id="mainTitle">나의 문의 내역</p>
+                <p id="mainTitle">나의 문의</p>
                 <div id="underLine"></div>
                 
                 

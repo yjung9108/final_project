@@ -506,19 +506,7 @@ public class MyPageController {
 			
 		}
 		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	

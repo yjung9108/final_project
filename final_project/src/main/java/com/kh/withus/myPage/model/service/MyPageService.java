@@ -59,6 +59,7 @@ public interface MyPageService {
 	MyPage myQueryDetail(int otoNo);
 	
 	
+	
 	// 나의 펀딩내역리스트
 	int myFundingListCount(int memberNo);
 	ArrayList<MyPage> myFundingList(PageInfo pi, int memberNo);
@@ -96,6 +97,10 @@ public interface MyPageService {
 
 	// 메인팔로잉목록
 	ArrayList<MyPage> mainFollowList(int memberNo);
+
+
+
+	
 
 
 	

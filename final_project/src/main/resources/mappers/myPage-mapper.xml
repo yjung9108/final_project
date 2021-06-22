@@ -322,7 +322,6 @@
   	
   	
   	
-  	
   	<!-- 나의 펀딩 카운트 -->
   	<select id="myFundingListCount" resultType="_int">
 		select 
