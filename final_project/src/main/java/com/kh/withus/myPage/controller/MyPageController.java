@@ -485,6 +485,43 @@ public class MyPageController {
 		
 	}
 	
+	
+	//문의내역 상세
+	@RequestMapping("myQueryDetail")
+	public String myQueryDetail(HttpSession session, Model model, int otoNo) {
+		
+		MyPage m = mService.myQueryDetail(otoNo);
+		
+		
+		
+		if(m != null) {
+			
+			session.setAttribute("detail", m);
+			return "myPage/activity/pageMyQueryDetail";
+			
+		}else {
+			
+			model.addAttribute("errorMsg", "오류발생");
+			return "common/errorPage";
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 좋아요
 	@RequestMapping("like.me")
 	public ModelAndView like(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {

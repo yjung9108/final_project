@@ -93,16 +93,16 @@
 	                    	<c:forEach var="m" items="${ list }">
 	                    	   <table id="followTable">
 		                      	<tr>
-			                        <th id="profile">
+			                        <td id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
-			                            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
+			                            	<a href="partnerDetail.me?memberNo=${ m.memberNo }"><img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" ></a>
 			                        	</c:when>
 			                        	<c:otherwise>
-			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
+			                        		<a href="partnerDetail.me?memberNo=${ m.memberNo }"><img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" ></a>
 			                        	</c:otherwise> 
 			                        </c:choose> 
-			                        </th>
+			                        </td>
 			                        <th id="user">
 			                          <div id="id">${ m.partnerName }</div>
 			                          <div id="idDetail">파트너</div>

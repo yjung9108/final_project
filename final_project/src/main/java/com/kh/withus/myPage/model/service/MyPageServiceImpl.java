@@ -115,19 +115,23 @@ public class MyPageServiceImpl implements MyPageService{
 		return mDao.likeList(sqlSession, pi, memberNo);
 	}
 
-	// 나의 문의내역 리스트
+	// 나의 문의내역 리스트 카운트
 	@Override
 	public int myQueryListCount(int memberNo) {
 		return mDao.myQueryListCount(sqlSession, memberNo);
 	}
 
-
+	// 나의 문의내역 리스트
 	@Override
 	public ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo) {
 		return mDao.myQueryList(sqlSession, pi, memberNo);
 	}
-
-
+	
+	//나의 문의 상세
+	@Override
+	public MyPage myQueryDetail(int otoNo) {
+		return mDao.myQueryDetail(sqlSession, otoNo);
+	}
 
 
 	// 나의 펀딩리스트
@@ -218,6 +222,12 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> mainFollowList(int memberNo) {
 		return mDao.mainFollowList(sqlSession, memberNo);
 	}
+
+
+
+
+
+	
 
 
 

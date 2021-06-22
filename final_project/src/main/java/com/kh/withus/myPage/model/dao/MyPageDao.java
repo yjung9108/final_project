@@ -127,6 +127,13 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.myQueryList", memberNo, rowBounds);
 	}
+	
+	//나의문의 상세
+	public MyPage myQueryDetail(SqlSessionTemplate sqlSession, int otoNo) {
+		return sqlSession.selectOne("myPageMapper.myQueryDetail", otoNo);
+	}
+	
+	
 
 	// 나의 펀딩내역 카운트
 	public int myFundingListCount(SqlSessionTemplate sqlSession, int memberNo) {
@@ -197,6 +204,8 @@ public class MyPageDao {
 	public ArrayList<MyPage> mainFollowList(SqlSessionTemplate sqlSession, int memberNo) {
 		return (ArrayList)sqlSession.selectList("myPageMapper.mainFollowList", memberNo);
 	}
+
+	
 
 	
 

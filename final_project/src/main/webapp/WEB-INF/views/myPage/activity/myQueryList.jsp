@@ -24,7 +24,7 @@
         #underLine{
             background-color: rgb(192, 189, 189);
             height: 1.5px;
-            width: 80%;
+            width: 85%;
             
         }
 
@@ -37,7 +37,7 @@
 
         
         /* query content */
-        #query_1{height: 60%; margin-top: 50px; width: 80%;}
+        #query_1{height: 60%; margin-top: 50px; width: 85%;}
         #query_2{height: 30%; width: 80%;}
         
         
@@ -47,10 +47,10 @@
 
         
         /* 문의내역 테이블 */
-        #replyCat{width: 10%;}
+        #replyCat{width: 12%;}
         #replyTitle{width: 60%;}
-        #replyDate{width: 15%}
-        #replyStatus{width: 15%}
+        #replyDate{width: 10%}
+        #replyStatus{width: 10%}
         
         
 
@@ -82,17 +82,18 @@
                 			<table class="table table-hover">
 		                        <thead class="thead-light">
 		                          <tr>
-                                    <th id="replyCat"></th>
+                                    <th id="replyCat">분류</th>
 		                            <th id="replyTitle">문의 제목</th>
-		                            <th id="replyDate">문의 날짜</th>
-		                            <th id="replyStatus">답변상태</th>
+		                            <th id="replyDate">문의일</th>
+		                            <th id="replyStatus">상태</th>
 		                          </tr>
 		                        </receiverthead>
                 				<c:forEach var="list" items="${ list }">
                 				<tbody>
 		                          <tr>
+		                            <td id="otoNo" style="display:none;">${ list.otoNo }</td>
 		                            <td>${ list.otoCat }</td>
-		                            <td>${ list.otoTitle }</td>
+		                            <td><label>${ list.otoTitle }</label></td>
 		                            <td>${ list.otoDate }</td>
 		                            <td>
 		                            	<c:choose>
@@ -113,6 +114,15 @@
                 		</c:otherwise>
                 	</c:choose>
                 </div>
+                
+                <!-- 문의내역 상세보기페이지로 -->
+                <script>
+	            	$(function(){
+	            		$(".table>tbody td label").click(function(){
+	            			location.href="myQueryDetail.me?otoNo=" + $(this).parents().siblings("#otoNo").text();
+	            		})
+	            	})
+	            </script>
                 
                 
                 <!-- 페이징 -->

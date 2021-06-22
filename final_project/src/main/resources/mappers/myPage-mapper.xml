@@ -298,12 +298,29 @@
 		        oto_no
 		      , oto_cat
 		      , oto_title
-		      , oto_date
+		      , TO_CHAR(oto_date, 'YY/MM/DD') oto_date
 		      , oto_re_reply
 		  from oto
 		 where member_no = #{memberNo}
 		 order by oto_no desc
 	</select>
+  	
+  	<!-- 나의문의 상세 -->
+	<select id="myQueryDetail" resultMap="memberResultSet">
+		select 
+		        oto_no
+		      , oto_cat
+		      , oto_title
+		      , oto_content
+		      , TO_CHAR(oto_date, 'YYYY-MM-DD') oto_date
+		      , oto_reply
+		      , oto_re_reply
+		  from oto
+		 where oto_no = #{otoNo}
+		 
+	</select>
+  	
+  	
   	
   	
   	<!-- 나의 펀딩 카운트 -->
@@ -477,7 +494,7 @@
 		        oto_no
 		      , oto_cat
 		      , oto_title
-		      , oto_date
+		      , TO_CHAR(oto_date, 'YY/MM/DD') oto_date
 		      , oto_re_reply
 		  from oto
 		 where member_no = #{memberNo}

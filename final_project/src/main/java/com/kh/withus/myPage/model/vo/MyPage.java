@@ -50,7 +50,7 @@ public class MyPage {
 	private String otoCat; // 카테고리
 	private String otoTitle;
 	private String otoContent;
-	private Date otoDate; // 작성일
+	private String otoDate; // 작성일
 	private String otoReply; //답변
 	private String otoReReply; //답변유무 N/Y
 	

@@ -67,9 +67,10 @@
 
 
         /* 문의내역 */
-        #main_3_1>table{width: 90%;}
-        #qTitle{width: 70%; height: 60px;}
-        #qDate{width: 30%;}
+        #qTable{width: 80%;}
+        #qTitle{width: 50%; height: 70px;}
+        #qDate{width: 20%;}
+        #qTable td{cursor: pointer;}
         
         
         /* 팔로잉 테이블 */
@@ -80,6 +81,8 @@
 
         #id{font-size: 12px; font-weight: bold;}
         #idDetail{font-size: 10px;}
+        #profile>img{cursor: pointer;}
+        #user>#id{cursor: pointer;}
 
        
         a{text-decoration: none; color: black;}
@@ -101,7 +104,7 @@
                 
                 <!-- 나의 펀딩 목록-->
                 <div id="main_1">
-                  <p id="mainTitle"><a href="">나의 펀딩 내역</a></p>
+                  <p id="mainTitle"><a href="myFunding.me">나의 펀딩 내역</a></p>
                   <div id="underLine"></div>
 
                   <div id="count">펀딩 참여<br> ${fundingCount} 회</div>
@@ -112,7 +115,7 @@
                 
                 <!--좋아요-->
                 <div id="main_2">
-                  <p id="mainTitle"><a href="">좋아요</a></p>
+                  <p id="mainTitle"><a href="like.me">좋아요</a></p>
                   <div id="underLine"></div>
 
                   <div class="like">
@@ -161,7 +164,7 @@
                 <div id="main_3">
                   
                   <div id="main_3_1">
-                    <p id="mainTitle"><a href="">나의 문의 내역</a></p>
+                    <p id="mainTitle"><a href="myQuery.me">나의 문의 내역</a></p>
                     <div id="underLine"></div>
 
                     <!--3개-->
@@ -170,25 +173,35 @@
                 			1:1 문의 내역이 없습니다
                 		</c:when>
                 		<c:otherwise>
-                			<table>
+                			<table id="qTable" class="table-hover">
 		                        
                 				<c:forEach var="queryList" items="${ mainQueryList }" end="2">
                 				  <tr>
-		                            
-		                            <td>${ queryList.otoTitle }</td>
-		                            <td>${ queryList.otoDate }</td>
-		                            
+		                            <td id="qDate">${ queryList.otoDate }</td>
+		                            <td id="qTitle">${ queryList.otoTitle }</td>
+		                            <td id="otoNo" style="display:none;">${ queryList.otoNo }</td>
 		                          </tr>
-		                       
-                				</c:forEach>
+		                       </c:forEach>
                 			</table>
                 		</c:otherwise>
                 	</c:choose>
-				  </div>    
+				  </div>
+				  
+				  <!-- 문의내역 상세보기페이지로 -->
+                 <script>
+	            	$(function(){
+	            		$("#qTable td").click(function(){
+	            			location.href="myQueryDetail.me?otoNo=" + $(this).siblings("#otoNo").text();
+	            		})
+	            	})
+	             </script>
+				  
+				  
+				      
                   
                   
                   <div id="main_3_2">
-                    <p id="mainTitle"><a href="">팔로잉</a></p>
+                    <p id="mainTitle"><a href="followlist.me">팔로잉</a></p>
                     <div id="underLine"></div>
 
                     <!--3개-->
@@ -200,23 +213,23 @@
 	                    	<c:forEach var="m" items="${ mainFollowList }" end="2">
 	                    	   <table id="followTable">
 		                      	<tr>
-			                        <th id="profile">
+			                        <td id="profile">
 			                        <c:choose>
 			                        	<c:when test="${ empty m.memberProfile }">
-			                            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle" >
+			                            	<a href="partnerDetail.me?memberNo=${ m.memberNo }"><img src="resources/member_profile/profile_basic.jpg" width="80" height="80" class="rounded-circle"></a>
 			                        	</c:when>
 			                        	<c:otherwise>
-			                        		<img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" >
+			                        		<a href="partnerDetail.me?memberNo=${ m.memberNo }"><img src="${ m.memberProfile }" width="80" height="80" class="rounded-circle" value="${ m.memberNo }" ></a>
 			                        	</c:otherwise> 
-			                        </c:choose> 
-			                        </th>
+			                        </c:choose>
+			                        
+			                        </td>
 			                        <th id="user">
 			                          <div id="id">${ m.partnerName }</div>
 			                          <div id="idDetail">파트너</div>
 			                          <div id="followMemberNo" style="display: none;" >${ m.memberNo }</div>
-			                          
 			                        </th>
-			                        <input type="hidden" value="${ m.memberNo }" name="followMemberNo" id="followMemberNo">
+			                        <input type="hidden" value="${ m.memberNo }" name="followMemberNo" id="followMemberNo"> 
 			                       
 			                      </tr>
 								</table>
@@ -225,15 +238,18 @@
                     </c:choose>
 				  </div>
 				  
+				   <!-- 파트너 상세보기페이지로 -->
+	                <script>
+		            	$(function(){
+		            		$("#followTable th").click(function(){
+		            			location.href="partnerDetail.me?memberNo=" + $(this).children("#followMemberNo").text();
+		            		})
+		            	})
+		            	
+		            	
+		            </script>
 				  
-				
-                  
-                
-                
-                
-                
-                
-                </div>
+				</div>
             
             </div>
             

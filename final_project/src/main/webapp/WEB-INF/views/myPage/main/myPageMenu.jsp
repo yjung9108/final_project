@@ -27,14 +27,11 @@
         
         #menu_1>div{float: left;}
         #menu_1_1{width: 50%; margin-top: 30px;}
-        #menu_1_2{width: 50%; margin-top: 60px;}
-
-        /*프로필 부분*/
        
 
-        #left_menu>#menu_1>div>li{
-            list-style-type: none
-        }
+        /*프로필 부분*/
+        #user_name{font-size: 19px; margin-top: 40px; margin-bottom: 0; margin-left: 10px;}
+        #member_grade{margin-top: 0px; margin-left: 10px;}
 
 
         /*메뉴부분*/
@@ -86,43 +83,48 @@
         
         <!--프로필-->
         <div id="menu_1">
-            <!-- 이미지 등록했을때 안했을때  (기본이미지) -->
             
-            <c:choose>
-            	<c:when test="${ empty loginUser.memberProfile }">    
-		            <div id="menu_1_1">
-		            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80"  class="rounded-circle" >
-		           	</div>
-	           	</c:when>
-	           	<c:otherwise>
-	           		<div id="menu_1_1">
-		            	<img src="${ loginUser.memberProfile }" width="80" height="80"  class="rounded-circle" >
-		           	</div>
-	           	</c:otherwise> 
-            </c:choose>
+                <table>
+                <tr>
+                    <td rowspan="2">
+                    
+                     <c:choose>
+		            	<c:when test="${ empty loginUser.memberProfile }">    
+				            <div id="menu_1_1">
+				            	<img src="resources/member_profile/profile_basic.jpg" width="80" height="80"  class="rounded-circle" >
+				           	</div>
+			           	</c:when>
+			           	<c:otherwise>
+			           		<div id="menu_1_1">
+				            	<img src="${ loginUser.memberProfile }" width="80" height="80"  class="rounded-circle" >
+				           	</div>
+			           	</c:otherwise> 
+		            </c:choose>
+                    </td>
+                    
+                    <td><label id="user_name">${ loginUser.memberName } 님</label></td>
+                </tr>
+                <tr>
+                    <td>
+                    
+                     <!-- 서포터/파트너 -->
+		                <c:choose>
+		                	<c:when test="${ loginUser.partnerJoin eq 'Y' }">
+		                		<label id="member_grade">서포터 | 파트너</label>
+		                	</c:when>
+		                	<c:otherwise>
+		                		<label id="member_grade">서포터</label>
+		                	</c:otherwise>
+		               	</c:choose>
+                    
+                    </td>
+                </tr>
+            </table>
+                
+                
+                
+                
             
-            
-            <div id="menu_1_2">
-                
-                <li style="font-size: 19px;">${ loginUser.memberName } 님</li>
-                
-                
-                <!-- 서포터/파트너 -->
-                <c:choose>
-                	<c:when test="${ loginUser.partnerJoin eq 'Y' }">
-                		<li>서포터 | 파트너</li>
-                	</c:when>
-                	<c:otherwise>
-                		<li>서포터</li>
-                	</c:otherwise>
-               	</c:choose>
-                
-                
-                
-                
-                
-                
-            </div>
         </div>
         
         <div id="menu_2">
