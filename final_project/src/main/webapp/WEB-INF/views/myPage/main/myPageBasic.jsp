@@ -118,19 +118,17 @@
                   <p id="mainTitle"><a href="like.me">좋아요</a></p>
                   <div id="underLine"></div>
 
-                  <div class="like">
-                    
-                    <c:choose>
+                 	<c:choose>
                     	<c:when test="${ empty mainLikeList }">
-                    		<div>
+                    		<div class="like">
                     			좋아요 목록이 없습니다
-                    		</div>
+                    		</div class="like">
                     		
                     	</c:when>
                     	<c:otherwise>
                     		<c:forEach var="likeList" items="${ mainLikeList }" end="2">
-	                    		<div>
-			                        <table>
+			                     <div class="like">
+                  					<table>
 			                            <tr>
 			                                <td colspan="2">
 			                                	<c:choose>
@@ -151,12 +149,12 @@
 			                                <td>~ ${ likeList.projectEndDt }</td>
 			                            </tr>
 			                        </table>
-			                    </div>
-                    		</c:forEach>
+			                       </div>
+			                 </c:forEach>
                     	</c:otherwise>
                     </c:choose>
                   
-                  </div>
+                  
 				</div>
 
                 
