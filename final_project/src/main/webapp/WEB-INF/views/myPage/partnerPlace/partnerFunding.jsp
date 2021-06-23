@@ -48,6 +48,8 @@
         /* 페이징 */
         #pagingArea{width:fit-content;margin:auto;}
         
+        a{text-decoration: none; color:white; text-decoration-line: none;}
+        
 	</style>
 </head>
 <body>

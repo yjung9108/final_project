@@ -61,11 +61,11 @@
         
         /* 프로필 사진 */
         .previewBox{margin-left: 100px; margin-top: 20px;}
-        #preview{width:100px; height:100;}
+        #preview{width:95px; height:95px;}
         .fileEdit{margin-left: 110px; margin-top: 5px; margin-bottom: 10px;}
         #delete{margin-left: 20px;}
         
-        
+        a{text-decoration: none; color:white; text-decoration-line: none;}
 
     </style>
 </head>

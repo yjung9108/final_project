@@ -57,10 +57,6 @@ public class MyPageController {
 		
 		return mv;
 		
-		
-		
-		
-		
 	}
 	
 	
@@ -69,14 +65,6 @@ public class MyPageController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -805,7 +793,7 @@ public class MyPageController {
 			
 	}
 	
-	// 나의정보
+	// 파트너 정보 페이지
 	@RequestMapping("partnerInfo.me")
 	public String partnerInfo(HttpSession session, Model model) {
 		

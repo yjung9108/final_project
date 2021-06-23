@@ -52,7 +52,8 @@
         /* 버튼 부분 */
         .confirmArea{height: 10px;}
         button{width:80px;}
-        a{text-decoration: none; color: white;}
+        
+        
 
     </style>
 </head>
@@ -111,7 +112,7 @@
                     <br>
                     <div align="center">
                         
-                        <button type="button" class="btn btn-dark btn-sm" id="submitBtn" disabled onclick="return check();"><a href="delete.me">회원탈퇴</a></button>
+                        <button type="button" class="btn btn-dark btn-sm" id="submitBtn" disabled onclick="return check();"><a href="delete.me" style="text-decoration: none; color:white;">회원탈퇴</a></button>
                     </div>
                     
                     

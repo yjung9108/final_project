@@ -98,7 +98,7 @@
 		                            <td>
 		                            	<c:choose>
 		                            		<c:when test="${list.otoReReply eq 'N'}">
-		                            			대기중
+		                            			처리중
 		                            		</c:when>
 		                            		<c:otherwise>
 		                            			답변완료
