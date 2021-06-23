@@ -219,6 +219,35 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	//-------------파트너
+
+	
+	//파트너정보
+	@Override
+	public MyPage partnerInfo(MyPage m) {
+		return mDao.partnerInfo(sqlSession, m);
+	}
+
+
+
+
+	// 파트너가만든 펀딩수
+	@Override
+	public int partnerfundingCount(MyPage m) {
+		return mDao.partnerfundingCount(sqlSession, m);
+	}
+
+
+
+
+	// 파트너가만든 펀딩 정보
+	@Override
+	public ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m) {
+		return mDao.partnerfundingList(sqlSession,pi, m);
+	}
+
+
+
 
 
 	

@@ -204,6 +204,28 @@ public class MyPageDao {
 		return (ArrayList)sqlSession.selectList("myPageMapper.mainFollowList", memberNo);
 	}
 
+	//---------------------파트너
+	
+	//파트너정보
+	public MyPage partnerInfo(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.selectOne("myPageMapper.partnerInfo", m);
+	}
+
+	// 파트너 펀딩수카운트
+	public int partnerfundingCount(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.selectOne("myPageMapper.partnerfundingCount", m);
+	}
+
+	// 파트너펀딩정보
+	public ArrayList<MyPage> partnerfundingList(SqlSessionTemplate sqlSession, PageInfo pi, MyPage m) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("myPageMapper.partnerfundingList", m, rowBounds);
+	}
+
 	
 	
 

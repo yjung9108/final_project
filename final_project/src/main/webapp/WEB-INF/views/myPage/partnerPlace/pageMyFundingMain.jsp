@@ -12,7 +12,7 @@
     <title>Document</title>
     <style>
         
-        .mypage_wrap{width: 1100px; height: 1200px; margin: auto;}
+        .mypage_wrap{width: 1100px; height: 1000px; margin: auto;}
 
         .mypage_wrap>div{width: 100%;}
 
@@ -54,9 +54,9 @@
 
             
             
-            <!-- 회원정보-->
+            <!-- 마이페이지 -->
             <div id="mypage_content">
-                <jsp:include page="memberInfo.jsp"/>
+                <jsp:include page="myFundingMain.jsp"/>
 			</div>
             
         </div>

@@ -78,6 +78,16 @@
 
 
 <body>
+
+	<!-- 알러트 -->
+	<c:if test="${ !empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+
+
      <!-- 왼쪽 메뉴바 -->
      <div id="left_menu">
         
@@ -130,7 +140,7 @@
         <div id="menu_2">
             <ul id="navi">
             	<li><a href="myInfo.me" class="big">나의 정보</a></li>
-                <li><a href="" class="big">나의 활동</a>
+                <li><a href="myFunding.me" class="big">나의 활동</a>
                     <ul class="small">
                         <li><a href="myFunding.me">펀딩내역</a></li>
                         <li><a href="like.me">좋아요</a></li>
@@ -139,9 +149,9 @@
                         <li><a href="">내가 쓴 글</a></li>
                     </ul>
                 </li>
-                <li><a href="" class="big">펀딩 스튜디오</a>
+                <li><a href="fundingMain.me" class="big">펀딩 스튜디오</a>
                     <ul class="small">
-                        <li><a href="">나의펀딩</a></li>
+                        <li><a href="partnerFunding.me">나의펀딩</a></li>
                         <li><a href="">펀딩관리</a></li>
                         <li><a href="">프로젝트안내</a></li>
                     </ul>

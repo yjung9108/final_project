@@ -79,6 +79,17 @@
 			<mapping path="/like.me"/>
 			<beans:bean id="" class="com.kh.withus.common.interceptor.LoginInterceptor"/>
 		</interceptor>
+		
+		
+		<!-- 파트너 조인 확인하는 인터셉터 -->
+		<interceptor>
+			<mapping path="/partnerFunding.me"/>
+			<mapping path="/partnerInfo.me"/>
+			
+			<beans:bean id="" class="com.kh.withus.common.interceptor.PartnerInterceptor"/>
+		</interceptor>
+		
+		
 	</interceptors>
 	
 	

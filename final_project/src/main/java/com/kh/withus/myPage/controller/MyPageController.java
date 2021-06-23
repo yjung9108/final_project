@@ -90,8 +90,6 @@ public class MyPageController {
 		// 펀딩내역 수
 		int fundingCount = mService.myFundingListCount(loginUser.getMemberNo());
 		
-		
-		
 		// 좋아요리스트
 		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
 		
@@ -115,17 +113,6 @@ public class MyPageController {
 		
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	// 내정보 -> 비밀번호 확인창으로
@@ -221,8 +208,6 @@ public class MyPageController {
 		}
 		
 		int result = mService.updateMember(m); 
-		
-		
 		
 		if(result > 0) { // 수정성공했을 경우
 			
@@ -761,15 +746,127 @@ public class MyPageController {
 			return "common/errorPage";
 		}
 		
+	}
+	
+	
+	//-----------------------------------------------------------------------//
+	
+	// 펀딩스튜디오메인
+	@RequestMapping("fundingMain.me")
+	public String fundingMain(HttpSession session, ModelAndView mv) {
 		
+		
+		
+		return "myPage/partnerPlace/pageMyFundingMain";
+		
+		
+		
+		
+	}
 	
+	// 나의펀딩
+	@RequestMapping("partnerFunding.me")
+	public String partnerFunding(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
+		
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		m.setMemberNo(loginUser.getMemberNo());
+		
+		
+		// 파트너의 팔로워수
+		int followerCount = mService.followerCount(m);
+		
+		// 파트너의 펀딩 정보들
+		// 파트너의 펀딩수(상태 전부)
+		int fundingCount = mService.partnerfundingCount(m);
+		
+		PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 6);
+		//6개씩
+		
+		ArrayList<MyPage> fundingList = mService.partnerfundingList(pi, m);			
+
+		
+		if(m != null) {
+			session.setAttribute("m", m);
+			session.setAttribute("followerCount", followerCount);
+			session.setAttribute("fundingCount", fundingCount);
+			session.setAttribute("pi", pi);
+			session.setAttribute("fundingList", fundingList);
+			return "myPage/partnerPlace/pagePartnerFunding";
+			
+		}else { // => 에러페이지
+			model.addAttribute("errorMsg", "에러가발생했습니다");
+			return "common/errorPage";
+		}
+			
+		
+		// 파트너 조인 'N'일경우 인터셉터에서 처리
+		
+			
+	}
 	
+	// 나의정보
+	@RequestMapping("partnerInfo.me")
+	public String partnerInfo(HttpSession session, Model model) {
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		session.setAttribute("loginUser", loginUser);
+		return "myPage/partnerPlace/pagePartnerInfo";	
+		
+			
 	}
 	
 	
 	
+	// 파트너정보수정
+	@RequestMapping("partnerUpdate.me")
+	public String updatePartner(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+		
+		
+		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
+			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
+			
+			// 새로운 파일 업로드
+			String changeName = saveFile(session, file);
+			m.setMemberProfile("resources/member_profile/" + changeName); 
+				
+		}
+		
+		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
+			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
+			
+			m.setMemberProfile(null);
+		
+		}
+		
+		int result = mService.updateMember(m); 
+		
+		if(result > 0) { // 수정성공했을 경우
+			
+			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
+			session.setAttribute("loginUser", mService.loginMember(m));
+			return "myPage/partnerPlace/pagePartnerInfo";
+			
+		}else {// 실패했을 경우 
+			model.addAttribute("errorMsg", "정보 수정 실패");
+			return "common/errorPage";
+		}
+		
+		
 	
 	
+	}
+		
+		
 	
 	
 }

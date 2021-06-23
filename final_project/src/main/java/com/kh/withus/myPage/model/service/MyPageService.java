@@ -99,6 +99,20 @@ public interface MyPageService {
 	ArrayList<MyPage> mainFollowList(int memberNo);
 
 
+	//---------------------------------파트너
+	
+	//파트너정보
+	MyPage partnerInfo(MyPage m);
+
+
+	// 파트너 펀딩수
+	int partnerfundingCount(MyPage m);
+
+
+	// 파트너 펀딩정보
+	ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m);
+
+
 
 	
 
