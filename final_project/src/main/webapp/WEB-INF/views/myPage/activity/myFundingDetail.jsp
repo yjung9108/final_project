@@ -345,16 +345,36 @@
 			                    <tr>
 			                      <td colspan="2" class="modifyArea">
 			                      	<input type="hidden" value="${orderList[0].orderNo }" name="orderNo">
-			                        <button type="submit" id="modify" class="btn btn-sm" disabled >배송지수정</button>
+			                        <button type="submit" id="modify" class="btn btn-sm" disabled onclick="return delieveryM();">배송지수정</button>
 			                      </td>
 			                    </tr>
 			                  </table>
 			                </div>
 	                	</c:when>
-	                	<c:otherwise>
-	                	</c:otherwise>
+	                	
 	                </c:choose>
                 </form>
+                <!-- 배송지 수정 컨펌 -->
+				<script>
+				
+				function delieveryM(){
+                	
+                	
+                	
+                	var result = confirm("배송지정보를 수정 하시겠습니까?");
+                	
+                	if(result){
+                		
+                	} else {
+                		alert("배송지정보 수정이 취소되었습니다");
+                		return false;
+                	}
+                
+                }				
+				
+				
+				
+				</script>
                 
                 
                 <!-- 배송준비중일경우 input, button에 readonly 제거 -->

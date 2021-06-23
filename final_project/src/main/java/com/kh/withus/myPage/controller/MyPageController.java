@@ -745,7 +745,7 @@ public class MyPageController {
 		
 		
 		
-		return "myPage/partnerPlace/pageMyFundingMain";
+		return "myPage/partner/pageMyFundingMain";
 		
 		
 		
@@ -780,7 +780,7 @@ public class MyPageController {
 			session.setAttribute("fundingCount", fundingCount);
 			session.setAttribute("pi", pi);
 			session.setAttribute("fundingList", fundingList);
-			return "myPage/partnerPlace/pagePartnerFunding";
+			return "myPage/partner/pagePartnerFunding";
 			
 		}else { // => 에러페이지
 			model.addAttribute("errorMsg", "에러가발생했습니다");
@@ -800,7 +800,7 @@ public class MyPageController {
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
 		session.setAttribute("loginUser", loginUser);
-		return "myPage/partnerPlace/pagePartnerInfo";	
+		return "myPage/partner/pagePartnerInfo";	
 		
 			
 	}
@@ -842,7 +842,7 @@ public class MyPageController {
 			
 			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
 			session.setAttribute("loginUser", mService.loginMember(m));
-			return "myPage/partnerPlace/pagePartnerInfo";
+			return "myPage/partner/pagePartnerInfo";
 			
 		}else {// 실패했을 경우 
 			model.addAttribute("errorMsg", "정보 수정 실패");
