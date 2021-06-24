@@ -452,7 +452,7 @@ public class MyPageController {
 		
 		mv.addObject("pi", pi)
 		  .addObject("list", list)
-		  .setViewName("myPage/activity/pageQueryList");
+		  .setViewName("myPage/activity/pageMyQueryList");
 		
 		return mv;
 		
@@ -462,6 +462,8 @@ public class MyPageController {
 	//문의내역 상세
 	@RequestMapping("myQueryDetail")
 	public String myQueryDetail(HttpSession session, Model model, int otoNo) {
+		
+		
 		
 		MyPage m = mService.myQueryDetail(otoNo);
 		
@@ -480,6 +482,37 @@ public class MyPageController {
 		}
 		
 	}
+	
+	//문의내역 삭제
+	@RequestMapping("deleteQuery.me")
+	public String deleteQuery(HttpSession session, Model model, int otoNo) {
+		
+		
+		System.out.println(otoNo);
+		
+		int result = mService.deleteQuery(otoNo);
+		
+		
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "문의가 삭제되었습니다");
+			return "redirect:myQuery.me";
+					
+		}else {
+			
+			model.addAttribute("errorMsg", "오류발생");
+			return "common/errorPage";
+			
+		}
+		
+	}	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -81,7 +81,14 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
+                         <!-- 첨부파일있는경우 -->
+                         <c:if test="${ !empty detail.otoOriginName}">
+	                         <tr>
+	                        	<td colspan="3" style="text-align: left;">첨부파일 : ${ detail.otoOriginName }</td>
+	                        	<!-- <a download="" href= ""></a> -->
+	                         </tr>
+                         </c:if>
+                         <tr>
                             <td colspan="3"id="qContent">${ detail.otoContent }</td>
                          </tr>
                         </tbody>
@@ -106,14 +113,41 @@
                           </c:if>
                           <tr>
                             <td colspan="3" id="backBtn">
+                            	<form action="deleteQuery.me" method="post">
                             	<input type="hidden" name="otoNo" value="${ detail.otoNo }">
                             	<button class="btn btn-sm"><a href="myQuery.me">목록</a></button>
-                            	<button class="btn btn-sm"><a href="deleteQuery.me">삭제</a></button>
+                            	<button type="submit" class="btn btn-sm" onclick="return validate();">삭제</button>
+                            	</form>
                             </td>
                             
                           </tr>
                         </tfoot>
-                      </table>       
+                      </table>
+                      
+                      <!-- 문의삭제 컨펌 -->
+						<script>
+						
+						function validate(){
+		                	
+		                	
+		                	
+		                	var result = confirm("문의를 삭제 하시겠습니까?");
+		                	
+		                	if(result){
+		                		
+		                	} else {
+		                		alert("삭제가 취소되었습니다");
+		                		return false;
+		                	}
+		                
+		                }				
+						
+						
+						
+						</script>
+                      
+                      
+                             
                     
                 </div>
                 

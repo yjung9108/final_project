@@ -36,6 +36,8 @@
 		<result column="oto_reply" property="otoReply"/>
 		<result column="oto_re_reply" property="otoReReply"/>
 		<result column="oto_status" property="otoStatus"/>
+		<result column="oto_orginname" property="otoOriginName"/>
+		<result column="oto_changename" property="otoChangeName"/>
 		
 		<!-- 주문서 -->
 		<result column="ORDER_NO" property="orderNo"/>
@@ -288,7 +290,7 @@
 		       count(*)
 		  from oto
 		 where member_no = #{memberNo}
-		   and order_status ='Y'
+		   and oto_status ='Y'
 	</select>
 	
 	
@@ -302,7 +304,7 @@
 		      , oto_re_reply
 		  from oto
 		 where member_no = #{memberNo}
-		   and order_status ='Y'
+		   and oto_status ='Y'
 		 order by oto_no desc
 	</select>
   	
@@ -317,6 +319,8 @@
 		      , TO_CHAR(oto_date, 'YYYY-MM-DD') oto_date
 		      , oto_reply
 		      , oto_re_reply
+		      , oto_orginname
+		      , oto_changename
 		  from oto
 		 where oto_no = #{otoNo}
 		 
@@ -327,7 +331,7 @@
   		update
   		        oto
   		   set  oto_status = 'N'
-  		 where order_no = #{otoNo}
+  		 where oto_no = #{otoNo}
   	</update>
 	
 	

@@ -81,8 +81,7 @@
                     
                     <form action="update.me" method="post" enctype="multipart/form-data">
                     	<div id="info_1_1">
-                        
-	                        <table>
+                        	<table>
 	                            <tr>
 	                                <th>프로필사진</th>
 	                                <td>
