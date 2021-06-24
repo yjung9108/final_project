@@ -142,7 +142,7 @@
 			                                </td>
 			                            </tr>
 			                            <tr>
-			                                <td colspan="2">${ likeList.projectTitle }</td>
+			                                <td colspan="2" style="width:10px;">${ likeList.projectTitle }</td>
 			                            </tr>
 			                            <tr>
 			                                <td>${ likeList.projectGPrice }</td>

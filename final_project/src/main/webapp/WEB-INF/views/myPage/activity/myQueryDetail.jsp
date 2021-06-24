@@ -106,8 +106,9 @@
                           </c:if>
                           <tr>
                             <td colspan="3" id="backBtn">
+                            	<input type="hidden" name="otoNo" value="${ detail.otoNo }">
                             	<button class="btn btn-sm"><a href="myQuery.me">목록</a></button>
-                            	
+                            	<button class="btn btn-sm"><a href="deleteQuery.me">삭제</a></button>
                             </td>
                             
                           </tr>

@@ -285,6 +285,7 @@
 		  order by project_end_dt asc
 	</select>
   	
+  	
   	<!-- 나의문의 목록카운트 -->
   	<select id="myQueryListCount" resultType="_int">
 		select 
@@ -306,6 +307,7 @@
 		 where member_no = #{memberNo}
 		 order by oto_no desc
 	</select>
+  	
   	
   	<!-- 나의문의 상세 -->
 	<select id="myQueryDetail" resultMap="memberResultSet">
