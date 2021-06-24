@@ -53,7 +53,8 @@
         
         .btn{background-color: rgb(178, 185, 223); color: white;}
 		a{text-decoration:none; color:white;}
-
+	
+		#file{color:black;}
 
 
     </style>
@@ -82,10 +83,9 @@
                         </thead>
                         <tbody>
                          <!-- 첨부파일있는경우 -->
-                         <c:if test="${ !empty detail.otoOriginName}">
+                         <c:if test="${ !empty detail.otoChangeName}">
 	                         <tr>
-	                        	<td colspan="3" style="text-align: left;">첨부파일 : ${ detail.otoOriginName }</td>
-	                        	<!-- <a download="" href= ""></a> -->
+	                        	<td colspan="3" style="text-align: left;">첨부파일 : <a id="file" href="${ detail.otoChangeName }" download="${ detail.otoOriginName }">${ detail.otoOriginName }</a></td>
 	                         </tr>
                          </c:if>
                          <tr>
