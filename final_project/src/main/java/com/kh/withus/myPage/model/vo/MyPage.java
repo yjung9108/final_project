@@ -53,12 +53,15 @@ public class MyPage {
 	private String otoDate; // 작성일
 	private String otoReply; //답변
 	private String otoReReply; //답변유무 N/Y
+	private String otoStatus; // 글상태 Y/N
 	
 	
-	// 펀딩
+	// 펀딩 주문
 	private int orderNo; // 주문번호
 	private int orderPlus; // 추가후원금
 	private String orderStatus; // 승인여부 1.결제완료 2.취소요청 3.취소완료
+	private String bankName; // 환불받을은행명
+	private String bankAccount; // 환불받을계좌번호
 	private String receiverName; // 수취인
 	private String receiverPhone; // 수취인번호
 	private String addressNo; // 우편번호
@@ -69,6 +72,9 @@ public class MyPage {
 	private String shippingCom; // 택배사
 	private String shippingNo; // 운송장번호
 	private Date orderDate; // 주문일
+	private int orderCount; // 주문수량
+	private String orderOption; //옵션 기입
+	
 	
 	// 리워드
 	private int rewardNo; //리워드번호
@@ -77,12 +83,7 @@ public class MyPage {
 	private String rewardTitle; //리워드제목
 	private String rewardContent; // 리워드내용
 	
-	//주문수량
-	private int count; // 주문수량
-	
-	//옵션값
-	private int optionNo; // 옵션번호
-	private String optionContent; // 옵션내용
+	private String optionYn; // 옵션유무 Y/N
 	
 	// 환불
 	private int refundNo; // 환불번호

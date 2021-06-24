@@ -133,6 +133,11 @@ public class MyPageDao {
 		return sqlSession.selectOne("myPageMapper.myQueryDetail", otoNo);
 	}
 	
+	//나의문의 삭제
+	public int deleteQuery(SqlSessionTemplate sqlSession, int otoNo) {
+		return sqlSession.update("myPageMapper.deleteQuery", otoNo);
+	}
+	
 	
 	// 나의 펀딩내역 카운트
 	public int myFundingListCount(SqlSessionTemplate sqlSession, int memberNo) {
@@ -150,9 +155,9 @@ public class MyPageDao {
 	}
 
 	//펀딩내역 디테일 어레이리스트
-	public ArrayList<MyPage> myFundingDetail(SqlSessionTemplate sqlSession, MyPage m) {
+	public MyPage myFundingDetail(SqlSessionTemplate sqlSession, MyPage m) {
 		
-		return (ArrayList)sqlSession.selectList("myPageMapper.myFundingDetail", m);
+		return sqlSession.selectOne("myPageMapper.myFundingDetail", m);
 	}
 
 	// 주문정보 업데이트
@@ -186,8 +191,8 @@ public class MyPageDao {
 		
 	}
 
-	public int orderStatusUpdate(SqlSessionTemplate sqlSession, int orderNo) {
-		return sqlSession.update("myPageMapper.orderStatusUpdate", orderNo);
+	public int orderStatusUpdate(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.update("myPageMapper.orderStatusUpdate", m);
 	}
 
 	
@@ -225,6 +230,8 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.partnerfundingList", m, rowBounds);
 	}
+
+	
 
 	
 	

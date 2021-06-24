@@ -569,24 +569,14 @@ public class MyPageController {
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
 		
-		// 옵션제외 주문내역 리스트
-		ArrayList<MyPage> orderList = mService.myFundingDetail(m);
+		// 주문내역 리스트
+		MyPage orderList = mService.myFundingDetail(m);
 		
-		
-		
-		int rewardTotal =0;
-		int rewardPlus = orderList.get(0).getOrderPlus();
-		int totalPrice = 0;
 		
 		// 리워드별 총금액 : 각각 리워드금액*갯수
-		for(int i=0; i<orderList.size(); i++) {
-			
-			rewardTotal += ((orderList.get(i).getRewardPrice())*(orderList.get(i).getCount()));
-		
-		}
-		
-		// 최종금액 : 리워드총금액 + 추가후원금
-		totalPrice = rewardTotal+rewardPlus;
+		int rewardTotal = orderList.getRewardPrice()*orderList.getOrderCount(); 
+		int rewardPlus = orderList.getOrderPlus();
+		int totalPrice = rewardTotal+rewardPlus;
 		
 		
 		
@@ -635,7 +625,7 @@ public class MyPageController {
 		
 	}
 	
-	*/
+	
 	
 	
 	
@@ -659,7 +649,7 @@ public class MyPageController {
 		
 	}
 	
-	
+	*/
 	
 	
 	
@@ -693,6 +683,10 @@ public class MyPageController {
 		
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
+		
+		System.out.println(m.getBankAccount() + m.getBankName());
+		
+		
 
 		
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
@@ -709,10 +703,10 @@ public class MyPageController {
 		// 신청성공했을 경우
 		if(result > 0 ) {
 			
-			int orderNo = m.getOrderNo();
 			
-			//주문상태 '환불신청중'으로 업데이트
-			int update = mService.orderStatusUpdate(orderNo); 
+			
+			//주문상태 '환불신청중'으로 업데이트 + 환불은행정보
+			int update = mService.orderStatusUpdate(m); 
 			
 			if(update>0) {
 				

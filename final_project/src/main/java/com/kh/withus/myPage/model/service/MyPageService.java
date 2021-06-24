@@ -58,6 +58,8 @@ public interface MyPageService {
 	// 문의내역 상세
 	MyPage myQueryDetail(int otoNo);
 	
+	// 문의내역삭제
+	int deleteQuery(int otoNo);
 	
 	
 	// 나의 펀딩내역리스트
@@ -66,7 +68,7 @@ public interface MyPageService {
 
 
 	// 나의 주문내역
-	ArrayList<MyPage> myFundingDetail(MyPage m);
+	MyPage myFundingDetail(MyPage m);
 
 
 	// 주분정보 업데이트
@@ -75,7 +77,7 @@ public interface MyPageService {
 
 	// 주문내역 옵션리스트
 	//ArrayList<MyPage> selectOptionList(MyPage m);
-	ArrayList<OptionList> selectOptionList(OptionList o);
+	//ArrayList<OptionList> selectOptionList(OptionList o);
 
 	
 	// 환불신청
@@ -83,7 +85,7 @@ public interface MyPageService {
 
 
 	// 주문상태 업데이트
-	int orderStatusUpdate(int orderNo);
+	int orderStatusUpdate(MyPage m);
 
 
 	// 메인 좋아요
@@ -111,6 +113,9 @@ public interface MyPageService {
 
 	// 파트너 펀딩정보
 	ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m);
+
+
+	
 
 
 

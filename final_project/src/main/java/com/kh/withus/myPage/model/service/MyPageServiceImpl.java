@@ -132,6 +132,13 @@ public class MyPageServiceImpl implements MyPageService{
 	public MyPage myQueryDetail(int otoNo) {
 		return mDao.myQueryDetail(sqlSession, otoNo);
 	}
+	
+	//문의내역 삭제
+	@Override
+	public int deleteQuery(int otoNo) {
+		return mDao.deleteQuery(sqlSession, otoNo);
+	}
+
 
 	
 
@@ -152,13 +159,9 @@ public class MyPageServiceImpl implements MyPageService{
 
 	// 나의 주문내역
 	@Override
-	public ArrayList<MyPage> myFundingDetail(MyPage m) {
+	public MyPage myFundingDetail(MyPage m) {
 		return mDao.myFundingDetail(sqlSession, m);
 	}
-
-
-
-
 
 	@Override
 	public int updateOrder(MyPage m) {
@@ -173,11 +176,11 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> selectOptionList(MyPage m) {
 		return mDao.selectOptionList(sqlSession, m);
 	}
-	 */
+	 
 	public ArrayList<OptionList> selectOptionList(OptionList o) {
 		return mDao.selectOptionList(sqlSession, o);
 	}
-
+	*/
 
 
 	@Override
@@ -186,12 +189,9 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 
-
-
-
 	@Override
-	public int orderStatusUpdate(int orderNo) {
-		return mDao.orderStatusUpdate(sqlSession, orderNo);
+	public int orderStatusUpdate(MyPage m) {
+		return mDao.orderStatusUpdate(sqlSession, m);
 	}
 
 
@@ -245,6 +245,15 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m) {
 		return mDao.partnerfundingList(sqlSession,pi, m);
 	}
+
+
+
+
+
+	
+
+
+
 
 
 
