@@ -37,7 +37,7 @@
         
        
         /* mypage안의 세부영역 */
-        #content{width: 100%; margin-left: 150px;}
+        #content{width: 100%; margin-left: 130px;}
 
         /*큰제목*/
         p{font-size: 23px; font-weight: bolder;}
@@ -146,7 +146,7 @@
         <div id="mypage">
             <div id="content" class="fundingDetail">
               
-              <p>펀딩내역</p>
+              
               <div id="underLine"></div>
                 
               <table id="orderBasic">

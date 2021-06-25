@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,13 +81,15 @@ public class MyPageController {
 		
 		// 좋아요리스트
 		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
+		Collections.shuffle(mainLikeList); // 섞기
+		
 		
 		// 문의내역리스트
 		ArrayList<MyPage> mainQueryList = mService.mainQueryList(loginUser.getMemberNo());
 		
 		// 팔로우리스트
 		ArrayList<MyPage> mainFollowList = mService.mainFollowList(loginUser.getMemberNo());
-		
+		Collections.shuffle(mainFollowList); // 섞기
 		
 		
 		mv.addObject("fundingCount", fundingCount)
@@ -755,47 +758,33 @@ public class MyPageController {
 	
 	//-----------------------------------------------------------------------//
 	
-	// 마이페이지메인
-	@RequestMapping("myPage.me")
-	public ModelAndView myPage(HttpSession session, ModelAndView mv) {
-		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
-		
-		
-		// 펀딩내역 수
-		int fundingCount = mService.myFundingListCount(loginUser.getMemberNo());
-		
-		// 좋아요리스트
-		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
-		
-		// 문의내역리스트
-		ArrayList<MyPage> mainQueryList = mService.mainQueryList(loginUser.getMemberNo());
-		
-		// 팔로우리스트
-		ArrayList<MyPage> mainFollowList = mService.mainFollowList(loginUser.getMemberNo());
-		
-		
-		
-		mv.addObject("fundingCount", fundingCount)
-		  .addObject("mainLikeList", mainLikeList)
-		  .addObject("mainQueryList", mainQueryList)
-		  .addObject("mainFollowList", mainFollowList)
-		  .setViewName("myPage/main/myPageMain");
-		
-		return mv;
-		
-	
-		
-	}	
-	
 	// 펀딩스튜디오메인
 	@RequestMapping("fundingMain.me")
-	public String fundingMain(HttpSession session, ModelAndView mv) {
+	public String fundingMain(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
 		
 		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		m.setMemberNo(loginUser.getMemberNo());
+		
+		
+		
+		// 파트너의 펀딩 정보들
+		// 파트너의 펀딩수(상태 전부)
+		int fundingCount = mService.partnerfundingCount(m);
+		
+		PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 6);
+		//6개씩
+		
+		ArrayList<MyPage> fundingList = mService.partnerfundingList(pi, m);					
+		
+
+		session.setAttribute("fundingCount", fundingCount);
+		session.setAttribute("fundingList", fundingList);
 		
 		return "myPage/partner/pageMyFundingMain";
 		
+		
+		// 귀찮아서 페이징 그대로씀
 		
 		
 		
@@ -808,6 +797,8 @@ public class MyPageController {
 		
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
+		
+		
 		
 		
 		// 파트너의 팔로워수

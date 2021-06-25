@@ -33,7 +33,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%; margin-left:150px;}
+        #content{width: 100%; margin-left:110px;}
 
         /*------공통---------*/
 
@@ -122,7 +122,7 @@
                     	<c:when test="${ empty mainLikeList }">
                     		<div class="like">
                     			좋아요 목록이 없습니다
-                    		</div class="like">
+                    		</div>
                     		
                     	</c:when>
                     	<c:otherwise>

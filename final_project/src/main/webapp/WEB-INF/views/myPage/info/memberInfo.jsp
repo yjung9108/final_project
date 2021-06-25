@@ -27,7 +27,7 @@
        
         /* mypage안의 세부영역 */
         #mypage>div{height: 100%;}
-        #content{width: 100%; margin-left:150px;}
+        #content{width: 100%; margin-left:110px;}
 
         
         /* info content */
@@ -45,6 +45,7 @@
         /* 입력요소 */
         .info table{margin-left: 20px;}
         .info th{width: 200px; height: 40px;}
+        .info td{width: 320px}
         .info input{width: 300px}
         .info label{cursor: pointer; font-size: 12px;}
          #readonly{background-color: lightgray;}
@@ -124,14 +125,15 @@
 	                                </td>
 	                            </tr>
 	                            <tr>
-	                                <th colspan="2" class="buttonArea">
+	                            	<th></th>
+	                                <td class="buttonArea">
 	                                	<!-- 비밀번호암호화로그인으로 바꾸면 수정할것 -->
 	                                	<input type="hidden" name="memberPwd" value="${loginUser.memberPwd }">
 	                                	<input type="hidden" name="memberProfile" value="${loginUser.memberProfile }">
 	                                	
 	                                	
 	                                	<button type="submit" class="btn btn-light" id="btn1">정보수정</button>
-	                                </th>
+	                                </td>
 	                                
 	                            </tr>
 	    
@@ -251,9 +253,10 @@
                                 <td><input type="password"></td>
                             </tr>
                             <tr>
-                                <th colspan="2" class="buttonArea">
+                            	<th></th>
+                                <td class="buttonArea">
                                     <button type="button" class="btn btn-light" id="btn1">비밀번호 변경</button>
-                                </th>
+                                </td>
                             </tr>
 
                         </table>
@@ -268,19 +271,15 @@
                 
 
                     <div id="info_3_1">
-                        <table>
-                            <tr>
-                                <td>
-                                    
-                                    	유의사항 안내 페이지를 확인하신 후 신중하게 진행해 주시기 바랍니다.
-                                      
-                                </td>
-                            </tr>
-                            <tr>
+                       	유의사항 안내 페이지를 확인하신 후 신중하게 진행해 주시기 바랍니다.
+                       <table>
+                           <tr>
+                            	<th></th>
                                 <td class="buttonArea">
                                     <button type="button" class="btn btn-outline-secondary"><a href="deleteForm.me">회원탈퇴로 이동</a></button>
                                 </td>
                             </tr>
+
                         </table>
                         
                           

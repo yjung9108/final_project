@@ -540,7 +540,7 @@
 		                        from likey
 		                       where member_no = #{memberNo})
 		    and project_status='3'
-		  order by project_end_dt asc
+		  
 	</select>
 	
   	<!-- 메인문의 리스트 -->

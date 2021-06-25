@@ -40,6 +40,10 @@
 
         #content_1_2>div{float: left; margin-top: 20px; text-align: center; font-size: 12px;}
 
+		/* 버튼 */
+		#editBtn{width: 100px; }
+		
+
         /* 펀딩 목록 */
         #content_2{margin-top: 50px; margin-left: 100px; margin-right: 10px;}
         #content_2>div{float: left; padding: 10px;}
@@ -93,8 +97,8 @@
                             <li>팔로워</li>
                         </div>
                         
-                        <div style="margin-left: 25px; margin-top: 25px;">
-                            <button type="button" class="btn btn-dark btn-sm"><a href="partnerInfo.me">프로필 편집</a></button>
+                        <div style=" margin-top: 25px; margin-left:25px">
+                            <button type="button" id="editBtn" class="btn btn-dark btn-sm"><a href="partnerInfo.me">프로필 편집</a></button>
                         </div>
                         
                     </div>
@@ -219,16 +223,16 @@
 			                        </table>
 			                    </div>
                     		</c:forEach>
+                    		
                     	</c:otherwise>
                     </c:choose>
-                    
-
                 </div>
+                
                 
                 
                 <!-- 페이징 -->
                 <div id="content_3">
-                    <div id="pagingArea">
+                	<div id="pagingArea">
                         <ul class="pagination">
                             <!-- list가 있을때만 페이지버튼 -->
                         	<c:if test="${ !empty fundingList }">
