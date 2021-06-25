@@ -120,7 +120,7 @@
                      <!-- 서포터/파트너 -->
 		                <c:choose>
 		                	<c:when test="${ loginUser.partnerJoin eq 'Y' }">
-		                		<label id="member_grade">서포터 | 파트너</label>
+		                		<label id="member_grade">파트너</label>
 		                	</c:when>
 		                	<c:otherwise>
 		                		<label id="member_grade">서포터</label>

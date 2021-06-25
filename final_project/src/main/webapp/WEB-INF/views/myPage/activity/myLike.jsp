@@ -91,7 +91,8 @@
 			                                </td>
 			                            </tr>
 			                            <tr>
-			                                <td colspan="2">${ list.projectTitle }</td>
+			                                <td colspan="2" style="width:30px">${ list.projectTitle }</td>
+			                                
 			                            </tr>
 			                            <tr>
 			                                <td>${ list.projectGPrice }</td>
