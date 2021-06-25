@@ -89,7 +89,7 @@
                         </div>
 
                         <div style="margin-left: 25px;">
-                            <li style="color: rgb(52, 152, 219);">${ followerCount }</li>
+                            <li style="color: rgb(52, 152, 219);" id="followerCount"></li>
                             <li>팔로워</li>
                         </div>
                         
@@ -102,6 +102,58 @@
                     
                     
                 </div>
+                
+                
+                
+                
+                <!-- 팔로워수 조회할 해당 유저의 회원번호 -->
+                <input type="hidden" value="${ loginUser.memberNo }" name="followMemberNo">
+                
+                <!-- 팔로워수 갱신 스크립트 -->
+                <script>
+                $(function(){
+                	followerCount();
+            		
+            		setInterval(followerCount, 1000); // 1초 간격 실시간으로 갱신
+            		
+                })
+                
+                	// 파트너의 팔로워수를 실시간으로 갱신
+                	function followerCount(){
+                	var $followMemberNo = $("input[name=followMemberNo]").val();	// 해당 파트너의 회원번호
+                	
+                		$.ajax({
+	      					url:"followerCount.me",
+	      					data:{followMemberNo : $followMemberNo},
+	      					success:function(count){
+	      						
+	      						if(count !== null){ // 팔로워수
+	      							
+	      							$("#followerCount").text(count);
+	      							
+	      						
+	      						} else { // 오류
+	      							
+	      							alert("오류가 발생했습니다");
+	      						}
+	      						
+	      					}, error:function(){
+	      						console.log("followerCount ajax통신 실패")
+	      					}
+	      					
+	      				})
+                	
+                	
+                	}
+                
+                </script>
+                
+                
+                
+                
+                
+                
+                
                 
                 
                  <!-- 진행중인 펀딩 -->
@@ -133,7 +185,7 @@
 			                                </td>
 			                            </tr>
 			                            <tr>
-			                                <td colspan="2">${ list.projectTitle }</td>
+			                                <td colspan="2" style="width:10px;">${ list.projectTitle }</td>
 			                            </tr>
 			                            <tr>
 			                                <td>${ list.projectGPrice }</td>

@@ -37,7 +37,7 @@ public interface MyPageService {
 	int followCheck(MyPage m);
 
 	// 파트너의 팔로워 수
-	int followerCount(MyPage m);
+	int followerCount(int followMemberNo);
 	
 	// 파트너의 펀딩수
 	int fundingCount(MyPage m);

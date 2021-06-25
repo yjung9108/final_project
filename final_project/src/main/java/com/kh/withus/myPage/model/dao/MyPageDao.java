@@ -74,9 +74,9 @@ public class MyPageDao {
 	}
 
 	// 파트너 팔로워수 카운트
-	public int followerCount(SqlSessionTemplate sqlSession, MyPage m) {
+	public int followerCount(SqlSessionTemplate sqlSession, int followMemberNo) {
 		
-		return sqlSession.selectOne("myPageMapper.followerCount", m);
+		return sqlSession.selectOne("myPageMapper.followerCount", followMemberNo);
 	}
 	
 	// 파트너 펀딩수 카운트

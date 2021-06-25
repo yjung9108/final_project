@@ -219,7 +219,7 @@
 		select 
 		       count(*)
 		  from follow
-		 where follow_member_no = #{memberNo}
+		 where follow_member_no = #{followMemberNo}
 	</select>
 	
 	<!-- 파트너 오픈펀딩 수 (게시중인)-->

@@ -275,13 +275,13 @@ public class MyPageController {
 		m.setMemberNo(Integer.parseInt(memberNo));
 		m.setFollowMemberNo(Integer.parseInt(followMemberNo));
 		
-		System.out.println(memberNo);
-		System.out.println(followMemberNo);
+		//System.out.println(memberNo);
+		//System.out.println(followMemberNo);
 		
 		int result = mService.unfollowMember(m);
 				
 		
-		System.out.println("언팔로우"+result);
+		//System.out.println("언팔로우"+result);
 		if(result>0) {
 			return "Y";
 					
@@ -314,6 +314,27 @@ public class MyPageController {
 			
 	}
 	
+	// 팔로우 수 세기 
+	@ResponseBody
+	@RequestMapping("followerCount.me")
+	public String followMember(int followMemberNo, HttpSession session) {
+		
+		//System.out.println(followMemberNo);
+		
+		int followerCount = mService.followerCount(followMemberNo);
+				
+		//System.out.println(followerCount);
+		
+		String count =  Integer.toString(followerCount); // 문자열만 넘어가서 변환해줌..
+		
+		return count; // 해당 파트너의 팔로우수
+					
+		
+			
+	}	
+	
+	
+	
 	// 파트너 디테일
 	@RequestMapping("partnerDetail.me")
 	public String partnerDetail(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
@@ -332,17 +353,14 @@ public class MyPageController {
 			// 파트너정보
 			MyPage member = mService.partnerDetail(m);
 			
-			// 파트너의 팔로워수
-			int followerCount = mService.followerCount(m);
 			
-			
-			// 파트너의 오픈펀딩 정보들
 			// 파트너의 오픈펀딩수
 			int fundingCount = mService.fundingCount(m);
 			
 			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
 			//3개씩
 			
+			// 펀딩리스트
 			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);
 
 			
@@ -354,7 +372,7 @@ public class MyPageController {
 				
 				session.setAttribute("result", result);
 				session.setAttribute("m", member);
-				session.setAttribute("followerCount", followerCount);
+				//session.setAttribute("followerCount", followerCount);
 				session.setAttribute("fundingCount", fundingCount);
 				session.setAttribute("pi", pi);
 				session.setAttribute("fundingList", fundingList);
@@ -372,22 +390,20 @@ public class MyPageController {
 			// 파트너정보
 			MyPage member = mService.partnerDetail(m);
 			
-			// 파트너의 팔로워수
-			int followerCount = mService.followerCount(m);
 			
-			// 파트너의 오픈펀딩 정보들
 			// 파트너의 오픈펀딩수
 			int fundingCount = mService.fundingCount(m);
 			
 			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
 			//3개씩
 			
+			// 펀딩 리스트
 			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);			
 
 			
 			if(member != null) {
 				session.setAttribute("m", member);
-				session.setAttribute("followerCount", followerCount);
+				//session.setAttribute("followerCount", followerCount);
 				session.setAttribute("fundingCount", fundingCount);
 				session.setAttribute("pi", pi);
 				session.setAttribute("fundingList", fundingList);
@@ -403,6 +419,7 @@ public class MyPageController {
 		
 		
 	}
+	
 	
 	
 	
@@ -566,35 +583,7 @@ public class MyPageController {
 		
 	}
 	
-	//펀딩디테일
-	/*
-	@RequestMapping("myFundingDetail.me")
-	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
-		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
-		m.setMemberNo(loginUser.getMemberNo());
-		
-		// 옵션때문에 어레이리스트로!
-		ArrayList<MyPage> funding = mService.myFundingDetail(m);
-		
-		int rewardPrice = funding.get(0).getRewardPrice(); // 리워드금액
-		int orderPlus = funding.get(0).getOrderPlus(); //추가후원금
-		int count = funding.get(0).getCount(); // 갯수
-		
-		// 리워드X갯수
-		int totalReward = (rewardPrice*count);
-		// 총금액
-		int totalPrice = (totalReward+orderPlus);
 	
-		mv.addObject("funding", funding)
-		  .addObject("totalReward", totalReward)
-		  .addObject("totalPrice", totalPrice)
-		  .setViewName("myPage/activity/pageMyFundingDetail");
-		
-		return mv;
-		
-	}
-	*/
 	
 	@RequestMapping("myFundingDetail.me")
 	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
@@ -766,6 +755,39 @@ public class MyPageController {
 	
 	//-----------------------------------------------------------------------//
 	
+	// 마이페이지메인
+	@RequestMapping("myPage.me")
+	public ModelAndView myPage(HttpSession session, ModelAndView mv) {
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		
+		// 펀딩내역 수
+		int fundingCount = mService.myFundingListCount(loginUser.getMemberNo());
+		
+		// 좋아요리스트
+		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
+		
+		// 문의내역리스트
+		ArrayList<MyPage> mainQueryList = mService.mainQueryList(loginUser.getMemberNo());
+		
+		// 팔로우리스트
+		ArrayList<MyPage> mainFollowList = mService.mainFollowList(loginUser.getMemberNo());
+		
+		
+		
+		mv.addObject("fundingCount", fundingCount)
+		  .addObject("mainLikeList", mainLikeList)
+		  .addObject("mainQueryList", mainQueryList)
+		  .addObject("mainFollowList", mainFollowList)
+		  .setViewName("myPage/main/myPageMain");
+		
+		return mv;
+		
+	
+		
+	}	
+	
 	// 펀딩스튜디오메인
 	@RequestMapping("fundingMain.me")
 	public String fundingMain(HttpSession session, ModelAndView mv) {
@@ -789,7 +811,8 @@ public class MyPageController {
 		
 		
 		// 파트너의 팔로워수
-		int followerCount = mService.followerCount(m);
+		int followMemberNo = m.getMemberNo();
+		int followerCount = mService.followerCount(followMemberNo);
 		
 		// 파트너의 펀딩 정보들
 		// 파트너의 펀딩수(상태 전부)

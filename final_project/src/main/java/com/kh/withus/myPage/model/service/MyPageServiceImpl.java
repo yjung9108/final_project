@@ -87,9 +87,9 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 	@Override
-	public int followerCount(MyPage m) {
+	public int followerCount(int followMemberNo) {
 		
-		return mDao.followerCount(sqlSession, m);
+		return mDao.followerCount(sqlSession, followMemberNo);
 	}
 
 	@Override

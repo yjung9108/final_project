@@ -82,7 +82,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                         <!-- 첨부파일있는경우 -->
+                         <!-- 첨부파일있는경우 --><!-- 다운로드 -->
                          <c:if test="${ !empty detail.otoChangeName}">
 	                         <tr>
 	                        	<td colspan="3" style="text-align: left;">첨부파일 : <a id="file" href="${ detail.otoChangeName }" download="${ detail.otoOriginName }">${ detail.otoOriginName }</a></td>
