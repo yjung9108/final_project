@@ -106,7 +106,7 @@
                           </tr>
                           <!--답변완료일시에만 보이게-->
                           
-                          <c:if test="${ detail.otoReReply eq 'Y'}">
+                          <c:if test="${ detail.otoReStatus eq 'Y'}">
                           	<tr>
                             <td colspan="3" id="qReply">${ detail.otoReply }</td>
                           </tr>

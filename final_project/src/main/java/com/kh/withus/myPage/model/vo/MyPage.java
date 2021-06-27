@@ -52,7 +52,7 @@ public class MyPage {
 	private String otoContent;
 	private String otoDate; // 작성일
 	private String otoReply; //답변
-	private String otoReReply; //답변유무 N/Y
+	private String otoReStatus; //답변유무 N/Y
 	private String otoStatus; // 글상태 Y/N
 	private String otoOriginName; //첨부파일원본명
 	private String otoChangeName; // 첨부파일수정명+경로

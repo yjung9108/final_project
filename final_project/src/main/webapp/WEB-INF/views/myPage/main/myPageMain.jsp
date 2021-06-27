@@ -49,7 +49,7 @@
             
             <!-- 왼쪽 메뉴바 -->
             <div id="mypage_left_menu">
-                <jsp:include page="myPageMenu2.jsp"/>
+                <jsp:include page="myPageMenu.jsp"/>
             </div>
 
             

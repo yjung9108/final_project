@@ -34,7 +34,7 @@
 		<result column="oto_content" property="otoContent"/>
 		<result column="oto_date" property="otoDate"/>
 		<result column="oto_reply" property="otoReply"/>
-		<result column="oto_re_reply" property="otoReReply"/>
+		<result column="oto_re_status" property="otoReStatus"/>
 		<result column="oto_status" property="otoStatus"/>
 		<result column="oto_orginname" property="otoOriginName"/>
 		<result column="oto_changename" property="otoChangeName"/>
@@ -301,7 +301,7 @@
 		      , oto_cat
 		      , oto_title
 		      , TO_CHAR(oto_date, 'YY/MM/DD') oto_date
-		      , oto_re_reply
+		      , oto_re_status
 		  from oto
 		 where member_no = #{memberNo}
 		   and oto_status ='Y'
@@ -318,7 +318,7 @@
 		      , oto_content
 		      , TO_CHAR(oto_date, 'YYYY-MM-DD') oto_date
 		      , oto_reply
-		      , oto_re_reply
+		      , oto_re_status
 		      , oto_orginname
 		      , oto_changename
 		  from oto
@@ -550,7 +550,7 @@
 		      , oto_cat
 		      , oto_title
 		      , TO_CHAR(oto_date, 'YY/MM/DD') oto_date
-		      , oto_re_reply
+		      , oto_re_status
 		  from oto
 		 where member_no = #{memberNo}
 		 order by oto_no desc
