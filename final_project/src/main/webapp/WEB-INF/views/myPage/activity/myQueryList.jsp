@@ -82,7 +82,7 @@
                 			<table class="table table-hover">
 		                        <thead class="thead-light">
 		                          <tr>
-                                    <th id="replyCat">분류</th>
+                                    <th id="replyCat">문의유형</th>
 		                            <th id="replyTitle">문의 제목</th>
 		                            <th id="replyDate">문의일</th>
 		                            <th id="replyStatus">상태</th>

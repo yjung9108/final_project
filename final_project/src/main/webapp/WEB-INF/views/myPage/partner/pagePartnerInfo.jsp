@@ -55,7 +55,7 @@
             
             
             <!-- 파트너 정보변경 -->
-            <div id="mypage_content">
+            <div id="mypage_content" class="ff">
                 <jsp:include page="partnerInfo.jsp"/>
 			</div>
             

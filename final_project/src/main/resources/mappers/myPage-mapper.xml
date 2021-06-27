@@ -354,6 +354,7 @@
 			 , order_status
 			 , order_date
 			 , project_title
+			 , project_thum
 		  from tb_order o
 		  join project using(project_no)
 		 where o.member_no = #{memberNo}
@@ -457,7 +458,7 @@
             , b.reward_content
             , b.option_yn
             , c.project_title
-			
+			, c.project_thum
 	   from tb_order a
        join reward b on (a.reward_no = b.reward_no)
 	   join project c on(a.project_no = c.project_no)

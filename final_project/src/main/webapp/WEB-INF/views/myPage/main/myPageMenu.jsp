@@ -13,7 +13,11 @@
 
 
   <style>
-    #left_menu{width: 200px; height: 1000px; margin: left;}
+  
+  	@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap');
+  	.ff{font-family: 'Nanum Gothic Coding', monospace;}
+  
+    #left_menu{width: 200px; height: 1300px; margin: left;}
 
     #left_menu>div{width: 100%;}
 
@@ -116,7 +120,7 @@
 
 
 	<!-- 왼쪽 메뉴바 -->
-	<div id="left_menu">
+	<div id="left_menu" class="ff">
 	        
 	  <!--프로필-->
 		<div id="menu_1">

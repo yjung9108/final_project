@@ -59,8 +59,8 @@
         #orderDetail td{height: 50px; }
         #orderDetail thead{font-weight: 900;}
         
-        
-        #orderName{width: 65%}
+        #thumb{width: 10%;}
+        #orderName{width: 65%; text-align: center;}
         #rewardPrice{width: 15%; text-align: center;}
         #count{width: 8%; text-align: center;}
 
@@ -84,7 +84,7 @@
         a{text-decoration: none; color:white; text-decoration-line: none;}
 
         /* 맨아래 목록 버튼 부분 */
-        .bottm_btnarea{height: 200px; margin-top:10px; text-align: center; }
+        .bottom_btnarea{height: 200px; margin-top:10px; text-align: center; }
         #listBtn{width: 150px; background-color: rgb(52, 152, 219); color: honeydew;}
         #refundBtn{width: 150px; background-color: rgb(52, 152, 219); color: honeydew;}
         
@@ -93,8 +93,8 @@
 		#popup01{ display: none;}
 		
 		#popup01{
-			width: 400px;
-			height: 680px;
+			width: 370px;
+			height: 650px;
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -120,7 +120,7 @@
 		}
 		
 		
-		#popup_content{margin-top: 20px; margin-left: 30px; margin-right: 20px;}
+		#popup_content{margin-top: 20px; margin-left: 40px; margin-right: 20px;}
 		
 		/* 환불 테이블 */
 		#popup01 table{width: 80%;}
@@ -183,7 +183,9 @@
                   <table id="orderDetail">
                     <thead>
                         <tr>
+                        
                         <td id="orderName">상품명</td>
+                        <td id="thumb"></td>
                         <td id="rewardPrice">리워드금액</td>
                         <td id="count">수량</td>
                         
@@ -191,11 +193,13 @@
                     </thead>
                     <tbody>
                     	<tr>
+                    		
  							<td>
                      			<div style="margin-top: 20px;">${orderList.projectTitle }</div>
                                 <div>${orderList.rewardTitle }</div>
                                 <div>${orderList.rewardContent }</div>               
                             </td>
+                            <td><img src="${ orderList.projectThum }" width="100" height="90"></td>
                             <td style="text-align: center;">${ orderList.rewardPrice }</td>
                             <td style="text-align: center;">${ orderList.orderCount }</td>
                         </tr>
@@ -563,7 +567,7 @@
                       <th style="text-align: right;" id="finalPrice">${ totalPrice } 원</th>
                     </tr>
                     <tr>
-                        <td colspan="3" class="bottm_btnarea">
+                        <td colspan="3" class="bottom_btnarea">
                             <!-- 주문상태가 결제완료상태일때만 반환신청 버튼 보이게 -->
                             <button class="btn btn-sm" style="color:white;" id="listBtn"><a href="myFunding.me">목록</a></button>
                             <c:if test="${orderList.orderStatus eq '1'}">

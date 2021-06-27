@@ -72,7 +72,7 @@
         
         <!-- 회원 정보수정 -->
         <div id="mypage">
-            <div id="content" class="info">
+            <div id="content" class="info ff">
                 
                 <!-- 기본정보 수정-->
                 <div id="info_1">

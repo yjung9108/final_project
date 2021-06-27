@@ -13,6 +13,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <style>
+	    @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap');
+	  	.ff{font-family: 'Nanum Gothic Coding', monospace;}
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
         .wrap{width: 1000px; height: 800px; margin: auto;}
@@ -61,10 +63,10 @@
 
 	<jsp:include page="../../common/header.jsp"/>
 	
-    <div class="wrap">
+    <div class="wrap" class="ff">
         
         <!-- 회원 정보수정 -->
-        <div id="mypage">
+        <div id="mypage" class="ff" >
             <div id="content" >
                 
                 <!-- 나의정보 비밀번호 확인-->

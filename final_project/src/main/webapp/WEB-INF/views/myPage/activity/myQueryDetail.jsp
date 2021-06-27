@@ -95,7 +95,7 @@
                         <tfoot>
                           <tr>
                             <c:choose>
-                            	<c:when test="${ detail.otoReReply eq 'N'}">
+                            	<c:when test="${ detail.otoReStatus eq 'N'}">
                             		<td colspan="3" style="text-align: right;">처리중</td>
                           	
                             	</c:when>

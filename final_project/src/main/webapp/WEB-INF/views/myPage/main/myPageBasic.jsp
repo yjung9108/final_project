@@ -39,8 +39,8 @@
 
         
         /* main content */
-        #main_1{height: 30%; margin-top: 50px;}
-        #main_2{height: 30%;}
+        #main_1{height: 20%; }
+        #main_2{height: 30%; margin-top: 20px;}
         #main_3{height: 30%; margin-top: 150px;}
         
 
@@ -55,9 +55,9 @@
           background-color: rgba(41, 128, 185, 0.16);
           width: 300px;
           margin-left: 300px;
-          margin-top: 50px;
+          margin-top: 20px;
           font-size: 30px;
-          border-radius: 40px;
+          border-radius: 50px;
           text-align: center;
         }
 
@@ -104,10 +104,10 @@
                 
                 <!-- 나의 펀딩 목록-->
                 <div id="main_1">
-                  <p id="mainTitle"><a href="myFunding.me">나의 펀딩 내역</a></p>
+                  <p id="mainTitle"><a href="myFunding.me">나의 펀딩</a></p>
                   <div id="underLine"></div>
 
-                  <div id="count">펀딩 참여<br> ${fundingCount} 회</div>
+                  <div id="count">밀어준 펀딩<br> ${fundingCount} 회</div>
 
 
                 </div>
@@ -162,7 +162,7 @@
                 <div id="main_3">
                   
                   <div id="main_3_1">
-                    <p id="mainTitle"><a href="myQuery.me">나의 문의 내역</a></p>
+                    <p id="mainTitle"><a href="myQuery.me">나의 문의</a></p>
                     <div id="underLine"></div>
 
                     <!--3개-->

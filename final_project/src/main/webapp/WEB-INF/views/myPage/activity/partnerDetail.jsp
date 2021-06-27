@@ -14,6 +14,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <style>
+    
+	    @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap');
+	  	.ff{font-family: 'Nanum Gothic Coding', monospace;}
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
         .wrap{width: 1000px; height: 800px; margin: auto;}
@@ -59,7 +62,7 @@
     <div class="wrap">
         
         <!-- 유저 -->
-        <div id="mypage">
+        <div id="mypage" class="ff">
             <div id="content" class="userDetail">
                 
                 <!-- 유저 프로필 -->
