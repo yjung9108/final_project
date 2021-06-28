@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,8 @@ public class MyPageController {
 	
 	@Autowired
 	private MyPageService mService;
-	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	
 	
@@ -194,7 +196,7 @@ public class MyPageController {
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			}
 			
-			m.setMemberProfile(null);
+			m.setMemberProfile("/resources/images/partnerDefault.PNG");
 		
 		}
 		
@@ -217,12 +219,51 @@ public class MyPageController {
 	}
 	
 	
+	// 비밀번호수정
+	@RequestMapping("updatePwd")
+	public String updatePwd(String newPwd, MyPage m, HttpSession session, Model model) {
+		
+		System.out.println(m.getMemberNo());
+		
+		// 암호화 작업
+		String encPwd = bcryptPasswordEncoder.encode(newPwd);
+		System.out.println("암호화 후 : " + encPwd); // 같은 평문을 입력해도 매번 다른 암호문이 나옴
+		
+		m.setMemberPwd(encPwd); // 암호문 변경
+		
+		int result = mService.updatePwd(m);
+		
+		if(result > 0) { // 성공 => 알람창 출력할 문구 담아서 => 메인페이지 (url재요청)
+			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다");
+			return "redirect:/";
+		}else { // 실패 => 에러문구 담아서 => 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "에러");
+			return "common/errorPage";
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 회원탈퇴
 	@RequestMapping("delete.me")
 	public String deleteMember(HttpSession session, Model model) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		MyPage loginUser = (MyPage) session.getAttribute("loginUser");
 		
 		int result = mService.deleteMember(loginUser.getMemberId());
 		

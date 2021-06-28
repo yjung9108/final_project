@@ -158,6 +158,14 @@
   		      , partner_intro =#{partnerIntro}
   		 where member_id = #{memberId}
   	</update>
+  	
+  	<!-- 회원 비밀번호수정 -->
+  	<update id="updatePwd" parameterType="MyPage">
+  		update
+  		        member
+  		   set  member_pwd = #{memberPwd}
+  		  where member_no = #{memberNo}
+  	</update>
 	
 	
 	<!-- 언팔로우 -->

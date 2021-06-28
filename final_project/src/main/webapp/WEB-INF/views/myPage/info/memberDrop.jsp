@@ -151,7 +151,7 @@
 				      						
 				      						
 				      					}, error:function(){
-				      						console.log("아이디중복체크용 ajax통신 실패")
+				      						console.log("비밀번호체크 ajax통신 실패")
 				      					}
 				      					
 				      				})

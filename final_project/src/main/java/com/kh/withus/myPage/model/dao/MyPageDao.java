@@ -43,12 +43,19 @@ public class MyPageDao {
 		return (ArrayList)sqlSession.selectList("myPageMapper.selectFollowList", memberNo, rowBounds);
 	}
 
-	// 회원정보수정
+	// 회원 기본정보수정
 	public int updateMember(SqlSessionTemplate sqlSession, MyPage m) {
 		
 		return sqlSession.update("myPageMapper.updateMember", m);
 	
 	}
+	
+	
+	// 비밀번호 변경
+	public int updatePwd(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.update("myPageMapper.updatePwd", m);
+	}	
+
 
 	// 언팔
 	public int unfollowMember(SqlSessionTemplate sqlSession, MyPage m) {
@@ -230,7 +237,8 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.partnerfundingList", m, rowBounds);
 	}
-
+	
+	
 	
 
 	

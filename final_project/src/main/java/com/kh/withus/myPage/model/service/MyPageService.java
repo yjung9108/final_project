@@ -19,6 +19,12 @@ public interface MyPageService {
 	// 회원 기본 정보수정용 서비스
 	int updateMember(MyPage m);
 	
+	
+	// 비밀번호 변경
+	int updatePwd(MyPage m);
+	
+	
+	
 	// 회원 탈퇴용 서비스
 	int deleteMember(String memberId);
 
@@ -113,6 +119,9 @@ public interface MyPageService {
 
 	// 파트너 펀딩정보
 	ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m);
+
+
+	
 
 
 	

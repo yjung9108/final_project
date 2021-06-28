@@ -40,11 +40,19 @@ public class MyPageServiceImpl implements MyPageService{
 		return 0;
 	}
 
+	// 기본정보 변경
 	@Override
 	public int updateMember(MyPage m) {
 		
 		return mDao.updateMember(sqlSession, m);
 	}
+	
+	// 비밀번호 변경
+	@Override
+	public int updatePwd(MyPage m) {
+		return mDao.updatePwd(sqlSession, m);
+	}
+	
 
 	@Override
 	public int deleteMember(String memberId) {
@@ -245,6 +253,12 @@ public class MyPageServiceImpl implements MyPageService{
 	public ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m) {
 		return mDao.partnerfundingList(sqlSession,pi, m);
 	}
+
+
+
+
+
+	
 
 
 

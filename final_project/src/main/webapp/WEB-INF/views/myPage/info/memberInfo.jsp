@@ -130,6 +130,7 @@
 	                                	<!-- 비밀번호암호화로그인으로 바꾸면 수정할것 -->
 	                                	<input type="hidden" name="memberPwd" value="${loginUser.memberPwd }">
 	                                	<input type="hidden" name="memberProfile" value="${loginUser.memberProfile }">
+	                                	<input type="hidden" name="memberNo" value="${loginUser.memberNo }">
 	                                	
 	                                	
 	                                	<button type="submit" class="btn btn-light" id="btn1">정보수정</button>
@@ -239,31 +240,165 @@
                     <div id="underLine"></div>
 
                     <div id="info_2_1">
-                        <table>
-                            <tr>
-                                <th>현재 비밀번호</th>
-                                <td><input type="password"></td>
-                            </tr>
-                            <tr>
-                                <th>새 비밀번호</th>
-                                <td><input type="password"></td>
-                            </tr>
-                            <tr>
-                                <th>새 비밀번호 확인</th>
-                                <td><input type="password"></td>
-                            </tr>
-                            <tr>
-                            	<th></th>
-                                <td class="buttonArea">
-                                    <button type="button" class="btn btn-light" id="btn1">비밀번호 변경</button>
-                                </td>
-                            </tr>
+			            <form action="updatePwd.me" method="post">
+			            	<table>
+			                    <tr>
+			                        <th>현재 비밀번호</th>
+			                        <td><input type="password" name="memberPwd" id="checkPwd"></td>
+			                        
+			                    </tr>
+			                    <tr>
+			                        <th>새 비밀번호</th>
+			                        <td>
+			                        	<input type="password" name="newPwd" id="newPwd" class="pw">
+			                            <div id="input" style="display: none;"> 영문, 숫자, 특수문자를 포함한 8~15자리</div>
+			                        </td>
+			                    </tr>
+			                    <tr>
+			                        <th>새 비밀번호 확인</th>
+			                        <td><input type="password" name="newPwdCheck" id="newPwdCheck" class="pw"></td>
+			                    </tr>
+			                    <tr>
+			                        <th></th>
+			                        <td class="buttonArea">
+			                        	<input type="hidden" name="memberNo" value="${loginUser.memberNo }">
+			                            <button type="submit" class="btn btn-light" id="btn1" onclick="return updatePwd();">비밀번호 변경</button>
+			                            <input type="hidden" id="confirmPwd" value="no">
+			                            
+			                        </td>
+			                    </tr>
+			
+			                </table>
+			            </form>
+			        </div>
+		    	</div>
+		    	
+		    	<!-- 현재 비밀번호 확인 ajax -->
+		    	<script>
+		    	$(function(){
+		      		
+		      		var checkPwd = $("#checkPwd"); // 비밀번호블 입력하는 input요소 객체
+		      		
+		      		checkPwd.keyup(function(){
+		      			
+		      			// 우선 최소 5글자 이상으로 입력했을 때만 ajax 요청해서 중복체크 
+		      			if(checkPwd.val().length >= 5){
+		      				
+		      				$.ajax({
+		      					url:"pwd.me",
+		      					data:{checkPwd:checkPwd.val()},
+		      					success:function(result){
+		      						
+		      						if(result == "N"){ // 사용 불가능
+		      							console.log("비밀번호 불일치")
+		      							$("#confirmPwd").val("no");
+		      							
+		      			                
+		      			            } else { // 사용가능
+		      							console.log("비밀번호 일치")
+		      							$("#confirmPwd").val("ok");
+		      						}
+		      						
+		      					
+		      						
+		      					}, error:function(){
+		      						console.log("ajax통신 실패")
+		      					}
+		      					
+		      				})
+		      				
+		      				
+		      				
+		      			}else { // 비밀번호가 5글자 미만일 경우 => 비교X 실행X
+		      				
+		      				
+		      			}
+		      		})
+		      	})  
+				      	
+				        
+		     </script>
+		    
+		    	
+		    <!-- 비밀번호수정 유효성검사 -->
+		    <script>
+		    	
+		    	// 새비밀번호 입력시 안내문구
+		    	$('.pw').keyup(function () {
+			        var newPwd = $("#newPwd").val();
+			        var newPwdCheck = $("#newPwdCheck").val();
+			  
+			        if ( newPwd != '' && newPwdCheck == '' ) { 
+			        	$("#input").css('display', 'inline-block');
+			        
+			       
+			      	} 
+			    
+			    });
+		    	
+		    	
+		    	// 유효성검사해서 넘기기
+		    	function updatePwd(){
+		    		
+		    		var newPwd = $("#newPwd").val();
+		    		var newPwdCheck = $("#newPwdCheck").val();
+		    		var regExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
+		    		//8자이상 15자이하, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자
 
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- 회원 탈퇴-->
+		    	
+		    		if(!regExp.test(newPwd) && !regExp.test(newPwdCheck)){
+		    			alert("유효한 비밀번호를 입력해주세요");
+		    			$("#newPwd").val("");
+		    			$("#newPwdCheck").val("");
+		    			$("#newPwd").focus();
+		    			
+		    			return false;
+		    		
+		    		} else { // 새 비밀번호 유효성 통과
+		    			
+		    			if(newPwd==newPwdCheck){ // 두 비밀번호 일치할때
+		    				
+		    				if( $("#confirmPwd").val()=="ok"){
+				    			
+				    			var result = confirm("비밀번호를 변경 하시겠습니까?");
+			                	
+			                	if(result){
+			                		
+			                		
+			                	} else {
+			                		alert("취소되었습니다");
+			                		return false;
+			                	}
+				    			
+				    			
+				    		} else {
+				    			
+				    			alert("현재 비밀번호가 일치하지않습니다");
+				    			$("#checkPwd").val("");
+				    			$("#checkPwd").focus();
+				    			return false;
+				    		}
+		    				
+		    				
+		    				
+		    				
+		    			} else { // 두 비밀번호 일치하지 않을 때
+		    				
+		    				alert("새 비밀번호가 일치하지 않습니다");
+		    				$("#newPwdCheck").val("");
+		    				$("#newPwdCheck").focus();
+		    				return false;
+		    			}
+		    			
+		    		}
+		    		
+		    	}				
+			        
+      		</script>   
+    		
+		    
+		    
+		    	<!-- 회원 탈퇴-->
                 <div id="info_3">
                 
                     <p id="mainTitle">회원탈퇴</p>
