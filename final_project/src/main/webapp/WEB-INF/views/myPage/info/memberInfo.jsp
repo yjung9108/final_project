@@ -127,8 +127,7 @@
 	                            <tr>
 	                            	<th></th>
 	                                <td class="buttonArea">
-	                                	<!-- 비밀번호암호화로그인으로 바꾸면 수정할것 -->
-	                                	<input type="hidden" name="memberPwd" value="${loginUser.memberPwd }">
+	                                	
 	                                	<input type="hidden" name="memberProfile" value="${loginUser.memberProfile }">
 	                                	<input type="hidden" name="memberNo" value="${loginUser.memberNo }">
 	                                	
@@ -165,7 +164,7 @@
 					  
 						$('#file').change(handleFileSelect);
 						$('.fileEdit').on('click', '#delete', function () {
-						    $("#preview").removeAttr("src").attr("src", "resources/member_profile/profile_basic.jpg"); // db의 기본프로필파일
+						    $("#preview").removeAttr("src").attr("src", "resources/images/partnerDefault.PNG"); // db의 기본프로필파일
 						    $("#file").val(""); //파일밸류값 삭제
 						    $("#deleteProfile").val("delete"); // 기본이미지로 변경을위해 밸류값줘서 넘긴다
 						});
@@ -262,6 +261,7 @@
 			                        <th></th>
 			                        <td class="buttonArea">
 			                        	<input type="hidden" name="memberNo" value="${loginUser.memberNo }">
+			                        	<input type="hidden" name="memberId" value="${loginUser.memberId }">
 			                            <button type="submit" class="btn btn-light" id="btn1" onclick="return updatePwd();">비밀번호 변경</button>
 			                            <input type="hidden" id="confirmPwd" value="no">
 			                            

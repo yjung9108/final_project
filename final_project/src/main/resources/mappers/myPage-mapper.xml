@@ -103,7 +103,7 @@
   		  from member
   		 where member_status IN ('Y', 'A')
   		   and member_id = #{memberId}
-  		   and member_pwd = #{memberPwd}
+  		  
   		
   	</select>
   	

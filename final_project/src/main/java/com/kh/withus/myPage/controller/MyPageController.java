@@ -49,13 +49,17 @@ public class MyPageController {
 		
 		
 		MyPage loginUser = mService.loginMember(m);
-		if(loginUser == null) { // 로그인 실패
+		
+		//System.out.println(loginUser.getMemberPwd());
+		
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+			// 로그인 성공
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("redirect:/");
+		}else {
+			// 로그인 실패
 			mv.addObject("errorMsg", "로그인실패");
 			mv.setViewName("common/errorPage");
-		}else { // 로그인 성공
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", "로그인되었습니다");
-			mv.setViewName("redirect:/");
 		}
 		
 		return mv;
@@ -118,19 +122,26 @@ public class MyPageController {
 	
 	// 로그인된 유저 비밀번호 확인
 	@RequestMapping("pwdConfirm.me")
-	public String pwdConfirm(HttpServletRequest request, HttpSession session) {
+	public String pwdConfirm(String memberPwd, HttpServletRequest request, HttpSession session) {
 		
 		
 		// 비밀번호 암호화 전
 		// 입력받은 비밀번호
-		String memberPwd = request.getParameter("memberPwd");
+		//String memberPwd = request.getParameter("memberPwd");
 		
 		// 로그인된 유저
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 		
-		if(memberPwd.equals(loginUser.getMemberPwd())) {
+		/*
+		if(bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd()))) {
 			return "myPage/info/pageMyInfoDetail";
 			
+		}*/
+		
+		// 암호화후
+		if(bcryptPasswordEncoder.matches(memberPwd, loginUser.getMemberPwd())) {
+			return "myPage/info/pageMyInfoDetail";
+		
 		}else {
 			session.setAttribute("alertMsg", "비밀번호가 틀립니다");
 			return "myPage/info/pageMyInfoMain";
@@ -161,12 +172,24 @@ public class MyPageController {
 		// 로그인된 유저
 		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
 				
+		/* 암호화 전
 		if(checkPwd.equals(loginUser.getMemberPwd())) {
 			return "Y";
 					
 		}else {
 			return "N";
 		}
+		*/
+		
+		if(bcryptPasswordEncoder.matches(checkPwd, loginUser.getMemberPwd())) {
+			return "Y";
+					
+		}else {
+			return "N";
+		}
+		
+		
+		
 					
 			
 	}
@@ -196,7 +219,7 @@ public class MyPageController {
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			}
 			
-			m.setMemberProfile("/resources/images/partnerDefault.PNG");
+			m.setMemberProfile("resources/images/partnerDefault.PNG");
 		
 		}
 		
@@ -227,7 +250,7 @@ public class MyPageController {
 		
 		// 암호화 작업
 		String encPwd = bcryptPasswordEncoder.encode(newPwd);
-		System.out.println("암호화 후 : " + encPwd); // 같은 평문을 입력해도 매번 다른 암호문이 나옴
+		//System.out.println("암호화 후 : " + encPwd); // 같은 평문을 입력해도 매번 다른 암호문이 나옴
 		
 		m.setMemberPwd(encPwd); // 암호문 변경
 		
@@ -235,7 +258,9 @@ public class MyPageController {
 		
 		if(result > 0) { // 성공 => 알람창 출력할 문구 담아서 => 메인페이지 (url재요청)
 			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다");
-			return "redirect:/";
+			session.setAttribute("loginUser", mService.loginMember(m));
+			return "myPage/info/pageMyInfoDetail";
+			
 		}else { // 실패 => 에러문구 담아서 => 에러페이지로 포워딩
 			model.addAttribute("errorMsg", "에러");
 			return "common/errorPage";
