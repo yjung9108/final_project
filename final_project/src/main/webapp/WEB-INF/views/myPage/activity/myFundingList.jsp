@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 800px; margin: auto;}
+        .wrap{width: 1000px; height: 900px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
