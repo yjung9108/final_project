@@ -219,7 +219,7 @@ public class MyPageController {
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			}
 			
-			m.setMemberProfile("resources/images/partnerDefault.PNG");
+			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
 		
 		}
 		
@@ -496,7 +496,7 @@ public class MyPageController {
 	
 	
 	// 전달받은 첨부파일 수정명 작업해서 서버에 업로드 시킨 후 해당 수정된파일명(서버에 업로된파일명)을 반환
-	// 프로필사진, 환불파일
+	// 프로필사진
 	public String saveFile(HttpSession session, MultipartFile file) {
 		
 		String savePath = session.getServletContext().getRealPath("/resources/member_profile/");
@@ -783,7 +783,7 @@ public class MyPageController {
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
 			
 			// 파일 업로드
-			String changeName = saveFile(session, file);
+			String changeName = refundFile(session, file);
 			m.setRChangeName("resources/refund_files/" + changeName); 
 				
 		}
@@ -820,6 +820,37 @@ public class MyPageController {
 		}
 		
 	}
+	
+	 //환불신청 파일
+	 public String refundFile(HttpSession session, MultipartFile file) {
+		
+		String savePath = session.getServletContext().getRealPath("/resources/refund_files/");
+		
+		String originName = file.getOriginalFilename();  // 원본명 ("aaa.jpg")
+		
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 900000 + 10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		String changeName = currentTime + ranNum + ext;
+		
+		try {
+			file.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return changeName;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//-----------------------------------------------------------------------//
@@ -939,7 +970,7 @@ public class MyPageController {
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			}
 			
-			m.setMemberProfile(null);
+			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
 		
 		}
 		

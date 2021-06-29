@@ -415,7 +415,7 @@
 			        	
 			        	console.log(shippingStatus);
 			        	
-			            if(shippingStatus =='1'){
+			            if(shippingStatus =='1' && orderStatus=='1'){
 			            	
 			            	$("input").removeAttr("readonly");
 			            	$("button").removeAttr("disabled");
@@ -757,4 +757,4 @@
     
     
 </body>
-</html></html>
+</html>

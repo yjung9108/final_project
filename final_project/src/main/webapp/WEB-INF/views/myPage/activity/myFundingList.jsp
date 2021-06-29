@@ -50,6 +50,7 @@
         .fundingList #status{width: 15%; }
         .fundingList #orderDate{width: 20%; }
        
+        .table>tbody>tr>td{padding-top: 30px;}
 		th{text-align: center;}       
 
         /* 페이징 */
