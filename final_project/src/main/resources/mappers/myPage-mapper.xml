@@ -623,9 +623,18 @@
 		  order by project_end_dt asc
 	</select>
 	
-	
-	
-	
+	<!-- 파트너조인-->
+	<update id="partnerJoin" parameterType="MyPage">
+  		  update
+  		          member
+  		    set   partner_name = #{partnerName}
+  		        , partner_intro = #{partnerIntro}
+  		        , member_profile = #{memberProfile}
+  		        , partner_join = 'Y'
+  		 where member_no = #{memberNo}
+  	
+  	</update>
+	 
   	
   	
   	

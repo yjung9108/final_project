@@ -257,8 +257,12 @@ public class MyPageServiceImpl implements MyPageService{
 
 
 
+	// 파트너조인
+	@Override
+	public int partnerJoin(MyPage m) {
+		return mDao.partnerJoin(sqlSession,m);
+	}
 
-	
 
 
 

@@ -237,6 +237,11 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.partnerfundingList", m, rowBounds);
 	}
+
+	// 파트너 조인
+	public int partnerJoin(SqlSessionTemplate sqlSession, MyPage m) {
+		return sqlSession.update("myPageMapper.partnerJoin", m);
+	}
 	
 	
 	

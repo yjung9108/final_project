@@ -991,7 +991,71 @@ public class MyPageController {
 	
 	
 	}
+	
+	// 파트너조인 폼
+	@RequestMapping("partnerJoinForm.me")
+	public String partnerJoinForm(HttpSession session, Model model) {
 		
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		//이미 파트너인경우에는 메인으로 돌리기
+		if(loginUser.getPartnerJoin().equals("Y")) {
+			
+			session.setAttribute("alertMsg", "파트너님 안녕하세요");
+			return "myPage/partner/pageMyFundingMain";
+			
+		} else {
+			
+			session.setAttribute("loginUser", loginUser);
+			return "myPage/partner/partnerJoinForm";
+		}
+	
+	}	
+	
+	// 파트너조인
+	@RequestMapping("partnerJoin.me")
+	public String partnerJoinForm(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+		
+		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
+			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
+			
+			// 새로운 파일 업로드
+			String changeName = saveFile(session, file);
+			m.setMemberProfile("resources/member_profile/" + changeName); 
+				
+		}
+		
+		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
+			
+			if(m.getMemberProfile() !=null ) { // 기존 파일이 있을 경우 ->기존파일 지워버림
+				
+				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+			}
+			
+			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
+		
+		}
+		
+		int result = mService.partnerJoin(m); 
+		
+		if(result > 0) { // 수정성공했을 경우
+			
+			session.setAttribute("alertMsg", "파트너 등록이 완료되었습니다.");
+			session.setAttribute("loginUser", mService.loginMember(m));
+			return "myPage/partner/pageMyFundingMain";
+			
+		}else {// 실패했을 경우 
+			model.addAttribute("errorMsg", "에러발생");
+			return "common/errorPage";
+		}
+		
+		
+	}	
 		
 	
 	
