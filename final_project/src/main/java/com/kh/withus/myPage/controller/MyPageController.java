@@ -154,7 +154,14 @@ public class MyPageController {
 	
 	//회원탈퇴폼 페이지
 	@RequestMapping("deleteForm.me")
-	public String deleteForm() {
+	public String deleteForm(HttpSession session) {
+		
+		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		
+		
+		session.setAttribute("loginUser", loginUser);
+		
+		
 		return "myPage/info/memberDrop";
 	}
 	
