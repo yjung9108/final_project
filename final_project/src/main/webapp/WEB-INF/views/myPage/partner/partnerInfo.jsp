@@ -112,12 +112,12 @@
                             </tr>
                             <tr>
                                 <th>파트너명</th>
-                                <td><input type="text" name="partnerName "value="${ loginUser.partnerName }"></td>
+                                <td><input type="text" name="partnerName "value="${ loginUser.partnerName }" required></td>
                             </tr>
                             
                             <tr>
                                 <th>파트너소개</th>
-                                <td><textarea name="partnerIntro" id="partnerIntro" cols="35" rows="5" style="resize: none;">${loginUser.partnerIntro }</textarea></td>
+                                <td><textarea name="partnerIntro" id="partnerIntro" cols="35" rows="5" style="resize: none;" required>${loginUser.partnerIntro }</textarea></td>
                             </tr>
                             <tr>
                             	<td></td>
