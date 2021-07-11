@@ -206,10 +206,10 @@ public class MyPageController {
 	public String updateMember(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
 		
 		
-		// 기본이미지까지 지워버림 --> 경로가 기본이미지경로일때는 파일 삭제하지말기
+		// 경로가 기본이미지일 경우 파일 삭제X
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { 
 				
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			} 
@@ -223,7 +223,7 @@ public class MyPageController {
 		
 		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   {
 				
 				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
 			} 
