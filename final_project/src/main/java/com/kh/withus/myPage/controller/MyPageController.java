@@ -882,7 +882,7 @@ public class MyPageController {
 		//6개씩
 		
 		ArrayList<MyPage> fundingList = mService.partnerfundingList(pi, m);					
-		
+		Collections.shuffle(fundingList); // 섞기
 
 		session.setAttribute("fundingCount", fundingCount);
 		session.setAttribute("fundingList", fundingList);
