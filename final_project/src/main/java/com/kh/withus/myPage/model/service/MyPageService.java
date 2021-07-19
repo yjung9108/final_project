@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
-import com.kh.withus.myPage.model.vo.OptionList;
 
 public interface MyPageService {
 	
@@ -13,7 +12,7 @@ public interface MyPageService {
 	
 	
 	
-	// 회원 비밀번호 확인 서비스
+	// 회원 비밀번호 확인 서비스	
 	int pwdConfirm(MyPage m);
 	
 	// 회원 기본 정보수정용 서비스

@@ -49,7 +49,6 @@
             margin-right: 50px;
             margin-top: 33px;
         }
-
     </style>
 </head>
 <body>
@@ -61,8 +60,8 @@
 			<a href=""> 프로젝트 올리기</a>
 		</div>
 		
-		<div class="headerCenter" >
-			<img src="resources/images/logo.png" width="165px" id="logoImg">
+		<div class="headerCenter">
+			<a href="${ pageContext.request.contextPath }"><img src="${ pageContext.request.contextPath }/resources/images/logo.PNG" width="165px" id="logoImg"></a>
 		</div>
         
         <input type="image" src="resources/images/searchIcon.PNG" id="searchIcon">
@@ -139,6 +138,50 @@
             </div>
         </div>
     </div>
+    
+    	<!-- 채널톡 api -->
+		<!-- Channel Plugin Scripts -->
+		<script>
+		  (function() {
+		    var w = window;
+		    if (w.ChannelIO) {
+		      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+		    }
+		    var ch = function() {
+		      ch.c(arguments);
+		    };
+		    ch.q = [];
+		    ch.c = function(args) {
+		      ch.q.push(args);
+		    };
+		    w.ChannelIO = ch;
+		    function l() {
+		      if (w.ChannelIOInitialized) {
+		        return;
+		      }
+		      w.ChannelIOInitialized = true;
+		      var s = document.createElement('script');
+		      s.type = 'text/javascript';
+		      s.async = true;
+		      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+		      s.charset = 'UTF-8';
+		      var x = document.getElementsByTagName('script')[0];
+		      x.parentNode.insertBefore(s, x);
+		    }
+		    if (document.readyState === 'complete') {
+		      l();
+		    } else if (window.attachEvent) {
+		      window.attachEvent('onload', l);
+		    } else {
+		      window.addEventListener('DOMContentLoaded', l, false);
+		      window.addEventListener('load', l, false);
+		    }
+		  })();
+		  ChannelIO('boot', {
+		    "pluginKey": "0185b07b-a1f9-41d1-a372-32418a4cc7db"
+		  });
+		</script>
+		<!-- End Channel Plugin -->
 	
 	
 	

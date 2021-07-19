@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		
 		<typeAlias type="com.kh.withus.myPage.model.vo.MyPage" alias="MyPage"/>
-		<typeAlias type="com.kh.withus.myPage.model.vo.OptionList" alias="OptionList"/>
+		
 	</typeAliases>
 	
 	<mappers>

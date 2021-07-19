@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
-import com.kh.withus.myPage.model.vo.OptionList;
 
 @Repository
 public class MyPageDao {
@@ -185,9 +184,7 @@ public class MyPageDao {
 	
 	*/
 	
-	public ArrayList<OptionList> selectOptionList(SqlSessionTemplate sqlSession, OptionList o) {
-		return (ArrayList)sqlSession.selectList("myPageMapper.selectOptionList", o);
-	}
+	
 	
 	
 

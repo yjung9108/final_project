@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.dao.MyPageDao;
 import com.kh.withus.myPage.model.vo.MyPage;
-import com.kh.withus.myPage.model.vo.OptionList;
 
 @Service
 public class MyPageServiceImpl implements MyPageService{
