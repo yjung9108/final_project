@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 6/27 윤경 생성 -->
+
+<mapper namespace="faqMapper">
+	<resultMap id="faq" type="Faq">
+		<result column="faq_no" property="faqNo" />
+		<result column="faq_cat" property="faqCat" />
+		<result column="faq_title" property="faqTitle" />
+		<result column="faq_content" property="faqContent" />
+		<result column="faq_status" property="faqStatus" />
+	</resultMap>
+	
+	
+	<select id="selectList" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat
+		     , faq_title
+		     , faq_content
+		  from faq
+		 where faq_status = 'Y'
+		 order
+		    by faq_no desc
+	</select>
+	
+	<select id="selectManaList" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat
+		     , faq_title
+		     , faq_content
+		     , faq_status
+		  from faq
+		 order
+		    by faq_no desc
+	</select>
+	
+	
+	<select id="selectFaq" resultMap="faq" parameterType="_int">
+		select
+		        faq_no
+		      , faq_cat
+		      , faq_title
+		      , faq_content
+		  from faq
+		 where faq_no = #{faqNo}
+	</select>
+	
+	<select id="selectFunding" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat  
+		     , faq_title
+		     , faq_content
+		  from faq
+		 where faq_cat like '펀딩%'
+		   and faq_status = 'Y'
+	</select>
+	
+	<select id="selectDelivery" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat
+		     , faq_title
+		     , faq_content
+		  from faq
+		 where faq_cat like '배송%'
+		   and faq_status = 'Y'
+	</select>
+	
+	<select id="selectExchange" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat
+		     , faq_title
+		     , faq_content
+		  from faq
+		 where faq_cat like '교환%'
+		   and faq_status = 'Y'
+	</select>
+	
+	<select id="selectEtc" resultMap="faq" parameterType="_int">
+		select
+		       faq_no
+		     , faq_cat
+		     , faq_title
+		     , faq_content
+		  from faq
+		 where faq_cat like '기타%'
+		   and faq_status = 'Y'
+	</select>
+	 
+	 
+	<insert id="insertFaq" parameterType="Faq">
+		insert
+		  into faq
+		  (
+		    faq_no
+		  , faq_cat
+		  , faq_title
+		  , faq_content
+		  )
+		  values
+		  (
+		    seq_faqno.nextval
+		  , #{faqCat}
+		  , #{faqTitle}
+		  , #{faqContent}
+		  )
+	</insert>
+	
+	
+	
+	<update id="updateFaq" parameterType="Faq">
+		update
+		       faq
+		   set faq_cat = #{faqCat}
+		     , faq_title = #{faqTitle}
+		     , faq_content = #{faqContent}
+		 where faq_no = #{faqNo}
+	</update>
+	
+	<update id="deleteFaq" parameterType="_int">
+		update
+		       faq
+		   set faq_status = 'N'
+		 where faq_no = #{faqNo}
+	</update>
+	 
+</mapper>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.vo.MyPage;
 
+
 @Repository
 public class MyPageDao {
 
@@ -186,7 +187,6 @@ public class MyPageDao {
 	
 	
 	
-	
 
 	//환불신청
 	public int refundRequest(SqlSessionTemplate sqlSession, MyPage m) {
@@ -234,13 +234,11 @@ public class MyPageDao {
 		
 		return (ArrayList)sqlSession.selectList("myPageMapper.partnerfundingList", m, rowBounds);
 	}
-
+	
 	// 파트너 조인
 	public int partnerJoin(SqlSessionTemplate sqlSession, MyPage m) {
 		return sqlSession.update("myPageMapper.partnerJoin", m);
 	}
-	
-	
 	
 
 	

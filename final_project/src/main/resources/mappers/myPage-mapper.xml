@@ -77,39 +77,28 @@
 		<result column="r_reason" property="rReason"/>
 		<result column="refund_stastaus" property="refundStatus"/>
 	
-	
 	</resultMap>
 	
-	<!--  
-	<resultMap id="followMember" type="FollowMember">
-		<id column="member_no" property="memberNo"/>
-		<result column="follow_member_no" property="followMemberNo"/>
-	</resultMap>
-	-->
-	  
-	  
-  	<select id="loginMember" resultMap="memberResultSet" parameterType="MyPage">
-  		  
-  		select
-  		       member_no
-  		     , member_id
-  		     , member_pwd
-  		     , member_name
-  		     , member_phone
-  		     , member_create_dt
-  		     , member_link
-  		     , report_count
-  		     , member_status
-  		     , member_profile
-  		     , partner_join
-  		     , partner_name
-  		     , partner_intro
-  		  from member
-  		 where member_status IN ('Y', 'A')
-  		   and member_id = #{memberId}
-  		  
-  		
-  	</select>
+  	
+  	<!-- 회원정보수정 -->
+  	<update id="updateMember" parameterType="MyPage">
+  		update
+  		        member
+  		   set  member_phone = #{memberPhone}
+  		      , member_profile = #{memberProfile}
+  		      , partner_name = #{partnerName}
+  		      , partner_intro =#{partnerIntro}
+  		 where member_id = #{memberId}
+  	</update>
+  	
+  	<!-- 회원 비밀번호수정 -->
+  	<update id="updatePwd" parameterType="MyPage">
+  		update
+  		        member
+  		   set  member_pwd = #{memberPwd}
+  		  where member_no = #{memberNo}
+  	</update>
+	
   	
   	<!-- 회원탈퇴 -->
   	<update id="deleteMember" parameterType="string">
@@ -119,6 +108,7 @@
   		     
   		 where member_id = #{memberId}
   	</update>
+  	
   	
   	
   	<!-- 팔로잉 목록카운트 -->
@@ -152,24 +142,6 @@
 		    and partner_join='Y'
 	</select>
 	
-	<!-- 회원정보수정 -->
-  	<update id="updateMember" parameterType="MyPage">
-  		update
-  		        member
-  		   set  member_phone = #{memberPhone}
-  		      , member_profile = #{memberProfile}
-  		      , partner_name = #{partnerName}
-  		      , partner_intro =#{partnerIntro}
-  		 where member_id = #{memberId}
-  	</update>
-  	
-  	<!-- 회원 비밀번호수정 -->
-  	<update id="updatePwd" parameterType="MyPage">
-  		update
-  		        member
-  		   set  member_pwd = #{memberPwd}
-  		  where member_no = #{memberNo}
-  	</update>
 	
 	
 	<!-- 언팔로우 -->
@@ -245,18 +217,41 @@
 	
 	<!-- 파트너 펀딩 리스트 -->
 	<select id="fundingList" resultMap="memberResultSet">
-		select 
-		        project_no
-		      , project_title
-		      , project_start_dt
-		      , project_end_dt
-		      , project_thum
-		      , project_status
-		      , project_gprice
-		  from project
-		 where member_no=#{memberNo}
-		    and project_status='3'
-		  order by project_end_dt asc
+		select
+               p.project_no
+             , p.project_thum
+             , p.project_title
+             , c.cat_no
+             , c.cat_name
+             , m.partner_name
+             , sum(o.total_price) total_price
+             , floor(sum(o.total_price) / p.project_gprice * 100) percentage
+             , p.project_gprice
+             , p.project_start_dt
+             , p.project_end_dt
+             , ceil(project_end_dt - sysdate) dday
+          from 
+          	   tb_order o
+             , project p
+             , category c
+             , member m
+         where p.project_no = o.project_no(+)
+           and p.cat_no = c.cat_no 
+           and p.member_no = m.member_no 
+           and p.project_status = 3
+           and p.member_no = #{memberNo}
+         group
+            by p.project_no
+             , p.project_title
+             , p.project_thum
+             , c.cat_no
+             , c.cat_name
+             , m.partner_name
+             , p.project_gprice
+             , p.project_start_dt
+             , p.project_end_dt  
+         order 
+            by p.project_no asc
 	</select>
 	
 	
@@ -392,77 +387,10 @@
 		  from tb_order o
 		  join project using(project_no)
 		 where o.member_no = #{memberNo}
+		 order by order_no desc
 	</select>
   
   
-  	<!-- 펀딩 내역 디테일 -->
-	<!-- 
-	<select id="myFundingDetail" resultMap="memberResultSet">
-		select
-			  a.order_no
-			, a.reward_no
-			, option_no
-			, count
-			, option_content
-			, reward_title
-			, reward_content
-			, reward_price
-			, reward_ship
-			, order_plus
-			, receiver_name
-			, receiver_phone
-			, address_no
-			, address_detail
-			, address
-			, shipping_status
-			, shipping_req
-			, shipping_com
-			, shipping_no
-			, order_date
-			, project_title
-			, order_status
-	   from or_reward a
-	   join tb_option using (option_no)
-	   join reward b on (a.reward_no = b.reward_no)
-	   join tb_order c on(a.order_no = c.order_no)
-	   join project d on(c.project_no = d.project_no)
-	  where a.order_no = #{orderNo}
-	    and c.member_no = #{memberNo}
-	</select>
-	-->
-	
-	<!--  
-	<select id="myFundingDetail" resultMap="memberResultSet">
-		select distinct
-			  a.order_no
-			, a.reward_no
-			, count
-			, reward_title
-			, reward_content
-			, reward_price
-			, reward_ship
-			, order_plus
-			, receiver_name
-			, receiver_phone
-			, address_no
-			, address_detail
-			, address
-			, shipping_status
-			, shipping_req
-			, shipping_com
-			, shipping_no
-			, order_date
-			, project_title
-			, order_status
-	   from or_reward a
-	   join tb_option using (option_no)
-	   join reward b on (a.reward_no = b.reward_no)
-	   join tb_order c on(a.order_no = c.order_no)
-	   join project d on(c.project_no = d.project_no)
-	  where a.order_no = #{orderNo}
-	    and c.member_no = #{memberNo}
-	</select>
-	-->
 	
 	<!-- 펀딩 내역 디테일 -->
 	<select id="myFundingDetail" resultMap="memberResultSet">
@@ -680,7 +608,6 @@
          where p.project_no = o.project_no(+)
            and p.cat_no = c.cat_no 
            and p.member_no = m.member_no 
-           and p.project_status = 3
            and p.member_no = #{memberNo}
          group
             by p.project_no
@@ -696,7 +623,7 @@
             by p.project_no asc
 	</select>
 	
-	<!-- 파트너조인-->
+	<!-- 파트너조인 -->
 	<update id="partnerJoin" parameterType="MyPage">
   		  update
   		          member
@@ -707,7 +634,7 @@
   		 where member_no = #{memberNo}
   	
   	</update>
-	 
+	
   	
   	
   	

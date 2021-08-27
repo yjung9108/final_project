@@ -1,54 +1,74 @@
 package com.kh.withus.member.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.kh.withus.common.model.vo.PageInfo;
+import com.kh.withus.common.template.pagination;
 import com.kh.withus.member.model.service.MemberService;
 import com.kh.withus.member.model.vo.Member;
+
 
 @Controller
 public class MemberController {
 
-	/*
+	
 	@Autowired
 	private MemberService mService;
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	@RequestMapping("login.me")
-	public String loginForm(HttpServletRequest request) {
+	
+	@RequestMapping("loginForm.me")
+	public String loginForm() {
 		
-		/*
-		// 암호화 작업 후 (단지 아이디 대조만)
-				Member loginUser = mService.loginMember(m);
-				// 아이디만을 가지고 조회해옴 (실제db에 저장되어있는 비번 암호문)
-				
-				if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
-					// 로그인 성공
-					session.setAttribute("loginUser", loginUser);
-					mv.setViewName("redirect:/");
-				}else {
-					// 로그인 실패
-					mv.addObject("errorMsg", "로그인실패");
-					mv.setViewName("common/errorPage");
-				}
-				
-				return mv;
-				
-		String memberId = request.getParameter("id");
-		String memberPwd = request.getParameter("pwd");
-		
-		System.out.println("ID : " + memberId);
-		System.out.println("PWD : " + memberPwd);
 		
 		return "member/loginForm";
+		
+		
 	}
+	
+	
+	@RequestMapping("login.me")
+	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
+		
+		
+		
+		// 암호화 작업 후 (단지 아이디 대조만)
+		Member loginUser = mService.loginMember(m);
+		// 아이디만을 가지고 조회해옴 (실제db에 저장되어있는 비번 암호문)
+		
+		if(loginUser!= null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+			// 로그인 성공
+			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("alertMsg", "로그인되었습니다");
+			mv.setViewName("redirect:/");
+			
+		}else {
+			// 로그인 실패
+			mv.addObject("errorMsg", "로그인실패");
+			mv.setViewName("common/errorPage");
+		}
+		
+		return mv;
+		
+		
+	}
+	
 	
 	
 	@RequestMapping("logout.me")
@@ -64,14 +84,11 @@ public class MemberController {
 	}
 	*/
 	
-	/*
-	
-	
 	
 	//	회원가입페이지
 	@RequestMapping("enrollForm.me")
 	public String enrollForm() {
-		return "member/memberEnrollForm";
+		return "member/member_enroll";
 	}
 	
 	@RequestMapping("naver_callback.me")
@@ -84,10 +101,7 @@ public class MemberController {
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, HttpSession session, Model model) {
 		
-		//System.out.println(m);
-		//System.out.println(session);
-		//System.out.println(model);
-		//System.out.println("암호화 전 : " + m.getUserPwd());
+		System.out.println(m);
 		
 		// 암호화 작업
 		
@@ -110,11 +124,19 @@ public class MemberController {
 	
 	
 	
+	@ResponseBody
+	@RequestMapping("idCheck.me")
+	public String ajaxIdCheck(String checkId) {
+		
+		int count = mService.idCheck(checkId);
+		
+		return count>0 ? "N":"Y";
+		
+	}
 	
 	
 	
-	
-	
+		
 	
 	
 	
@@ -127,11 +149,161 @@ public class MemberController {
 	
 	
 
-	// 관리자쪽
-	@RequestMapping("memberListView.mana")
-	public String selectMemberList() {
-		return "member/manaMemberListView";
+	// 관리자
+	// 로그인
+	@RequestMapping("login.mana")
+	public ModelAndView loginAdmin(Member m, HttpSession session, ModelAndView mv) {
+		
+		// 암호화 작업 후 (단지 아이디 대조만)
+		Member loginUser = mService.loginMember(m);
+		//System.out.println(m);
+		
+		if(loginUser!= null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+			// 로그인 성공
+			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("alertMsg", "로그인되었습니다");
+			mv.setViewName("redirect:memberListView.mana");
+			
+			
+		}else { 
+			// 로그인 실패
+			session.setAttribute("alertMsg", "로그인실패");
+			mv.setViewName("common/manaErrorPage"); 
+		  }
+		 
+		return mv;
 	}
 	
-*/
+	
+	// 로그아웃
+	@RequestMapping("logout.mana")
+	public String logoutAdmin(HttpSession session) {
+		session.invalidate();
+		return "redirect:main.mana";
+	}
+	
+	// 관리자 로그인전 페인페이지
+	@RequestMapping("main.mana")
+	public String test(HttpSession session, Model mv) {
+		
+		
+		// 사용자 페이지에서 관리자 로그인일 경우 로그인값 가져오기  -> 확인용
+		//Member loginUser = (Member)session.getAttribute("loginUser");
+		//System.out.println(loginUser);
+		
+		
+		// loginAdmin에 loginUser 값 담기 == 로그인 상태 유지 시키기
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		session.setAttribute("loginUser", loginUser);
+		//System.out.println(loginAdmin);
+		
+		
+		// 값이  관리자일 경우  회원조회 페이지, 그렇지 않을 경우 로그인실패 창
+		if(loginUser!= null && loginUser.getMemberStatus().equals("A") ) {
+			return "redirect:memberListView.mana";
+		}else {
+			//session.setAttribute("alertMsg", "로그인을 해주세요");
+			return "admin/adminMain";
+		}
+		
+		
+	}
+	
+	
+	
+	// 회원 조회
+	@RequestMapping("memberListView.mana")
+	public ModelAndView selectMemberList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+										 ModelAndView mv) {
+		
+		int listCount = mService.selectListCount();
+		PageInfo pi = pagination.getPageInfo(listCount, currentPage, 10, 10);
+		
+		ArrayList<Member> mList = mService.selectList(pi);
+		
+		mv.addObject("mList",mList)
+		  .addObject("pi", pi)
+		  .setViewName("member/manaMemberListView");
+		return mv;
+	}
+	
+	// 탈퇴클릭시 ->모달
+	@ResponseBody
+	@RequestMapping(value="memStatus.mana", produces="apllication/json; charset=utf-8")
+		public String ajaxSelectMemStatus(int mno) {
+		
+		//System.out.println(mno);
+		
+		Member ms = mService.selectMemStatus(mno);
+		//System.out.println(ms);
+		
+		return new Gson().toJson(ms);
+	}
+	// 회원 탈퇴
+	@RequestMapping("deleteMem.mana")
+	public String deleteMemberMana(@RequestParam(defaultValue="") String mStatus,
+									 @RequestParam(defaultValue= "") String memName,
+									 HttpSession session, HttpServletRequest request) {
+		
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("mStatus", mStatus );
+		map.put("memName", memName );
+		//System.out.println(map);
+		
+		// 이전 url 가져오기
+		String referer = (String)request.getHeader("REFERER");
+		
+		int delMem = mService.deleteMemberMana(map);
+		
+		if (delMem > 0) {
+			//session.setAttribute("alertMsg", "탈퇴처리 성공");
+			return "redirect:" + referer ;
+		}else {
+			session.setAttribute("alertMsg", "탈퇴 처리 실패");
+			return "common/manaErrorPage";
+		}
+		
+	}
+	
+	// 회원 검색
+	@RequestMapping("searchMember.mana")
+	public ModelAndView searchMember(@RequestParam(defaultValue="") String partnerJoin,
+									 @RequestParam(defaultValue="") String memberStatus,
+									 @RequestParam(defaultValue="") String memKey,
+									 @RequestParam(defaultValue="") String keyword,
+									 @RequestParam(value="currentPage", defaultValue="1") int currentPage,
+									 ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("partnerJoin", partnerJoin);
+		map.put("memberStatus", memberStatus);
+		map.put("memKey", memKey);
+		map.put("keyword", keyword);
+		//System.out.println(map);
+		
+		// 검색결과 리스트 총 갯수
+		int count = mService.countSearch(map);
+		
+		// 페이징 처리
+		PageInfo pi = pagination.getPageInfo(count, currentPage, 10, 10);
+		
+		// 검색결과 담아내기
+		ArrayList<Member> mList = mService.searchMember(map, pi);
+		//System.out.println(mList);
+		
+		mv.addObject("pi", pi)
+		  .addObject("mList",mList)
+		  .addObject("partnerJoin", partnerJoin)
+		  .addObject("memberStatus", memberStatus)
+		  .addObject("memKey", memKey)
+		  .addObject("keyword", keyword)
+		  .setViewName("member/manaMemberListView");
+		
+		return mv;
+		
+	}
+	
+	
+
 }

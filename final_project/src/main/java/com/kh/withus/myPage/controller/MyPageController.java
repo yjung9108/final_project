@@ -21,9 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.withus.common.model.vo.PageInfo;
-import com.kh.withus.common.template.Pagination;
+import com.kh.withus.common.template.pagination;
+import com.kh.withus.member.model.service.MemberService;
+import com.kh.withus.member.model.vo.Member;
 import com.kh.withus.myPage.model.service.MyPageService;
 import com.kh.withus.myPage.model.vo.MyPage;
+
+
 
 
 
@@ -31,43 +35,12 @@ import com.kh.withus.myPage.model.vo.MyPage;
 public class MyPageController {
 	
 	@Autowired
-	private MyPageService mService;
+	private MemberService mService;
+	@Autowired
+	private MyPageService mpService;
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	
-	
-	
-	//임시 로그인/로그아웃 부분
-	@RequestMapping("login.me")
-	public ModelAndView loginMember(MyPage m, HttpSession session, ModelAndView mv) {
-		
-		
-		
-		MyPage loginUser = mService.loginMember(m);
-		
-		//System.out.println(loginUser.getMemberPwd());
-		
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
-			// 로그인 성공
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:/");
-		}else {
-			// 로그인 실패
-			mv.addObject("errorMsg", "로그인실패");
-			mv.setViewName("common/errorPage");
-		}
-		
-		return mv;
-		
-	}
-	
-	
-	@RequestMapping("logout.me")
-	public String logoutMember(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
 	
 	
 	
@@ -75,23 +48,24 @@ public class MyPageController {
 	@RequestMapping("myPage.me")
 	public ModelAndView myPage(HttpSession session, ModelAndView mv) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		
 		// 펀딩내역 수
-		int fundingCount = mService.myFundingListCount(loginUser.getMemberNo());
+		int fundingCount = mpService.myFundingListCount(loginUser.getMemberNo());
 		
 		// 좋아요리스트
-		ArrayList<MyPage> mainLikeList = mService.mainLikeList(loginUser.getMemberNo());
+		ArrayList<MyPage> mainLikeList = mpService.mainLikeList(loginUser.getMemberNo());
 		Collections.shuffle(mainLikeList); // 섞기
 		
 		
 		// 문의내역리스트
-		ArrayList<MyPage> mainQueryList = mService.mainQueryList(loginUser.getMemberNo());
+		ArrayList<MyPage> mainQueryList = mpService.mainQueryList(loginUser.getMemberNo());
 		
 		// 팔로우리스트
-		ArrayList<MyPage> mainFollowList = mService.mainFollowList(loginUser.getMemberNo());
+		ArrayList<MyPage> mainFollowList = mpService.mainFollowList(loginUser.getMemberNo());
 		Collections.shuffle(mainFollowList); // 섞기
+		
 		
 		
 		mv.addObject("fundingCount", fundingCount)
@@ -126,7 +100,7 @@ public class MyPageController {
 		//String memberPwd = request.getParameter("memberPwd");
 		
 		// 로그인된 유저
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		/*
 		if(bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd()))) {
@@ -148,20 +122,98 @@ public class MyPageController {
 		
 	}
 	
+	
+	
+	
+	// 기본정보수정
+	@RequestMapping("update.me")
+	public String updateMember(Member m, MyPage mp, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+		
+		
+		// 기본이미지까지 지워버림 --> 경로가 기본이미지경로일때는 파일 삭제하지말기
+		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
+			
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+				
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
+			} 
+			
+			
+			// 새로운 파일 업로드
+			String changeName = saveFile(session, file);
+			mp.setMemberProfile("resources/member_profile/" + changeName); 
+				
+		}
+		
+		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
+			
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+				
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
+			} 
+			
+			mp.setMemberProfile("resources/member_profile/profile_basic.jpg");
+		
+		}		
+		
+		int result = mpService.updateMember(mp); 
+		
+		if(result > 0) { // 수정성공했을 경우
+			
+			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
+			session.setAttribute("loginUser", mService.loginMember(m));
+			return "myPage/info/pageMyInfoDetail";
+			
+		}else {// 실패했을 경우 
+			model.addAttribute("errorMsg", "정보 수정 실패");
+			return "common/errorPage";
+		}
+		
+		
+	
+	
+	}
+	
+	
+	// 비밀번호수정
+	@RequestMapping("updatePwd")
+	public String updatePwd(String newPwd, Member m, MyPage mp, HttpSession session, Model model) {
+		
+		
+		
+		// 암호화 작업
+		String encPwd = bcryptPasswordEncoder.encode(newPwd);
+		//System.out.println("암호화 후 : " + encPwd); // 같은 평문을 입력해도 매번 다른 암호문이 나옴
+		
+		mp.setMemberPwd(encPwd); // 암호문 변경
+		
+		int result = mpService.updatePwd(mp);
+		
+		if(result > 0) { // 성공 => 알람창 출력할 문구 담아서 => 메인페이지 (url재요청)
+			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다");
+			session.setAttribute("loginUser", mService.loginMember(m));
+			return "myPage/info/pageMyInfoDetail";
+			
+		}else { // 실패 => 에러문구 담아서 => 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "에러");
+			return "common/errorPage";
+		}
+		
+		
+	}
 	//회원탈퇴폼 페이지
 	@RequestMapping("deleteForm.me")
 	public String deleteForm(HttpSession session) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
-		
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		session.setAttribute("loginUser", loginUser);
 		
-		
 		return "myPage/info/memberDrop";
-	}
+	}	
 	
 	
+
 	// 회원탈퇴 유저 비밀번호 확인 ajax
 	@ResponseBody
 	@RequestMapping("pwd.me")
@@ -173,7 +225,7 @@ public class MyPageController {
 		
 				
 		// 로그인된 유저
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 				
 		/* 암호화 전
 		if(checkPwd.equals(loginUser.getMemberPwd())) {
@@ -197,92 +249,6 @@ public class MyPageController {
 			
 	}
 	
-	// 기본정보수정
-	@RequestMapping("update.me")
-	public String updateMember(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
-		
-		
-		// 경로가 기본이미지일 경우 파일 삭제X
-		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
-			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { 
-				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
-			} 
-			
-			
-			// 새로운 파일 업로드
-			String changeName = saveFile(session, file);
-			m.setMemberProfile("resources/member_profile/" + changeName); 
-				
-		}
-		
-		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
-			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   {
-				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
-			} 
-			
-			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
-		
-		}
-		
-		int result = mService.updateMember(m); 
-		
-		if(result > 0) { // 수정성공했을 경우
-			
-			session.setAttribute("alertMsg", "성공적으로 수정되었습니다.");
-			session.setAttribute("loginUser", mService.loginMember(m));
-			return "myPage/info/pageMyInfoDetail";
-			
-		}else {// 실패했을 경우 
-			model.addAttribute("errorMsg", "정보 수정 실패");
-			return "common/errorPage";
-		}
-		
-		
-	
-	
-	}
-	
-	
-	// 비밀번호수정
-	@RequestMapping("updatePwd")
-	public String updatePwd(String newPwd, MyPage m, HttpSession session, Model model) {
-		
-		System.out.println(m.getMemberNo());
-		
-		// 암호화 작업
-		String encPwd = bcryptPasswordEncoder.encode(newPwd);
-		//System.out.println("암호화 후 : " + encPwd); // 같은 평문을 입력해도 매번 다른 암호문이 나옴
-		
-		m.setMemberPwd(encPwd); // 암호문 변경
-		
-		int result = mService.updatePwd(m);
-		
-		if(result > 0) { // 성공 => 알람창 출력할 문구 담아서 => 메인페이지 (url재요청)
-			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다");
-			session.setAttribute("loginUser", mService.loginMember(m));
-			return "myPage/info/pageMyInfoDetail";
-			
-		}else { // 실패 => 에러문구 담아서 => 에러페이지로 포워딩
-			model.addAttribute("errorMsg", "에러");
-			return "common/errorPage";
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
-	
-	
-	
 	
 	
 	
@@ -293,9 +259,9 @@ public class MyPageController {
 	@RequestMapping("delete.me")
 	public String deleteMember(HttpSession session, Model model) {
 		
-		MyPage loginUser = (MyPage) session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		int result = mService.deleteMember(loginUser.getMemberId());
+		int result = mpService.deleteMember(loginUser.getMemberId());
 		
 		if(result > 0) {
 			session.removeAttribute("loginUser");
@@ -317,16 +283,16 @@ public class MyPageController {
 	@RequestMapping("followlist.me")
 	public ModelAndView followList(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		
-		int listCount = mService.selectFollowListCount(loginUser.getMemberNo());
+		int listCount = mpService.selectFollowListCount(loginUser.getMemberNo());
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 6, 5);
+		PageInfo pi = pagination.getPageInfo(listCount, currentPage, 6, 5);
 		//5개씩
 		
 		
-		ArrayList<MyPage> list = mService.selectFollowList(pi, loginUser.getMemberNo());
+		ArrayList<MyPage> list = mpService.selectFollowList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -352,7 +318,7 @@ public class MyPageController {
 		//System.out.println(memberNo);
 		//System.out.println(followMemberNo);
 		
-		int result = mService.unfollowMember(m);
+		int result = mpService.unfollowMember(m);
 				
 		
 		//System.out.println("언팔로우"+result);
@@ -376,7 +342,7 @@ public class MyPageController {
 		m.setMemberNo(Integer.parseInt(memberNo));
 		m.setFollowMemberNo(Integer.parseInt(followMemberNo));
 		
-		int result = mService.followMember(m);
+		int result = mpService.followMember(m);
 				
 		if(result>0) {
 			return "Y";
@@ -395,7 +361,7 @@ public class MyPageController {
 		
 		//System.out.println(followMemberNo);
 		
-		int followerCount = mService.followerCount(followMemberNo);
+		int followerCount = mpService.followerCount(followMemberNo);
 				
 		//System.out.println(followerCount);
 		
@@ -414,7 +380,7 @@ public class MyPageController {
 	public String partnerDetail(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
 		
 		//로그인한 유저의 멤버넘버로 해당 파트너 팔로우 유무체크
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		if(loginUser !=null) { // 로그인 상태일 때
 			
@@ -422,20 +388,20 @@ public class MyPageController {
 			m.setFollowMemberNo(loginUser.getMemberNo());
 			
 			// 로그인한 멤버가 해당 파트너를 팔로우할경우 result 1로 반환 (또는 더 크게 DB에 중복삽입됬을경우)
-			int result = mService.followCheck(m);
+			int result = mpService.followCheck(m);
 			
 			// 파트너정보
-			MyPage member = mService.partnerDetail(m);
+			MyPage member = mpService.partnerDetail(m);
 			
 			
 			// 파트너의 오픈펀딩수
-			int fundingCount = mService.fundingCount(m);
+			int fundingCount = mpService.fundingCount(m);
 			
-			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
+			PageInfo pi = pagination.getPageInfo(fundingCount, currentPage, 5, 3);
 			//3개씩
 			
 			// 펀딩리스트
-			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);
+			ArrayList<MyPage> fundingList = mpService.fundingList(pi, m);
 
 			
 			
@@ -462,17 +428,17 @@ public class MyPageController {
 		} else { // 로그인상태가 아닐때
 			
 			// 파트너정보
-			MyPage member = mService.partnerDetail(m);
+			MyPage member = mpService.partnerDetail(m);
 			
 			
 			// 파트너의 오픈펀딩수
-			int fundingCount = mService.fundingCount(m);
+			int fundingCount = mpService.fundingCount(m);
 			
-			PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 3);
+			PageInfo pi = pagination.getPageInfo(fundingCount, currentPage, 5, 3);
 			//3개씩
 			
 			// 펀딩 리스트
-			ArrayList<MyPage> fundingList = mService.fundingList(pi, m);			
+			ArrayList<MyPage> fundingList = mpService.fundingList(pi, m);			
 
 			
 			if(member != null) {
@@ -529,16 +495,16 @@ public class MyPageController {
 	public ModelAndView myQuery(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		
-		int listCount = mService.myQueryListCount(loginUser.getMemberNo());
+		int listCount = mpService.myQueryListCount(loginUser.getMemberNo());
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		PageInfo pi = pagination.getPageInfo(listCount, currentPage, 5, 6);
 		//6개씩
 		
 		
-		ArrayList<MyPage> list = mService.myQueryList(pi, loginUser.getMemberNo());
+		ArrayList<MyPage> list = mpService.myQueryList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -556,7 +522,7 @@ public class MyPageController {
 		
 		
 		
-		MyPage m = mService.myQueryDetail(otoNo);
+		MyPage m = mpService.myQueryDetail(otoNo);
 		
 		
 		
@@ -581,7 +547,7 @@ public class MyPageController {
 		
 		System.out.println(otoNo);
 		
-		int result = mService.deleteQuery(otoNo);
+		int result = mpService.deleteQuery(otoNo);
 		
 		
 		
@@ -611,16 +577,16 @@ public class MyPageController {
 	@RequestMapping("like.me")
 	public ModelAndView like(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		
-		int listCount = mService.likeListCount(loginUser.getMemberNo());
+		int listCount = mpService.likeListCount(loginUser.getMemberNo());
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		PageInfo pi = pagination.getPageInfo(listCount, currentPage, 5, 6);
 		//6개씩
 		
 		
-		ArrayList<MyPage> likeList = mService.likeList(pi, loginUser.getMemberNo());
+		ArrayList<MyPage> likeList = mpService.likeList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -637,16 +603,16 @@ public class MyPageController {
 	public ModelAndView myFunding(@RequestParam(value="currentPage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 		
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		
-		int listCount = mService.myFundingListCount(loginUser.getMemberNo());
+		int listCount = mpService.myFundingListCount(loginUser.getMemberNo());
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 6);
+		PageInfo pi = pagination.getPageInfo(listCount, currentPage, 5, 6);
 		//6개씩
 		
 		
-		ArrayList<MyPage> list = mService.myFundingList(pi, loginUser.getMemberNo());
+		ArrayList<MyPage> list = mpService.myFundingList(pi, loginUser.getMemberNo());
 		
 		
 		mv.addObject("pi", pi)
@@ -662,11 +628,11 @@ public class MyPageController {
 	@RequestMapping("myFundingDetail.me")
 	public ModelAndView myFundingDetail(MyPage m, HttpSession session, ModelAndView mv){
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
 		
 		// 주문내역 리스트
-		MyPage orderList = mService.myFundingDetail(m);
+		MyPage orderList = mpService.myFundingDetail(m);
 		
 		
 		// 리워드별 총금액 : 각각 리워드금액*갯수
@@ -686,77 +652,13 @@ public class MyPageController {
 	}
 	
 	
-	/*
-	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
-	// 리턴이안됨
-	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, ArrayList> ajaxOptionList(HttpSession session, @RequestBody OptionList o) {
-		
-		 
-		
-		System.out.println(o.getOrderNo());
-		System.out.println(o.getRewardNo());
-		
-		
-		
-		//ArrayList<MyPage> list = mService.selectOptionList(m);
-		ArrayList<OptionList> list = mService.selectOptionList(o);
-		
-		
-		Map<String, ArrayList> map = new HashMap<String, ArrayList>();
-		map.put("list", list);
-		
-		
-		System.out.println(list);
-		
-		return map;
-		//return new Gson().toJson(list);
-		
-		
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	// 오더넘버와 리워드에대한 옵션내역들 ajax로 리스트로 받아오기
-	// 잘 실행되나 한글이깨짐 ㅠㅠㅠ
-	@ResponseBody
-	@RequestMapping(value="optionList.me", method = RequestMethod.POST)
-	public String ajaxOptionList(@RequestBody OptionList o) {
-		
-		//ArrayList<MyPage> list = mService.selectOptionList(m);
-		//ArrayList<OptionList> list = mService.selectOptionList(o);
-		
-		//System.out.println(list);
-		//return null;
-		
-		
-		
-		
-		
-		return new Gson().toJson(mService.selectOptionList(o));
-		
-	}
-	
-	*/
-	
-	
-	
-	
 	
 	// 주문정보 수정
 	@RequestMapping("updateOrder.me")
 	public String updateOrder(MyPage m, HttpSession session, Model model) {
 		
 		// 주문번호,  수취인명, 핸드폰번호, 우편번호, 일반 주소, 상세주소
-		int result = mService.updateOrder(m); 
+		int result = mpService.updateOrder(m); 
 		
 		
 		
@@ -777,7 +679,7 @@ public class MyPageController {
 	@RequestMapping("refundRequest.me")
 	public String refundRequest(MyPage m, MultipartFile file, HttpSession session, Model model) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
 		
 		System.out.println(m.getBankAccount() + m.getBankName());
@@ -794,7 +696,7 @@ public class MyPageController {
 		}
 		
 		//환불신청테이블에 인서트
-		int result = mService.refundRequest(m); 
+		int result = mpService.refundRequest(m); 
 		
 		// 신청성공했을 경우
 		if(result > 0 ) {
@@ -802,7 +704,7 @@ public class MyPageController {
 			
 			
 			//주문상태 '환불신청중'으로 업데이트 + 환불은행정보
-			int update = mService.orderStatusUpdate(m); 
+			int update = mpService.orderStatusUpdate(m); 
 			
 			if(update>0) {
 				
@@ -852,34 +754,29 @@ public class MyPageController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	//-----------------------------------------------------------------------//
+	//-파트너----------------------------------------------------------------------//
 	
 	// 펀딩스튜디오메인
 	@RequestMapping("fundingMain.me")
 	public String fundingMain(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
 		
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
 		
 		
 		
 		// 파트너의 펀딩 정보들
 		// 파트너의 펀딩수(상태 전부)
-		int fundingCount = mService.partnerfundingCount(m);
+		int fundingCount = mpService.partnerfundingCount(m);
 		
-		PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 6);
+		PageInfo pi = pagination.getPageInfo(fundingCount, currentPage, 5, 6);
 		//6개씩
 		
-		ArrayList<MyPage> fundingList = mService.partnerfundingList(pi, m);					
+		ArrayList<MyPage> fundingList = mpService.partnerfundingList(pi, m);
 		Collections.shuffle(fundingList); // 섞기
-
+		
+		session.setAttribute("loginUser", loginUser);
 		session.setAttribute("fundingCount", fundingCount);
 		session.setAttribute("fundingList", fundingList);
 		
@@ -897,7 +794,7 @@ public class MyPageController {
 	public String partnerFunding(@RequestParam(value="currentPage", defaultValue="1") int currentPage, MyPage m, HttpSession session, Model model) {
 		
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		m.setMemberNo(loginUser.getMemberNo());
 		
 		
@@ -905,16 +802,16 @@ public class MyPageController {
 		
 		// 파트너의 팔로워수
 		int followMemberNo = m.getMemberNo();
-		int followerCount = mService.followerCount(followMemberNo);
+		int followerCount = mpService.followerCount(followMemberNo);
 		
 		// 파트너의 펀딩 정보들
 		// 파트너의 펀딩수(상태 전부)
-		int fundingCount = mService.partnerfundingCount(m);
+		int fundingCount = mpService.partnerfundingCount(m);
 		
-		PageInfo pi = Pagination.getPageInfo(fundingCount, currentPage, 5, 6);
+		PageInfo pi = pagination.getPageInfo(fundingCount, currentPage, 5, 6);
 		//6개씩
 		
-		ArrayList<MyPage> fundingList = mService.partnerfundingList(pi, m);			
+		ArrayList<MyPage> fundingList = mpService.partnerfundingList(pi, m);			
 
 		
 		if(m != null) {
@@ -940,7 +837,7 @@ public class MyPageController {
 	@RequestMapping("partnerInfo.me")
 	public String partnerInfo(HttpSession session, Model model) {
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		session.setAttribute("loginUser", loginUser);
 		return "myPage/partner/pagePartnerInfo";	
@@ -952,35 +849,36 @@ public class MyPageController {
 	
 	// 파트너정보수정
 	@RequestMapping("partnerUpdate.me")
-	public String updatePartner(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+	public String updatePartner(MyPage mp, MultipartFile file, HttpSession session, Model model, String deleteProfile, Member m) {
 		
 		
+		// 기본이미지까지 지워버림 --> 경로가 기본이미지경로일때는 파일 삭제하지말기
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
 				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
 			} 
 			
 			
 			// 새로운 파일 업로드
 			String changeName = saveFile(session, file);
-			m.setMemberProfile("resources/member_profile/" + changeName); 
+			mp.setMemberProfile("resources/member_profile/" + changeName); 
 				
 		}
 		
 		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
 				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
 			} 
 			
-			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
+			mp.setMemberProfile("resources/member_profile/profile_basic.jpg");
 		
-		}
+		}				
 		
-		int result = mService.updateMember(m); 
+		int result = mpService.updateMember(mp); 
 		
 		if(result > 0) { // 수정성공했을 경우
 			
@@ -997,15 +895,16 @@ public class MyPageController {
 	
 	
 	}
-	
+		
+		
 	// 파트너조인 폼
 	@RequestMapping("partnerJoinForm.me")
 	public String partnerJoinForm(HttpSession session, Model model) {
 		
 		
-		MyPage loginUser = (MyPage)session.getAttribute("loginUser");
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		//이미 파트너인경우에는 메인으로 돌리기
+		
 		if(loginUser.getPartnerJoin().equals("Y")) {
 			
 			session.setAttribute("alertMsg", "파트너님 안녕하세요");
@@ -1016,40 +915,43 @@ public class MyPageController {
 			session.setAttribute("loginUser", loginUser);
 			return "myPage/partner/partnerJoinForm";
 		}
-	
-	}	
+		
+		
+		
+		
+		
+	}
 	
 	// 파트너조인
 	@RequestMapping("partnerJoin.me")
-	public String partnerJoinForm(MyPage m, MultipartFile file, HttpSession session, Model model, String deleteProfile) {
+	public String partnerJoinForm(MyPage mp, MultipartFile file, HttpSession session, Model model, String deleteProfile, Member m) {
 		
-		// 기본이미지까지 지워버림 --> 경로가 기본이미지경로일때는 파일 삭제하지말기
 		if(!file.getOriginalFilename().equals("")) { // 넘어오는값이 있을경우
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
 				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
 			} 
 			
 			
 			// 새로운 파일 업로드
 			String changeName = saveFile(session, file);
-			m.setMemberProfile("resources/member_profile/" + changeName); 
+			mp.setMemberProfile("resources/member_profile/" + changeName); 
 				
 		}
 		
 		if(deleteProfile.equals("delete")) { // 기존파일을 삭제하고 기본이미지로 변경
 			
-			if(!m.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
+			if(!mp.getMemberProfile().equals("resources/member_profile/profile_basic.jpg"))   { // 기본파일경로명이 아닐때는 그 파일 삭제
 				
-				new File(session.getServletContext().getRealPath(m.getMemberProfile())).delete();
+				new File(session.getServletContext().getRealPath(mp.getMemberProfile())).delete();
 			} 
 			
-			m.setMemberProfile("resources/member_profile/profile_basic.jpg");
+			mp.setMemberProfile("resources/member_profile/profile_basic.jpg");
 		
-		}		
+		}
 		
-		int result = mService.partnerJoin(m); 
+		int result = mpService.partnerJoin(mp); 
 		
 		if(result > 0) { // 수정성공했을 경우
 			

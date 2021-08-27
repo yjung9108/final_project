@@ -39,63 +39,47 @@
 	.head a{text-decoration: none; color: black;}
 	
 	/* header_web */
-	.head_main>div{float: left; margin-bottom: 20px;}
+	.head_main>div{float: left; margin-bottom: 25px;}
 	
-	.logo_img{width: 30%; position: relative;}
-	.head_center{width: 50%;}
+	.logo_img{position: relative;}
+	.head_center{width: 69%;}
 	.login_area{width: 20%;}
 	
-	.logo_img>img{height:50px; margin: 0 20px;}
-	.login_area{text-align: center; line-height:50px; font-size: 14px; text-indent: 35px;}
+	.logo_img>img{margin: 0 20px;}
+	.login_area{text-align: center; line-height:68px; font-size: 16px;}
 	.login_area>a{margin: 5px;}
-	.login_area>a:hover{cursor: pointer;}
+	.login_area a:hover{cursor: pointer;}
 	
 	/* navigator */
-	.navi{
-	    margin: 0;
-	    padding: 0;
-	    list-style-type: none;
-	}
-	.navi>li{
-	    float: left;
-	    width: 20%;
-	    text-align: center;
-	}
-	.navi a{
+	.gnb_wrap {width: 100%;float: left;}
+	.navi{ margin: 0; padding: 0; list-style-type: none;}
+	.navi>li{ float: left; width: 20%; text-align: center;}
+	.navi a, .topMenu{
 	    text-decoration: none;
 	    font-size: 18px;
 	    color: white;
-	    background: rgb(44, 62, 80);;
+	    background: rgb(44, 62, 80);
 	    display: block;
 	    line-height: 55px;
 	}
 	
+	
 	.navi>li>ul a{ font-size: 16px; font-weight: bold;}
 	
-	.navi a:hover{background-color:rgb(52, 152, 219); color:white;}
+	.navi a:hover{background-color:rgb(52, 152, 219); color:white; cursor:pointer;}
 	
 	.navi>li>ul{ 
 	    list-style-type: none;
 	    padding: 0;
 	    display: none;
-	    z-index: 1;
+	    z-index: 100;
 	    position:absolute;
 	    width: 240px;
 	}
-	.navi>li>a:hover+ul{
-	    display: block;
-	}
-	.navi>li>ul:hover{
-	    display: block;
-	}
-	.navi_sub a{
-	    background: lightgray;
-	    color: rgb(19, 19, 19);
-	}  
-	.navi_sub a:hover{
-	    background: rgb(196, 195, 195);
-	    color: rgb(19, 19, 19);
-	}      
+	.navi>li>a:hover+ul{display: block;}
+	.navi>li>ul:hover{display: block;}
+	.navi_sub a{background: #e0e0e0; color: rgb(19, 19, 19);}  
+	.navi_sub a:hover{ background: #d2d2d2; color: rgb(19, 19, 19);}      
 	
 	/* 세부 페이지마다 공통적으로 유지할 style */
 	.content_wrap{
@@ -112,6 +96,7 @@
 	    font-size: 23px;
 	    font-weight: 550;
 	}
+	.container{ max-width: 1000px;}
 </style>        
 </head>
 <body>
@@ -126,47 +111,54 @@
 
     <div class="head">
         <div class="head_main">
-            <div class="logo_img"><img src="../../../resources/images/logo.png" alt="로고"></div>
+            <div class="logo_img"><a href="${ pageContext.servletContext.contextPath }">
+            	<img src="resources/images/logo.PNG" alt="로고" width="125px" ></a></div>
             <div class="head_center"></div>
             <div class="login_area">
-                <!-- 로그인전 -->
-                <a data-toggle="modal" data-target="#manaLogin">로그인</a>
-            
-                <!-- 로그인 후 -->
-                <!-- 
-                <span>관리자님</span> &nbsp;
-                <a href="">로그아웃</a>
-                -->
+                <c:choose>
+                	<c:when test="${ !empty loginUser and loginUser.memberStatus eq 'A' }">
+			            <b>
+	                		<span>관리자  ON</span> &nbsp;
+			                <a href="logout.mana">로그아웃</a>
+		                </b>
+                	</c:when>
+                	<c:otherwise>
+                		<b>
+	               			<span>관리자  OFF</span> &nbsp;
+		                	<a data-toggle="modal" data-target="#manaLogin">로그인</a>
+		                </b>
+                	</c:otherwise>
+                </c:choose>
             </div>
         </div>
-
+        
+     
         <div class="gnb_wrap">
             <ul class="navi">
-                <li><a href="">회원관리</a></li>
+                <li><a href="memberListView.mana">회원관리</a></li>
 
-                <li><a href="">메뉴관리</a></li>
+                <li><a href="list.cate">메뉴관리</a></li>
 
-                <li><a>펀딩관리</a>
+                <li><a href="fundingListView.mana">펀딩관리</a> </li>
+
+                <li><a class="topMenu">결제관리</a>
                     <ul class="navi_sub">
-                        <li><a href="">펀딩조회</a></li>
-                        <li><a href="">실시간랭킹</a></li>
+                        <li><a href="orderListView.mana">주문내역</a></li>
+                        <li><a href="refundListView.mana">환불신청 내역</a></li>
                     </ul>
                 </li>
-                <li><a href="">결제관리</a> </li>
 
-                <li><a href="">고객센터</a>
+                <li><a class="topMenu">고객센터</a>
                     <ul class="navi_sub">
-                        <li><a href="">공지사항</a></li>
-                        <li><a href="">FAQ</a></li>
-                        <li><a href="">문의하기</a></li>
-                        <li><a href="">신고하기</a></li>
-                        <li><a href="">실시간채팅</a></li>
+                        <li><a href="noticeList.mana">공지사항</a></li>
+                        <li><a href="faqList.mana">FAQ</a></li>
+                        <li><a href="otoList.mana">문의하기</a></li>
+                        <li><a href="reportList.mana">신고하기</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
-
    
     <!-- 로그인 클릭시 뜨는 모달 -->
     <!-- The Modal -->
@@ -176,26 +168,28 @@
         
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">로그인</h4>
+            <h4 class="modal-title">관리자 로그인</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             
             <!-- Modal body -->
+            <form action="login.mana" method="post">
             <div class="modal-body">
                 <label for="userId" class="mr-sm-2">ID :</label>
-                <input type="text" name="userId" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId"> 
+                <input type="text" name="memberId" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId"> 
                 <label for="userPwd" class="mr-sm-2">Password:</label>
-                <input type="password" name="userPwd" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd">
+                <input type="password" name="memberPwd" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd">
             </div>
             
             <!-- Modal footer -->
             <div class="modal-footer">
-            <button type="button" class="btn btn-info btn-block" data-dismiss="modal">로그인</button>
+            <button type="button" onclick="form.submit();" class="btn btn-info btn-block" data-dismiss="modal">로그인</button>
             </div>
-            
+            </form>
         </div>
         </div>
-    </div>                            
+    </div>  
+    
  
 
 </body>

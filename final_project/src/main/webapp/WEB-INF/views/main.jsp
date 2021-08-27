@@ -8,13 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- jQuery 라이브러리 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<!-- 부트스트랩에서 제공하고 있는 스타일 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-	<!-- 부트스트랩에서 제공하고 있는 스크립트 -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
     
@@ -22,35 +15,32 @@
             width: 1200px; 
             height: 1000px;
             margin: auto;  
-            padding: 10px;
+            padding-left: 10px;
+            margin-top: -20px;
         }
         .visualSlide{
             width: 100%;
             height: 503px;
             background-color: rgba(224, 224, 224, 0.52);
-        }
-        #slideImg{
-            width: 830px;
-            height: 100%;
-            float: left;
-            margin-right: 20px;
-        }
-        .nextBtn{
-            width: 50px;
-            float: left;
-            margin: 15px;
+            margin-top: 20px;
         }
         .mainBody p{
             display: table-cell;
         }
-        .mainBody{ width:1200px; height: 550px;}
-        
+        .mainBody{ 
+        	width:1200px; 
+        	height: 600px;
+  	 		padding-top: 20px;
+  	 		margin-top: 20px;
+    	}
+        #mainSuccess{
+        	margin-bottom: 100px;
+        }
         .mainTitle{
-            font-size: 27px; 
+            font-size: 30px; 
             font-weight: 900; 
             float: left; 
-            margin-top: 70px; 
-            margin-left: 65px;
+            margin: 50px 0 20px 40px; 
         } 
         .mainItems{
             text-align: left;
@@ -64,7 +54,78 @@
             float: right; 
             margin-right: 10px;
         }
+        .thumbnail:hover{
+        cursor:pointer;
+        opacity:0.5;
+    	}
+        .pTitle{
+		height:80px;
+		font-weight: 600;
+		font-size: 18px;
+		margin-top: 5px;
+		}
+		#dday{float:right;}
+        
 
+        .visualSlide * {margin:0;padding:0;}
+        .section input[id*="slide"] {display:none;}
+        .section .visualSlide {max-width:1200px;margin:0 auto; margin-top: 23px;}
+        .section .slidelist {white-space:nowrap;font-size:0;overflow:hidden;position:relative;}
+        .section .slidelist > li {display:inline-block;vertical-align:middle;width:100%;transition:all .5s;}
+        .section .slidelist > li > a {display:block;position:relative;}
+        
+        /* 자동슬라이드 */
+        .visualSlide .slidelist > li {animation: translate 10s infinite 10s; }
+        /* .visualSlide .slidelist > li:hover{animation-play-state: paused;} */
+        @keyframes translate {
+            0%{
+                transform: translateX(0%);
+            }
+            30%{
+                transform: translateX(-100%);
+            }
+            60%{
+                transform: translateX(-200%);
+            }
+            90%{
+                transform: translateX(0%);
+            }
+
+        }
+        /* .section .slidelist > li > a img {width:100%;} */
+        .section .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+        
+        /* input에 체크되면 슬라이드 효과 */
+        .section input[id="slide01"]:checked ~ .visualSlide .slidelist > li {transform:translateX(0%);}
+        .section input[id="slide02"]:checked ~ .visualSlide .slidelist > li {transform:translateX(-100%);}
+        .section input[id="slide03"]:checked ~ .visualSlide .slidelist > li {transform:translateX(-200%);}
+        
+        /* 좌,우 슬라이드 버튼 */
+	    .slide-control > div {display:none;}    
+        .section input[id="slide01"]:checked ~ .visualSlide .slide-control > div:nth-child(1) {display:block;}
+        .section input[id="slide02"]:checked ~ .visualSlide .slide-control > div:nth-child(2) {display:block;}
+        .section input[id="slide03"]:checked ~ .visualSlide .slide-control > div:nth-child(3) {display:block;}
+
+        /* 페이징 */
+        .slide-pagelist {text-align:center;padding:20px; margin-top: 100px;}
+        .slide-pagelist > li {display:inline-block;vertical-align:middle;}
+        .slide-pagelist > li > label {display:block;padding:8px 8px;border-radius:30px;background:#ccc;margin:20px 10px;cursor:pointer;}
+        .section input[id="slide01"]:checked ~ .visualSlide .slide-pagelist > li:nth-child(1) > label {background:rgb(52, 152, 219);}
+        .section input[id="slide02"]:checked ~ .visualSlide .slide-pagelist > li:nth-child(2) > label {background:rgb(52, 152, 219);}
+        .section input[id="slide03"]:checked ~ .visualSlide .slide-pagelist > li:nth-child(3) > label {background:rgb(52, 152, 219);}
+
+
+        .slidelist{float: left; width: 830px; }
+        .slideSide{float: right; margin-right: -500px; margin-top: 180px;}
+        .slide-control, .slide-pagelist{
+            float: left !important;
+        }
+        .nextBtn{
+            margin-top: 61px;
+            cursor: pointer;
+        }
+        .right{margin-left: 5px;}
+		.slidelist a {text-decoration: none; color: black;}
     </style>
 </head>
 <body>
@@ -72,217 +133,125 @@
 	<jsp:include page="common/header.jsp"/>
 	
 	
-	
-	
     <div class="mainOuter" align="center">
         
         <!-- 슬라이드 -->
-        <div class="visualSlide">
-            <img src="resources/images/slide1.JPG" id="slideImg">
-            <div id="slideLetter">
-                <br><br><br><br><br><br><br>
-                <p align="left" style="font-size: 30px; font-weight: 900;">
-                    순천 명인 발효 홍차로 <br>
-                    지구를 지켜요
-                </p>
-                <p align="left" style="font-size: 16px; font-weight: 500;">
-                    환경을 살릴 수 있는 차시간의 전통차 샘플러
-                </p>
-            </div>
-            
-            <br><br><br><br>
-            <div id="slicePaging">
-                <img src="resources/images/slideLeft.PNG" class="nextBtn">
-                <img src="resources/images/slideRight.PNG" class="nextBtn">
-                <img src="resources/images/slideNext_Temp.PNG" style="width: 95px; margin-top: 23px; margin-right: 20px;">
+        <div class="section">
+            <input type="radio" name="slide" id="slide01" checked>
+            <input type="radio" name="slide" id="slide02">
+            <input type="radio" name="slide" id="slide03">
+            <div class="visualSlide">
+                <ul class="slidelist">
+                    <!-- 슬라이드 영역 -->
+                    <li class="slideitem">
+                        <a href="detail.fd?pno=73"><img src="resources/project_thumbnail/20210720022542370073.PNG" class="slideImg" width="830px" height="503px"></a>
+                    </li>
+                    <li class="slideitem">
+                        <a href="detail.fd?pno=74"><img src="resources/project_thumbnail/20210720023359253651.PNG" class="slideImg" width="830px" height="503px"></a>
+                    </li>
+                    <li class="slideitem">
+                        <a href="detail.fd?pno=75"><img src="resources/project_thumbnail/20210720023914376777.PNG" class="slideImg" width="830px" height="503px"></a>
+                    </li class="slideitem">
+                </ul>
+                
+                <div class="slideSide">
+                    <div id="slideLetter">
+                        <ul class="slidelist">
+                            <li class="slideitem">
+                           	 	<a href="detail.fd?pno=73">
+	                                <p align="left" style="font-size: 30px; font-weight: 900;">
+	                                    한복을 가방으로 <br> 피워내다,
+	                                </p>
+	                                <p align="left" style="font-size: 16px; font-weight: 500;">
+	                                    업사이클링 모던 '저고리백'
+	                                </p>
+                                </a>
+                            </li>
+                            <li class="slideitem">
+                            	<a href="detail.fd?pno=74">
+	                                <p align="left" style="font-size: 30px; font-weight: 900;">
+	                                    조각 조각 리스본 꾸러미
+	                                </p>
+	                                <p align="left" style="font-size: 16px; font-weight: 500;">
+	                                    뜨거운 햇빛 아래 빛나던 여행 속 꾸러미
+	                                </p>
+                            	</a>
+                            </li>
+                            <li class="slideitem">
+                            	<a href="detail.fd?pno=75">
+	                                <p align="left" style="font-size: 30px; font-weight: 900;">
+	                                    가방과 뱃지 시리즈로 <br>
+	                                    재미를 행복을!
+	                                </p>
+	                                <p align="left" style="font-size: 16px; font-weight: 500;">
+	                                    재미를, 행복을 찾아서 '이상한 나라의 앨리스'
+	                                </p>
+                            	</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div id="slicePaging">
+                        <!-- <img src="resources/images/slideLeft.PNG" class="nextBtn">
+                        <img src="resources/images/slideRight.PNG" class="nextBtn"> -->
+                        
+                            
+                        <!-- 좌,우 슬라이드 버튼 -->
+                        <div class="slide-control">
+                            <div>
+                                <label for="slide03" class="left nextBtn"><img src="resources/images/slideLeft.PNG" class="nextBtn"></label>
+                                <label for="slide02" class="right nextBtn"><img src="resources/images/slideRight.PNG" class="nextBtn"></label>
+                            </div>
+                            <div>
+                                <label for="slide01" class="left nextBtn"><img src="resources/images/slideLeft.PNG" class="nextBtn"></label>
+                                <label for="slide03" class="right nextBtn"><img src="resources/images/slideRight.PNG" class="nextBtn"></label>
+                            </div>
+                            <div>
+                                <label for="slide02" class="left nextBtn"><img src="resources/images/slideLeft.PNG" class="nextBtn"></label>
+                                <label for="slide01" class="right nextBtn"><img src="resources/images/slideRight.PNG" class="nextBtn"></label>
+                            </div>
+                        </div>
+    
+                        <!-- 페이징 -->
+                        <ul class="slide-pagelist">
+                            <li><label for="slide01"></label></li>
+                            <li><label for="slide02"></label></li>
+                            <li><label for="slide03"></label></li>
+                        </ul>
+                        <!-- <img src="resources/images/slideNext_Temp.PNG" style="width: 95px; margin-top: 23px; margin-right: 20px;"> -->
+                    </div>
+                </div>
             </div>
         </div>
-
+        
         <!-- 이 프로젝트 어때요? -->
-        <div id="mainRecom" class="mainBody" style="width: 100%; height: 90%;">
+        <div id="mainRecom" class="mainBody">
             <p class="mainTitle"> 이 프로젝트 어때요?</p> 
             <br><br><br><br><br><br>
-            <table>
-                <tr>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
+            <table id="newList">
+                <tr style="margin-right:20px">
                 </tr>
             </table>
 
         </div>
-            
+        <br><br>
         <!-- 실시간 top3 -->
         <div id="mainTop3" class="mainBody" style="background-color:rgba(224, 224, 224, 0.52);">
             <p class="mainTitle"> 실시간 TOP 3</p> 
             <br><br><br><br><br><br>
-            <table>
-                <tr>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
+            <table id="famousList">
+                <tr style="margin-right:20px">
                 </tr>
             </table>
         </div>
-
+		
+		
         <!-- 오픈 예정 프로젝트 -->
         <div id="mainComing" class="mainBody">
             <p class="mainTitle"> 오픈 예정 프로젝트</p>
             <br><br><br><br><br><br>
-            <table>
-                <tr>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
+            <table id="readyList">
+                <tr style="margin-right:20px">
                 </tr>
             </table> 
         </div>
@@ -291,58 +260,100 @@
         <div id="mainSuccess" class="mainBody">
             <p class="mainTitle"> 성공 임박 프로젝트</p> 
             <br><br><br><br><br><br>
-            <table>
-                <tr>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="mainItems">
-                            <img src="resources/images/project1.JPG">
-                            <p>봄날에 어울리는 포근한 샴푸향 향수</p><br>
-                            <span>
-                                <p>401,240원 펀딩</p>
-                            </span>
-                            <span class="mainInfos">
-                                <p>D-4</p>
-                                <p>401%</p> 
-                            </span>
-                        </div>
-                    </th>
+            <table id="eveList">
+                <tr style="margin-right:20px">
                 </tr>
             </table>
         </div>
         
-	<jsp:include page="common/footer.jsp"/>
-	
-	
-	
-	
-	
-	
+        <script>
+	    	$(function(){
+	    		$.ajax({
+	    			url:"menuList3.main",
+	    			success:function(list){
+	    				
+	    				var value1="";
+	    				var value2="";
+	    				var value3="";
+	    				var value4="";
+	    				$.each(list.fList, function(i, p){
+	    					value1 += '<th>' 
+	    						   +	'<div class="thumbnail" id="thumbnail" style="margin: 0 20px 0 20px;">'
+	    						   +		'<input type="hidden" class="pno" value=' + p.projectNo + '>'
+	    						   +		'<input type="hidden" value=' + p.projectGprice + '>'
+	    						   +		'<img width="350" height="260" src=' + p.projectThum + '>'
+	    						   +		'<div class="pTitle" align="left">'
+	    						   +			p.projectTitle + '<br>'
+	    						   +		'</div>'
+	    						   +			'<span id="percent">' + p.percentage + '%</span>&nbsp;&nbsp;&nbsp;<span id="totalPrice">' + p.totalPrice + '</span>원<span id="dday" align="right">D-' + p.dday + '</span>'
+	    						   +	'</div>'
+	    						   + '<th>'
+	    				})	
+	    				
+	    				$.each(list.eList, function(i, p){
+	    					value2 += '<th>' 
+	    						   +	'<div class="thumbnail" id="thumbnail" style="margin: 0 20px 0 20px;">'
+	    						   +		'<input type="hidden" class="pno" value=' + p.projectNo + '>'
+	    						   +		'<input type="hidden" value=' + p.projectGprice + '>'
+	    						   +		'<img width="350" src=' + p.projectThum + '>'
+	    						   +		'<div class="pTitle" align="left">'
+	    						   +			p.projectTitle + '<br>'
+	    						   +		'</div>'
+	    						   +			'<span id="percent">' + p.percentage + '%</span>&nbsp;&nbsp;&nbsp;<span id="totalPrice">' + p.totalPrice + '</span>원<span id="dday">D-' + p.dday + '</span>'
+	    						   +	'</div>'
+	    						   + '<th>'
+	    				})
+	    					    				
+	    				$.each(list.rList, function(i, p){
+	    					value3 += '<th>' 
+	    						   +	'<div class="thumbnail" id="thumbnail" style="margin: 0 20px 0 20px;">'
+	    						   +		'<input type="hidden" class="pno" value=' + p.projectNo + '>'
+	    						   +		'<input type="hidden" value=' + p.projectGprice + '>'
+	    						   +		'<img width="350" src=' + p.projectThum + '>'
+	    						   +		'<div class="pTitle" align="left">'
+	    						   +			p.projectTitle + '<br>'
+	    						   +		'</div>'
+	    						   +	'</div>'
+	    						   + '<th>'
+	    				})
+	    				
+	    				$.each(list.nList, function(i, p){
+	    					value4 += '<th>' 
+	    						   +	'<div class="thumbnail" id="thumbnail" style="margin: 0 20px 0 20px;">'
+	    						   +		'<input type="hidden" class="pno" value=' + p.projectNo + '>'
+	    						   +		'<input type="hidden" value=' + p.projectGprice + '>'
+	    						   +		'<img width="350" src=' + p.projectThum + '>'
+	    						   +		'<div class="pTitle" align="left">'
+	    						   +			p.projectTitle + '<br>'
+	    						   +		'</div>'
+	    						   +			'<span id="percent">' + p.percentage + '%</span>&nbsp;&nbsp;&nbsp;<span id="totalPrice">' + p.totalPrice + '</span>원<span id="dday">D-' + p.dday + '</span>'
+	    						   +	'</div>'
+	    						   + '<th>'
+	    				})
+	    				
+						$("#famousList tr").html(value1);
+	    				$("#eveList tr").html(value2);
+	    				$("#readyList tr").html(value3);
+	    				$("#newList tr").html(value4);
+	    				
+	    	    		$(".thumbnail").click(function(){
+	    					location.href="detail.fd?pno=" + $(this).children(".pno").val();
+	    				})
+	    				
+	    				
+	    			}, error:function(){
+	    				console.log("리스트 조회용 ajax 통신 실패");
+	    			}
+	    		})
+	    		
+	    	})
+    	</script>
+    	
+    	<script>
+    		
+    	</script>
+        
+		<jsp:include page="common/footer.jsp"/>
 	
     </div>
     

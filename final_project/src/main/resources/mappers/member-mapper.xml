@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+	<resultMap id="memberResultSet" type="Member">
+		<id column="member_no" property="memberNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_pwd" property="memberPwd"/>
+		<result column="member_name" property="memberName"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_createdt" property="memberCreateDt"/>
+		<result column="member_link" property="memberLink"/>
+		<result column="report_count" property="reportCount"/>
+		<result column="member_status" property="memberStatus"/>
+		<result column="member_profile" property="memberProfile"/>
+		<result column="partner_join" property="partnerJoin"/>
+		<result column="partner_name" property="partnerName"/>
+		<result column="partner_intro" property="partnerIntro"/>
+		<result column="follow_member_no" property="followMemberNo"/>
+		
+		<result column="member_create_dt" property="memberCreateDate"/>
+	</resultMap>
+	
+	<select id="loginMember" resultMap="memberResultSet" parameterType="Member">
+		
+		select
+  		       member_no
+  		     , member_id
+  		     , member_pwd
+  		     , member_name
+  		     , member_phone
+  		     , member_create_dt
+  		     , member_link
+  		     , report_count
+  		     , member_status
+  		     , member_profile
+  		     , partner_join
+  		     , partner_name
+  		     , partner_intro
+  		  from member
+  		 where member_status IN ('Y', 'A')
+  		   and member_id = #{memberId}
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		insert
+		  into member
+		  (
+		  	member_no
+		  , member_name
+		  ,	member_id
+		  , member_pwd
+		  )
+		  values
+		  (
+		  	seq_mno.nextval
+		  , #{memberName}
+		  , #{memberId}
+		  , #{memberPwd}
+		  )
+	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		update
+  				member
+  			set member_id = #{memberId}
+   			  , member_name = #{memberName}
+  			  , member_create_dt = sysdate
+  		  where member_id = #{memberId}
+	</update>
+	
+	<update id="deleteMember" parameterType="string">
+		update
+  		       member
+  		   set status = 'N'
+  		     , member_create_dt = sysdate
+  		 where member_id = #{memberId}
+	</update>
+	
+	<select id="idCheck" resultType="_int" parameterType="string">
+  		select
+  		       count(*)
+  		  from member
+  		 where member_id = #{memberId}
+  	</select>
+  	
+  	<insert id="insertMemberLogin" parameterType="Member">
+		insert
+		  into member
+		  (
+		  	member_id
+		  , member_pwd
+		  )
+		  values
+		  (
+		    #{memberId}
+		  , #{memberPwd}
+		  )
+	</insert>
+	
+	
+	<!-- 관리자 -->
+	<!-- 관리자 로그인 -->
+	<select id="loginAdmin" resultMap="memberResultSet" parameterType="Member">
+		select
+  		       member_no
+  		     , member_id
+  		     , member_pwd
+  		     , member_name
+  		     , member_phone
+  		     , member_create_dt
+  		     , member_link
+  		     , report_count
+  		     , member_status
+  		     , member_profile
+  		     , partner_join
+  		     , partner_name
+  		     , partner_intro
+  		  from member
+  		 where member_status = 'A'
+  		   and member_id = #{memberId}
+	</select>
+	
+	<!-- 페이징 처리 -->
+	<select id="selectListCount" resultType="_int">
+		select
+			   count(*)
+		from member
+	</select>
+	
+	<!-- 회원조회 -->
+	<select id="selectMemList" resultMap="memberResultSet">
+		select
+			   member_no
+		     , member_id
+		     , member_name
+		     , to_char(member_create_dt,'YYYY-MM-DD') member_create_dt
+		     , partner_join
+		     , partner_name
+		     , member_status
+		  from member  
+		 order
+		    by member_no desc   
+	</select>
+	
+	<!-- 탈퇴클릭시 모달 -->
+	<select id="selectMemStatus" resultMap="memberResultSet" 
+			parameterType="_int">
+		select
+				member_no
+			  , member_name
+		 from member
+		 where member_no = #{memberNo}
+	
+	</select>
+	
+	<!-- 탈퇴(회원상태변경) -->
+	<update id="deleteMemberMana" parameterType="hashmap" >
+		update 
+		       member
+		   set member_status = #{mStatus} 
+		 where member_name =  #{memName}      
+	</update>
+	
+	<!-- 검색 페이징 처리 -->
+	<select id="countSearch" resultType="_int" parameterType="hashmap">
+		select
+				count(*)
+		   from	member m
+			  <choose>
+           		<when test='memKey == "all"' >
+           			where ( member_no  like '%' || #{keyword} || '%' 
+           			       or member_name like '%' || #{keyword} || '%' 
+           			       or member_id like '%' || #{keyword} || '%' )
+           		</when>
+           		<otherwise>
+           			where ${memKey} like '%' || #{keyword} || '%' 
+           		</otherwise>
+           </choose>
+            <if test='partnerJoin != null'>
+   			   <choose>
+	   			   	<when test='partnerJoin == "supporter"'> and partner_join = 'N' </when>
+	   			   	<when test='partnerJoin == "partner"'> and partner_join = 'Y' </when>
+   			   </choose>
+		   </if>
+		   <if test='memberStatus != null'>
+   			   <choose>
+	   			   	<when test='memberStatus == "Y"'> and member_status = 'Y' </when>
+	   			   	<when test='memberStatus == "N"'> and member_status = 'N' </when>
+	   			   	<when test='memberStatus == "A"'> and member_status = 'A' </when>
+   			   </choose>
+		   </if>
+		  
+	</select>
+		
+	<!-- 검색 -->
+	<select id="searchMember" resultMap="memberResultSet" parameterType="hashmap">
+		select 
+               member_no
+		     , member_id
+		     , member_name
+		     , to_char(member_create_dt,'YYYY-MM-DD') member_create_dt
+		     , partner_join
+		     , partner_name
+		     , member_status
+		     , member_link
+          from member
+           <choose>
+           		<when test="memKey == 'all'">
+           			where ( member_no  like '%' || #{keyword} || '%' 
+           			       or member_name like '%' || #{keyword} || '%' 
+           			       or member_id like '%' || #{keyword} || '%' )
+           		</when>
+           		<otherwise>
+           			where ${memKey} like '%' || #{keyword} || '%' 
+           		</otherwise>
+           </choose>
+           
+            <if test='partnerJoin != null'>
+   			   <choose>
+	   			   	<when test='partnerJoin == "supporter"'> and partner_join = 'N' </when>
+	   			   	<when test='partnerJoin == "partner"'> and partner_join = 'Y' </when>
+   			   </choose>
+		   </if>
+		   <if test='memberStatus != null'>
+   			   <choose>
+	   			   	<when test='memberStatus == "Y"'> and member_status = 'Y' </when>
+	   			   	<when test='memberStatus == "N"'> and member_status = 'N' </when>
+	   			   	<when test='memberStatus == "A"'> and member_status = 'A' </when>
+   			   </choose>
+		   </if>
+           		           	
+         order
+            by member_no desc
+	</select>
+	
+	
+	
+	
+</mapper>

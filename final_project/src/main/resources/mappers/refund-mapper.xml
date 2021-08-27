@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="refundMapper">
+	<resultMap type="Refund" id="refundRset">
+		<id column="refund_no" property="refundNo"/>
+		<result column="order_no" property="orderNo"/>
+		<result column="r_originname" property="reOrginName"/>
+		<result column="r_changename" property="reChangeName"/>
+		<result column="r_reason" property="reReason"/>
+		<result column="refund_status" property="refundStatus"/>
+		
+		<result column="supporter_name" property="supporterName"/>
+		<result column="partner_name" property="partnerName"/>
+		<result column="reward_title" property="rewardTitle"/>
+		<result column="reward_price" property="rewardPrice"/>
+		<result column="project_title" property="projectTitle"/>
+		<result column="project_end_dt" property="projectEndDt"/>
+		<result column="order_option" property="orderOption"/>
+		<result column="order_date" property="orderDate"/>
+		<result column="order_plus" property="orderPlus"/>
+		<result column="total_price" property="totalPrice"/>
+		<result column="order_status" property="orderStatus"/>
+		<result column="order_count" property="orderCount"/>
+		<result column="bank_name" property="bankName"/>
+		<result column="bank_account" property="bankAccount"/>
+		<result column="card_no" property="cardNo"/>
+	</resultMap>
+	
+	<!-- 페이징 처리 -->
+	<select id="selectListCount" resultType="_int">
+		select
+			   count(*)
+		from refund
+	</select>
+	
+	<!-- 환불신청내역 조회 -->
+	<select id="selectList" resultMap="refundRset">
+		select 
+        		r.refund_no
+		      , m.member_name supporter_name 
+		      , p.project_title
+		      , rw.reward_title
+		      , o.order_option
+		      , r.r_reason
+		      , r.refund_status
+          from tb_order o
+          join refund r on(o.order_no = r.order_no)
+          join member m on(o.member_no = m.member_no)
+          join project p on(o.project_no = p.project_no)
+          join reward rw on(o.reward_no = rw.reward_no)
+         where o.order_no = r.order_no 
+		 order
+		    by refund_no desc  
+	</select>
+	
+	<!-- 환불신청 내역 상세조회 -->
+	<select id="selectRefund" resultMap="refundRset" 
+	        parameterType="_int">
+		select 
+		       o.order_no
+		     , to_char(o.order_date,'YYYY-MM-DD HH24:MI:SS') order_date
+		     , sn.member_name supporter_name
+		     , to_char(p.project_end_dt,'YYYY-MM-DD') project_end_dt
+		     , o.order_status
+		     , pn.member_name partner_name
+		     , p.project_title 
+		     , rd.reward_title
+		     , o.order_option
+		     , o.order_count
+		     , to_char(rd.reward_price, '999,999,999') reward_price
+		     , to_char(o.order_plus, '999,999,999') order_plus
+		     , to_char(o.total_price, '999,999,999')total_price
+		     , py.card_no
+		     , o.bank_name
+		     , o.bank_account
+		     , r.r_reason
+		     , r.refund_status
+	      from tb_order o
+	      join member sn on(o.member_no = sn.member_no)
+	      join project p on(o.project_no = p.project_no)
+	      full join member pn on(o.project_no = pn.member_no)
+	      join reward rd on(o.project_no = rd.project_no)
+	     full join pay py on(o.order_no = py.order_no)
+	      join refund r on(o.order_no = r.order_no) 
+	     where r.refund_no = #{refundNo}
+	       and o.reward_no = rd.reward_no
+	</select>
+	
+	<!-- 검색 페이징 -->
+	<select id="countSearch" resultType="_int"
+			parameterType="hashmap">
+		select
+			   count(*)
+		from tb_order o
+		join refund r on(o.order_no = r.order_no)
+		join member m on(o.member_no = m.member_no)
+		<if test="refundKey != null">
+	         <choose>
+	      		<when test="refundKey == 'refundAll' ">
+	      			where refund_no like '%' || #{keyword} || '%' 
+	      			   or m.member_name like '%' || #{keyword} || '%' 
+	      		</when>
+	      		<otherwise>
+	       	 	where ${refundKey} like '%' || #{keyword} || '%' 
+	      		</otherwise>
+	        </choose>
+        </if>
+        <if test="rfStatus != null">
+		   <choose>
+		   		<when test='rfStatus == "N"'> and refund_status = 'N' </when>
+		   		<when test='rfStatus == "Y"'> and refund_status = 'Y' </when>
+		   		<when test='rfStatus == "R"'> and refund_status = 'R' </when>
+		   </choose>
+   		</if>
+           and o.order_no = r.order_no 
+	</select>
+	
+	<!-- 검색 -->
+	<select id="selectSearchRefund" resultMap="refundRset"
+			parameterType="hashmap">
+			
+		select 
+        		r.refund_no
+		      , m.member_name supporter_name 
+		      , p.project_title
+		      , rd.reward_title
+		      , o.order_option
+		      , r.r_reason
+		      , r.refund_status
+          from tb_order o
+          join refund r on(o.order_no = r.order_no)
+          join member m on(o.member_no = m.member_no)
+          join project p on(o.project_no = p.project_no)
+          join reward rd on(o.reward_no = rd.reward_no)
+          <if test="refundKey != null">
+	         <choose>
+	      		<when test="refundKey == 'refundAll' ">
+	      			where ( refund_no like '%' || #{keyword} || '%' 
+	      			  	 or member_name like '%' || #{keyword} || '%' )
+	      		</when>
+	      		<otherwise>
+	       	 	where ${refundKey} like '%' || #{keyword} || '%' 
+	      		</otherwise>
+	        </choose>
+        </if>
+        <if test="rfStatus != null">
+		   <choose>
+		   		<when test='rfStatus == "S"'> and refund_status = 'S' </when>
+		   		<when test='rfStatus == "Y"'> and refund_status = 'Y' </when>
+		   		<when test='rfStatus == "N"'> and refund_status = 'N' </when>
+		   </choose>
+   		</if>
+           and o.order_no = r.order_no 
+		 order
+		    by refund_no desc
+	
+	</select>
+
+	
+</mapper>
+  

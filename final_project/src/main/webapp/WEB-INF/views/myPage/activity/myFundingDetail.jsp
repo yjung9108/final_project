@@ -161,16 +161,10 @@
 					                     결제완료
 					    </c:when>
 					    <c:when test="${orderList.orderStatus eq '2'}">
-					          	환불신청
-					    </c:when>
-					    <c:when test="${orderList.orderStatus eq '3'}">
-					                      환불처리중
-					    </c:when>
-					    <c:when test="${orderList.orderStatus eq '4'}">
-					          	환불완료
+					          	취소요청
 					    </c:when>
 					    <c:otherwise>
-					        	환불거절
+					        	취소완료
 					    </c:otherwise>
 				     </c:choose>              	                
 	              </th>
@@ -203,9 +197,11 @@
                     	<tr>
                     		
  							<td>
-                     			<div style="margin-top: 20px;">${orderList.projectTitle }</div>
-                                <div>${orderList.rewardTitle }</div>
-                                <div>${orderList.rewardContent }</div>               
+                     			<div style="margin-top: 10px; font-weight: 600;">${orderList.projectTitle }</div>
+                     			<c:if test="${ !empty orderList.rewardTitle  }">
+                                	<div><label style="font-weight: bold; margin-top: 20px;">* ${orderList.rewardTitle }</label></div>
+                                </c:if>
+                                <div style="font-size:14px">${orderList.rewardContent }</div>               
                             </td>
                             <td><img src="${ orderList.projectThum }" width="100" height="90" ></td>
                             <td style="text-align: center;">${ orderList.rewardPrice }</td>
@@ -311,8 +307,6 @@
 				
 				function delieveryM(){
                 	
-                	
-                	
                 	var result = confirm("배송지정보를 수정 하시겠습니까?");
                 	
                 	if(result){
@@ -329,9 +323,10 @@
 				</script>
                 
                 
-                <!-- 배송준비중일경우 input, button에 readonly 제거 -->
+                <!-- 배송준비중&&결제완료 상태 input요소 readonly 제거, button에 disabled 제거 -->
                 <input type="hidden" value="${orderList.shippingStatus}"  id="shippingStatus">
                 <input type="hidden" value="${orderList.orderStatus}"  id="orderStatus">
+                
                 <script>
                     
                 

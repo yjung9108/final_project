@@ -63,11 +63,11 @@
         
 	</div>
     
-    <!-- footer자리 
+    <!-- footer자리
     <footer>
 		<jsp:include page="../../common/footer.jsp"/>
 	</footer>
-	-->
+	 -->
 
 </body>
 </html>

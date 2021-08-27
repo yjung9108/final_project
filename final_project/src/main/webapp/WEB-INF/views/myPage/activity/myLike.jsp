@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 800px; margin: auto;}
+        .wrap{width: 1000px; height: 900px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -39,12 +39,12 @@
 
 
         /* content */
-        .like #content_1{height: 80%;}
-        .like #content_2{height: 10%; width: 80%;}
+        .like #content_1{height: 90%;}
+        .like #content_2{height: 5%; width: 80%;}
         
         
         /* 좋아요 목록 */
-        .like #content_1{margin-top: 50px;}
+        .like #content_1{margin-top: 20px;}
         .like #content_1>div{float: left; padding: 10px;}
         #content_1>#likeList:hover {cursor:pointer; opacity:0.5;}
         
@@ -88,14 +88,7 @@
 			                        <table>
 			                            <tr>
 			                                <td colspan="3">
-			                                	<c:choose>
-			                                		<c:when test="${ empty list.projectThum }">
-			                                			<img src="resources/project_thumbnail/no_image.jpg"  width="250" height="200">
-			                                		</c:when>
-			                                		<c:otherwise>
-			                                			<img src="${ list.projectThum }"  width="250" height="200">
-			                                		</c:otherwise>
-			                                	</c:choose>
+			                                	<img src="${ list.projectThum }"  width="250" height="200">
 			                                </td>
 			                            </tr>
 			                            <tr>
@@ -127,7 +120,7 @@
                 
                 <script>
                 $(function(){
-            		$("#content_1 #fundingList").click(function(){
+            		$("#content_1 #likeList").click(function(){
             			location.href="detail.fd?pno=" + $(this).children(".pno").val();
             		})
             	})

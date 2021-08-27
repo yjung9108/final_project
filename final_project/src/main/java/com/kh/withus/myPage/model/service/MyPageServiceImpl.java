@@ -10,6 +10,7 @@ import com.kh.withus.common.model.vo.PageInfo;
 import com.kh.withus.myPage.model.dao.MyPageDao;
 import com.kh.withus.myPage.model.vo.MyPage;
 
+
 @Service
 public class MyPageServiceImpl implements MyPageService{
 
@@ -17,7 +18,7 @@ public class MyPageServiceImpl implements MyPageService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	private MyPageDao mDao;
+	private MyPageDao mpDao;
 	
 	
 	//임시 로그인
@@ -26,124 +27,118 @@ public class MyPageServiceImpl implements MyPageService{
 		
 		//Member loginUser = mDao.loginMember(sqlSession, m);
 		//return loginUser;
-		return mDao.loginMember(sqlSession, m);
+		return mpDao.loginMember(sqlSession, m);
 	}
 
 	
 	
-	
-	
-	@Override
-	public int pwdConfirm(MyPage m) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	// 기본정보 변경
 	@Override
 	public int updateMember(MyPage m) {
 		
-		return mDao.updateMember(sqlSession, m);
+		return mpDao.updateMember(sqlSession, m);
 	}
 	
 	// 비밀번호 변경
 	@Override
 	public int updatePwd(MyPage m) {
-		return mDao.updatePwd(sqlSession, m);
+		return mpDao.updatePwd(sqlSession, m);
 	}
 	
 
 	@Override
 	public int deleteMember(String memberId) {
 		
-		return mDao.deleteMember(sqlSession, memberId);
+		return mpDao.deleteMember(sqlSession, memberId);
 	}
 
 	@Override
 	public int selectFollowListCount(int memberNo) {
-		return mDao.selectFollowListCount(sqlSession, memberNo);
+		return mpDao.selectFollowListCount(sqlSession, memberNo);
 	}
 
 	@Override
 	public ArrayList<MyPage> selectFollowList(PageInfo pi, int memberNo) {
-		return mDao.selectFollowList(sqlSession, pi, memberNo);
+		return mpDao.selectFollowList(sqlSession, pi, memberNo);
 	}
 
 	@Override
 	public int unfollowMember(MyPage m) {
 		
-		return mDao.unfollowMember(sqlSession, m);
+		return mpDao.unfollowMember(sqlSession, m);
 	}
 
 	@Override
 	public int followMember(MyPage m) {
-		return mDao.followMember(sqlSession, m);
+		return mpDao.followMember(sqlSession, m);
 	}
 
 	@Override
 	public MyPage partnerDetail(MyPage m) {
 		
-		return mDao.partnerDetail(sqlSession, m);
+		return mpDao.partnerDetail(sqlSession, m);
 	}
 
 	
 	@Override
 	public int followCheck(MyPage m) {
 		
-		return mDao.followCheck(sqlSession, m);
+		return mpDao.followCheck(sqlSession, m);
 	}
 
 	@Override
 	public int followerCount(int followMemberNo) {
 		
-		return mDao.followerCount(sqlSession, followMemberNo);
+		return mpDao.followerCount(sqlSession, followMemberNo);
 	}
 
 	@Override
 	public int fundingCount(MyPage m) {
-		return mDao.fundingCount(sqlSession, m);
+		return mpDao.fundingCount(sqlSession, m);
 	}
 	
 	@Override
 	public ArrayList<MyPage> fundingList(PageInfo pi, MyPage m) {
-		return mDao.fundingList(sqlSession, pi, m);
+		return mpDao.fundingList(sqlSession, pi, m);
 	}
 
 	// 좋아요 리스트
 	@Override
 	public int likeListCount(int memberNo) {
 		
-		return mDao.likeListCount(sqlSession, memberNo);
+		return mpDao.likeListCount(sqlSession, memberNo);
 	}
 
 	@Override
 	public ArrayList<MyPage> likeList(PageInfo pi, int memberNo) {
 		
-		return mDao.likeList(sqlSession, pi, memberNo);
+		return mpDao.likeList(sqlSession, pi, memberNo);
 	}
 
 	// 나의 문의내역 리스트 카운트
 	@Override
 	public int myQueryListCount(int memberNo) {
-		return mDao.myQueryListCount(sqlSession, memberNo);
+		return mpDao.myQueryListCount(sqlSession, memberNo);
 	}
 
 	// 나의 문의내역 리스트
 	@Override
 	public ArrayList<MyPage> myQueryList(PageInfo pi, int memberNo) {
-		return mDao.myQueryList(sqlSession, pi, memberNo);
+		return mpDao.myQueryList(sqlSession, pi, memberNo);
 	}
 	
 	//나의 문의 상세
 	@Override
 	public MyPage myQueryDetail(int otoNo) {
-		return mDao.myQueryDetail(sqlSession, otoNo);
+		return mpDao.myQueryDetail(sqlSession, otoNo);
 	}
 	
 	//문의내역 삭제
 	@Override
 	public int deleteQuery(int otoNo) {
-		return mDao.deleteQuery(sqlSession, otoNo);
+		return mpDao.deleteQuery(sqlSession, otoNo);
 	}
 
 
@@ -152,13 +147,13 @@ public class MyPageServiceImpl implements MyPageService{
 	// 나의 펀딩리스트
 	@Override
 	public int myFundingListCount(int memberNo) {
-		return mDao.myFundingListCount(sqlSession, memberNo);
+		return mpDao.myFundingListCount(sqlSession, memberNo);
 	}
 
 
 	@Override
 	public ArrayList<MyPage> myFundingList(PageInfo pi, int memberNo) {
-		return mDao.myFundingList(sqlSession, pi, memberNo);
+		return mpDao.myFundingList(sqlSession, pi, memberNo);
 	}
 
 
@@ -167,12 +162,12 @@ public class MyPageServiceImpl implements MyPageService{
 	// 나의 주문내역
 	@Override
 	public MyPage myFundingDetail(MyPage m) {
-		return mDao.myFundingDetail(sqlSession, m);
+		return mpDao.myFundingDetail(sqlSession, m);
 	}
 
 	@Override
 	public int updateOrder(MyPage m) {
-		return mDao.updateOrder(sqlSession, m);
+		return mpDao.updateOrder(sqlSession, m);
 	}
 
 
@@ -192,20 +187,20 @@ public class MyPageServiceImpl implements MyPageService{
 
 	@Override
 	public int refundRequest(MyPage m) {
-		return mDao.refundRequest(sqlSession, m);
+		return mpDao.refundRequest(sqlSession, m);
 	}
 
 
 	@Override
 	public int orderStatusUpdate(MyPage m) {
-		return mDao.orderStatusUpdate(sqlSession, m);
+		return mpDao.orderStatusUpdate(sqlSession, m);
 	}
 
 
 
 	@Override
 	public ArrayList<MyPage> mainLikeList(int memberNo) {
-		return mDao.mainLikeList(sqlSession, memberNo);
+		return mpDao.mainLikeList(sqlSession, memberNo);
 	}
 
 
@@ -214,14 +209,14 @@ public class MyPageServiceImpl implements MyPageService{
 
 	@Override
 	public ArrayList<MyPage> mainQueryList(int memberNo) {
-		return mDao.mainQueryList(sqlSession, memberNo);
+		return mpDao.mainQueryList(sqlSession, memberNo);
 	}
 
 
 
 	@Override
 	public ArrayList<MyPage> mainFollowList(int memberNo) {
-		return mDao.mainFollowList(sqlSession, memberNo);
+		return mpDao.mainFollowList(sqlSession, memberNo);
 	}
 
 
@@ -232,7 +227,7 @@ public class MyPageServiceImpl implements MyPageService{
 	//파트너정보
 	@Override
 	public MyPage partnerInfo(MyPage m) {
-		return mDao.partnerInfo(sqlSession, m);
+		return mpDao.partnerInfo(sqlSession, m);
 	}
 
 
@@ -241,7 +236,7 @@ public class MyPageServiceImpl implements MyPageService{
 	// 파트너가만든 펀딩수
 	@Override
 	public int partnerfundingCount(MyPage m) {
-		return mDao.partnerfundingCount(sqlSession, m);
+		return mpDao.partnerfundingCount(sqlSession, m);
 	}
 
 
@@ -250,18 +245,21 @@ public class MyPageServiceImpl implements MyPageService{
 	// 파트너가만든 펀딩 정보
 	@Override
 	public ArrayList<MyPage> partnerfundingList(PageInfo pi, MyPage m) {
-		return mDao.partnerfundingList(sqlSession,pi, m);
+		return mpDao.partnerfundingList(sqlSession,pi, m);
 	}
-
-
-
 
 	// 파트너조인
 	@Override
 	public int partnerJoin(MyPage m) {
-		return mDao.partnerJoin(sqlSession,m);
-	}
+		return mpDao.partnerJoin(sqlSession,m);
+	}		
 
+
+
+
+
+
+	
 
 
 

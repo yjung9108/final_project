@@ -15,7 +15,7 @@
     <style>
         
         /*div{border: 1px solid red; box-sizing: border-box;}*/
-        .wrap{width: 1000px; height: 900px; margin: auto;}
+        .wrap{width: 1000px; height: 800px; margin: auto;}
 
         .wrap>div{width: 100%;}
 
@@ -49,9 +49,11 @@
         .fundingList #product{width: 55%;}
         .fundingList #status{width: 15%; }
         .fundingList #orderDate{width: 20%; }
-       
+        
         .table>tbody>tr>td{padding-top: 30px;}
-		th{text-align: center;}       
+       
+		th{text-align: center;} 
+		label{cursor: pointer;}    
 
         /* 페이징 */
         #pagingArea{width:fit-content; margin:auto;}
@@ -89,7 +91,7 @@
 		                   	  <c:forEach var="list" items="${ list }">
 		                   	  	<tbody>
 		                          <tr>
-		                            <td style="text-align: center;" id="orderNo"><img src="${ list.projectThum }" width="80" height="60"></td>
+		                            <th style="text-align: center;" id="orderNo"><img src="${ list.projectThum }" width="80" height="60"></th>
 		                            <td><label>${ list.projectTitle }</label>
 		                            	<input type="hidden" value="${ list.orderNo }" id="orderNo">
 		                            </td>

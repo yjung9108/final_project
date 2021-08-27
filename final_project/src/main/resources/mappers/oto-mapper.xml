@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 6/27 윤경 생성 -->
+
+<mapper namespace="otoMapper">
+	<resultMap id="oto" type="Oto">
+		<result column="oto_no" property="otoNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="oto_cat" property="otoCat" />
+		<result column="oto_title" property="otoTitle" />
+		<result column="oto_content" property="otoContent" />
+		<result column="oto_originname" property="otoOriginname" />
+		<result column="oto_changename" property="otoOrginname" />
+		<result column="oto_date" property="otoDate" />
+		<result column="oto_reply" property="otoReply" />
+		<result column="oto_re_date" property="otoReDate" />
+		<result column="oto_re_status" property="otoReStatus" />
+		<result column="oto_status" property="otoStatus" />
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		select
+		       count(*)
+		  from oto
+		 where oto_status = 'Y'
+	</select>
+	
+	<select id="selectList" resultMap="oto">
+		select
+		       oto_no
+		     , oto_cat
+		     , oto_title
+		     , to_char(oto_date, 'YYYY-MM-DD') oto_date
+		     , oto_status
+		 from oto
+		order
+		   by oto_no desc
+	</select>
+	 
+	<insert id="insertOto" parameterType="Oto">
+		insert
+		  into oto
+		  (
+		    oto_no
+		  , member_no
+		  , oto_cat
+		  , oto_title
+		  , oto_content
+		  , oto_originname
+		  , oto_changename
+		  )
+		  values
+		  (
+		    seq_otono.nextval
+		  , #{memberNo}
+		  , #{otoCat}
+		  , #{otoTitle}
+		  , #{otoContent}
+		  , #{otoOriginname}
+		  , #{otoChangename}
+		  )
+	</insert>
+	
+	<!-- 불필요 
+	<insert id="increaseCount" parameterType="_int">
+		update
+		       oto
+		   set count = count + 1
+		 where oto_no = #{otoNo}
+		   and oto_status = 'Y'
+	</insert>
+	 -->
+	
+	
+	<select id="selectOto" resultMap="oto" parameterType="_int">
+		select
+		       oto_no
+		     , member_no
+		     , oto_cat
+		     , oto_title
+		     , oto_content
+		     , oto_originname
+		     , oto_changename
+		     , to_char(oto_date, 'YYYY-MM-DD') oto_date
+		  from oto
+		 where oto_no = #{otoNo}
+	
+	</select>
+	
+	 
+	<update id="deleteOto" parameterType="Oto">
+		update
+		       oto
+		   set oto_status = 'N'
+		 where oto_no = #{otoNo}
+	</update>
+</mapper>

@@ -2,7 +2,6 @@ package com.kh.withus.common.model.vo;
 
 public class PageInfo {
 	
-	
 	private int listCount;
 	private int currentPage;
 	private int pageLimit;
@@ -11,11 +10,10 @@ public class PageInfo {
 	private int startPage;
 	private int endPage;
 	private int maxPage;
-
 	
 	public PageInfo() {}
 
-
+	
 	public PageInfo(int listCount, int currentPage, int pageLimit, int boardLimit, int startPage, int endPage,
 			int maxPage) {
 		super();
@@ -33,70 +31,60 @@ public class PageInfo {
 		return listCount;
 	}
 
-
 	public void setListCount(int listCount) {
 		this.listCount = listCount;
 	}
-
 
 	public int getCurrentPage() {
 		return currentPage;
 	}
 
-
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-
 
 	public int getPageLimit() {
 		return pageLimit;
 	}
 
-
 	public void setPageLimit(int pageLimit) {
 		this.pageLimit = pageLimit;
 	}
-
 
 	public int getBoardLimit() {
 		return boardLimit;
 	}
 
-
 	public void setBoardLimit(int boardLimit) {
 		this.boardLimit = boardLimit;
 	}
-
 
 	public int getStartPage() {
 		return startPage;
 	}
 
-
 	public void setStartPage(int startPage) {
 		this.startPage = startPage;
 	}
-
 
 	public int getEndPage() {
 		return endPage;
 	}
 
-
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
-
 
 	public int getMaxPage() {
 		return maxPage;
 	}
 
-
 	public void setMaxPage(int maxPage) {
 		this.maxPage = maxPage;
 	}
+
+	
+
 
 
 	@Override
@@ -105,6 +93,8 @@ public class PageInfo {
 				+ ", boardLimit=" + boardLimit + ", startPage=" + startPage + ", endPage=" + endPage + ", maxPage="
 				+ maxPage + "]";
 	}
+
+	
 	
 	
 }

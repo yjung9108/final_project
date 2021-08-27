@@ -86,17 +86,28 @@
 	                            <tr>
 	                                <th>프로필사진</th>
 	                                <td>
-	                                	<div class="previewBox">
-			                            	<img src="${ loginUser.memberProfile }" class="rounded-circle" id="preview" >
-			                            </div>
-								        
-								        <div class="fileEdit">
+	                                    <!-- 등록프사가 있을경우 없을경우 -->
+	                                    <c:choose>
+							            	<c:when test="${ empty loginUser.memberProfile }">    
+									            <div class="previewBox">
+		                                        	<img src="resources/member_profile/profile_basic.jpg" class="rounded-circle" id="preview" >
+		                                    	</div>
+								           	</c:when>
+								           	<c:otherwise>
+								           		<div class="previewBox">
+			                                        <img src="${ loginUser.memberProfile }" class="rounded-circle" id="preview" >
+			                                    </div>
+								           	</c:otherwise> 
+							            </c:choose>
+	                                    
+	                                    <div class="fileEdit">
 	                                    	<label id="edit">편집</label>
 	                                        <label id="delete">삭제</label>
 	                                        
 	                                        <input type="file" name="file" id="file" accept="image/*" style="display: none;">
 	                                    	<input type="hidden" id="deleteProfile" name="deleteProfile">
 	                                    </div>
+	                                    
 	                                </td>
 	                            </tr>
 	                            <tr>
