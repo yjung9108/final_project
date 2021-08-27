@@ -1,8 +1,6 @@
 ## 📌 가치가자 프로젝트
 
-같이의 가치 창출을 위한 가능성과 창의적인 프로젝트를 실현할 수 있는 크라우드 펀딩 사이트 구축   
-  
-
+같이의 가치 창출을 위한 가능성과 창의적인 프로젝트를 실현할 수 있는 크라우드 펀딩 사이트 
 
 ## 📅 개발 기간
 **기획 /  분석 / 설계 / 구현**
@@ -10,9 +8,6 @@
 
 
 ## 💻 개발 환경
-<img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/Java-#007396?style=flat-square&logo=Java&logoColor=white"/></a>&nbsp
-
 
 * Language : Java (OpenJDK 8)
 * DBMS : Oracle (11g)
